@@ -1,0 +1,389 @@
+<!DOCTYPE HTML>
+<!--
+	Miniport by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="ko">
+	<head>
+		<title>태양광 무선충전 자율주행 자동차 설계 | bso.name</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="태양광 발전, ESS, 자기유도 무선충전, 영상 인식 기반 자율주행을 하나의 실험 시스템으로 연결한 학사 프로젝트 상세 페이지" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<style>
+			.tag {
+				display: inline-block;
+				margin: 0 0.4em 0.5em 0;
+				padding: 0.22em 0.7em;
+				border-radius: 999px;
+				background: rgba(0,0,0,0.08);
+				font-size: 0.78em;
+				font-weight: 700;
+				letter-spacing: 0.02em;
+			}
+			.kicker {
+				display: block;
+				font-size: 0.82em;
+				font-weight: 700;
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+				color: #666;
+				margin-bottom: 0.9em;
+			}
+			.stat-grid {
+				display: grid;
+				grid-template-columns: repeat(4, minmax(0, 1fr));
+				gap: 1.25em;
+				margin-top: 2em;
+			}
+			.stat-card {
+				background: rgba(255,255,255,0.82);
+				border-radius: 1em;
+				padding: 1.6em 1.2em;
+				box-shadow: 0 0.35em 1.5em rgba(0,0,0,0.06);
+				text-align: center;
+			}
+			.stat-value {
+				display: block;
+				font-size: 2em;
+				font-weight: 700;
+				line-height: 1.1em;
+				margin-bottom: 0.2em;
+			}
+			.info-card, .doc-card {
+				background: rgba(255,255,255,0.78);
+				border-radius: 1em;
+				padding: 1.6em 1.5em;
+				box-shadow: 0 0.35em 1.5em rgba(0,0,0,0.06);
+				height: 100%;
+			}
+			.info-card h3, .doc-card h3 {
+				margin-bottom: 0.55em;
+			}
+			.timeline {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+			.timeline li {
+				position: relative;
+				padding-left: 1.4em;
+				margin-bottom: 0.9em;
+				text-align: left;
+			}
+			.timeline li:before {
+				content: '';
+				position: absolute;
+				left: 0;
+				top: 0.62em;
+				width: 0.52em;
+				height: 0.52em;
+				border-radius: 50%;
+				background: #484d55;
+			}
+			.note-list {
+				margin: 0;
+				padding-left: 1.2em;
+				text-align: left;
+			}
+			.note-list li {
+				margin-bottom: 0.55em;
+			}
+			.doc-meta {
+				font-size: 0.92em;
+				color: #666;
+				margin-bottom: 0.7em;
+			}
+			.hero-actions .button {
+				margin-right: 0.75em;
+				margin-bottom: 0.75em;
+			}
+			.callout {
+				padding: 1.15em 1.25em;
+				border-left: 5px solid rgba(72,77,85,0.65);
+				background: rgba(0,0,0,0.035);
+				border-radius: 0.5em;
+				text-align: left;
+			}
+			@media screen and (max-width: 980px) {
+				.stat-grid {
+					grid-template-columns: repeat(2, minmax(0, 1fr));
+				}
+			}
+			@media screen and (max-width: 736px) {
+				.stat-grid {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body class="is-preload">
+
+		<nav id="nav">
+			<ul class="container">
+				<li><a href="index.html">홈</a></li>
+				<li><a href="#top">개요</a></li>
+				<li><a href="#system">시스템</a></li>
+				<li><a href="#approach">접근 방식</a></li>
+				<li><a href="#results">결과</a></li>
+				<li><a href="#docs">자료</a></li>
+			</ul>
+		</nav>
+
+		<article id="top" class="wrapper style1">
+			<div class="container">
+				<div class="row">
+					<div class="col-8 col-12-medium">
+						<span class="kicker">Project Detail</span>
+						<header>
+							<h1>태양광 무선충전과 실시간 영상처리를 통한<br /><strong>자율주행자동차 설계</strong></h1>
+						</header>
+						<p>
+							태양광 발전, ESS, 자기유도 무선충전, 차선 인식, 객체 인식을 하나의 실험 시스템으로 연결한
+							학사 프로젝트입니다. 에너지 공급 구조와 임베디드 AI를 분리해서 다루지 않고,
+							<strong>전력 공급부터 주행과 충전 판단까지</strong>를 한 흐름으로 묶어 본 점이 핵심입니다.
+						</p>
+						<p>
+							이 페이지는 개인 포트폴리오 관점에서 프로젝트를 다시 정리한 버전입니다.
+							논문, 발표자료, 발명신고서에 공통으로 등장하는 내용만 중심으로 재구성했습니다.
+						</p>
+						<p>
+							<span class="tag">학사 프로젝트</span>
+							<span class="tag">에너지 + AI</span>
+							<span class="tag">OpenCV</span>
+							<span class="tag">TensorFlow Lite</span>
+							<span class="tag">무선충전</span>
+							<span class="tag">자율주행</span>
+						</p>
+						<div class="hero-actions">
+							<a href="#system" class="button large scrolly">자세히 보기</a>
+							<a href="index.html#projects" class="button alt">프로젝트 목록으로</a>
+						</div>
+					</div>
+					<div class="col-4 col-12-medium">
+						<section class="info-card">
+							<h3>한눈에 보기</h3>
+							<ul class="note-list">
+								<li>태양광 발전 전력을 ESS와 무선충전 실험 장치에 연결</li>
+								<li>차선 인식과 객체 인식으로 차량 주행 및 충전 판단 수행</li>
+								<li>실험 과정에서 지연, 발열, 전력 손실 문제를 함께 다룸</li>
+								<li>포스터 발표와 발명신고까지 이어진 확장성 있는 주제</li>
+							</ul>
+						</section>
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<article id="system" class="wrapper style2">
+			<div class="container">
+				<header>
+					<h2>무엇을 만들었는가</h2>
+					<p>전력 공급, 충전, 주행 인식을 별개 실험이 아니라 하나의 연결된 시스템으로 다루었습니다.</p>
+				</header>
+				<div class="row aln-center">
+					<div class="col-4 col-12-medium">
+						<section class="info-card">
+							<h3>전력 공급 구조</h3>
+							<p>
+								태양광 패널에서 발전한 전력을 ESS 역할의 배터리에 저장하고,
+								필요시 무선충전 장치로 전달하는 실험 구조를 사용했습니다.
+							</p>
+							<p class="doc-meta">태양광 패널, 인버터, 12V 7Ah 배터리, 무선충전 장치를 묶은 실험 구성</p>
+						</section>
+					</div>
+					<div class="col-4 col-12-medium">
+						<section class="info-card">
+							<h3>주행 인식 구조</h3>
+							<p>
+								OpenCV 기반 차선 인식과 객체 인식 모델을 함께 운용해,
+								차량이 주행 중 무선충전 스테이션을 발견하면 정지 후 충전을 수행하도록 설계했습니다.
+							</p>
+							<p class="doc-meta">라인 변환, 차선 인식, 객체 검출, 충전 판단까지 연결된 흐름</p>
+						</section>
+					</div>
+					<div class="col-4 col-12-medium">
+						<section class="info-card">
+							<h3>실험 단위 구현</h3>
+							<p>
+								연구실 규모의 장비로 실제 동작을 확인하는 데 초점을 두었습니다.
+								무선충전 전력 변화 측정과 주행 영상 기반 학습을 병행해 검증했습니다.
+							</p>
+							<p class="doc-meta">개념 설명에 그치지 않고 설계·제작·구동 실험까지 포함</p>
+						</section>
+					</div>
+				</div>
+				<div class="stat-grid">
+					<div class="stat-card">
+						<span class="stat-value">84%</span>
+						평균 정확도<br />발표자료 기준 검증 결과
+					</div>
+					<div class="stat-card">
+						<span class="stat-value">약 2초</span>
+						모델 동시 운용 시<br />주행 지연 발생
+					</div>
+					<div class="stat-card">
+						<span class="stat-value">10W</span>
+						실험용 태양광 패널<br />최대 출력
+					</div>
+					<div class="stat-card">
+						<span class="stat-value">12V 7Ah</span>
+						ESS 역할 배터리<br />실험 구성 요소
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<article id="approach" class="wrapper style3">
+			<div class="container">
+				<header>
+					<h2>어떻게 접근했는가</h2>
+					<p>모델 정확도만이 아니라, 실제 구동 가능한 실험 흐름을 만드는 데 필요한 제약도 함께 다뤘습니다.</p>
+				</header>
+				<div class="row">
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<span class="kicker">Vision Pipeline</span>
+							<h3>입력 영상을 학습에 맞게 바꾸는 과정</h3>
+							<p>
+								발표자료에서는 RGB, HSV, LAB, HLS, Adaptive Threshold 변환을 통해
+								차선이 더 명확히 보이도록 전처리를 반복했다고 정리했습니다.
+								이 프로젝트는 모델 선택 이전에 <strong>입력 데이터의 형태를 어떻게 바꾸는지</strong>를 중요하게 본 사례입니다.
+							</p>
+							<div class="callout">
+								차선 인식과 객체 인식이 동시에 돌아가는 구조였기 때문에,
+								이미지 전처리와 추론 부담을 모두 고려한 균형이 필요했습니다.
+							</div>
+						</section>
+					</div>
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<span class="kicker">System Constraints</span>
+							<h3>실험 중 실제로 부딪힌 제약</h3>
+							<ul class="timeline">
+								<li>무선충전은 낮은 전력과 손실 때문에 안정성이 낮았고, 구조 단순화와 효율 개선이 후속 과제로 남았습니다.</li>
+								<li>차량 주행 중에는 차선 인식과 객체 인식 모델을 함께 돌리면서 약 2초의 지연이 발생했습니다.</li>
+								<li>하나의 보드에서 두 모델을 동시에 구동하는 부담을 줄이기 위해 쓰레딩으로 교대 실행하는 방식을 적용했습니다.</li>
+								<li>카메라 인식 시간에 맞추기 위해 모터 속도를 낮추고, 주행 속도와 인식 속도를 함께 조정했습니다.</li>
+							</ul>
+						</section>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 1.2em;">
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<span class="kicker">Model Selection</span>
+							<h3>무엇이 더 잘 작동했는가</h3>
+							<ul class="note-list">
+								<li>발표자료에서는 평균 정확도 84%를 확인했고, ELU가 SELU보다 실질적으로 적합하다고 정리했습니다.</li>
+								<li>졸업논문 결론에서는 객체 검출 모델 중 TensorFlow Lite가 가장 적합했다고 적었습니다.</li>
+								<li>무선충전소 검출 학습에서는 원본 예시 이미지보다 실제 주행 이미지가 더 효과적이었다고 정리했습니다.</li>
+							</ul>
+						</section>
+					</div>
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<span class="kicker">Why It Matters</span>
+							<h3>이 프로젝트를 포트폴리오에 남기는 이유</h3>
+							<p>
+								이 프로젝트는 단순한 객체 인식 데모도, 단순한 에너지 장치 제작도 아닙니다.
+								전력 공급 구조를 만들고, 임베디드 환경에서 인식 모델을 돌리고,
+								실제 주행과 충전 판단까지 연결한 <strong>작은 시스템 통합 프로젝트</strong>라는 점이 중요합니다.
+							</p>
+							<p>
+								그래서 이 페이지에서는 결과 수치뿐 아니라, 전처리·지연·보드 부담·전력 손실처럼
+								실제로 구현해봐야 드러나는 문제를 함께 드러내도록 구성했습니다.
+							</p>
+						</section>
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<article id="results" class="wrapper style2">
+			<div class="container">
+				<header>
+					<h2>결과와 확장 가능성</h2>
+					<p>실험 결과를 정리하는 데서 끝나지 않고, 후속 응용 가능성까지 이어지는 프로젝트였습니다.</p>
+				</header>
+				<div class="row aln-center">
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<h3>주요 결과</h3>
+							<ul class="note-list">
+								<li>태양광 무선충전 스테이션과 자율주행 자동차를 설계·제작하고 실제 구동 실험까지 수행했습니다.</li>
+								<li>차량은 차선을 인식해 주행하고, 무선충전 스테이션을 검출하면 정지 후 충전하도록 구성했습니다.</li>
+								<li>모델과 하드웨어 제약을 동시에 고려하면서 실험 흐름을 완성했습니다.</li>
+							</ul>
+						</section>
+					</div>
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<h3>확장 가능성</h3>
+							<ul class="note-list">
+								<li>발명신고서에서는 공용 주차장, 도서산간 지역, 해외 수요처 등으로의 확장 가능성을 제시했습니다.</li>
+								<li>마이크로그리드와 연계하면 태양광 외에도 다양한 재생에너지와 ESS를 연결할 수 있는 방향이 제안되었습니다.</li>
+								<li>무선충전 플랫폼은 자율주행 시대에 더 활성화될 수 있다는 전망도 발표자료에 포함되어 있습니다.</li>
+							</ul>
+						</section>
+					</div>
+				</div>
+				<div class="callout" style="margin-top: 2em;">
+					<strong>정리</strong><br />
+					이 프로젝트는 에너지 시스템과 AI를 따로 설명하지 않고,
+					하나의 작동 가능한 프로토타입 안에서 묶어냈다는 점 때문에 지금도 메인 포트폴리오 항목으로 남길 가치가 있습니다.
+				</div>
+			</div>
+		</article>
+
+		<article id="docs" class="wrapper style4">
+			<div class="container medium">
+				<header>
+					<h2>관련 자료</h2>
+					<p>현재 페이지는 아래 자료를 바탕으로 다시 정리했습니다. PDF 파일은 나중에 저장소에 함께 올리면 바로 연결할 수 있습니다.</p>
+				</header>
+				<div class="row">
+					<div class="col-12">
+						<section class="doc-card">
+							<h3>졸업 논문_221214_SO_2325.pdf</h3>
+							<p class="doc-meta">학사 졸업논문</p>
+							<p>태양광 발전, 자기유도 무선충전, 자율주행 모델, 객체 인식 모델, 결론과 한계를 포함한 기본 문서입니다.</p>
+						</section>
+					</div>
+					<div class="col-12" style="margin-top: 1em;">
+						<section class="doc-card">
+							<h3>12.08 발표자료 221207_2000.pdf</h3>
+							<p class="doc-meta">발표 자료</p>
+							<p>평균 정확도, 입력 영상 변환, ELU/SELU 비교, 실제 주행 이미지의 효과 등 발표용 요점을 압축해 보여주는 자료입니다.</p>
+						</section>
+					</div>
+					<div class="col-12" style="margin-top: 1em;">
+						<section class="doc-card">
+							<h3>발명신고서_태양광 에너지와 ESS를 이용한 자기유도방식 무선충전소_240723.pdf</h3>
+							<p class="doc-meta">발명신고 자료</p>
+							<p>태양광 패널, ESS, 무선충전소의 설계 개요와 실험 장비 성능, 적용 분야와 시장성을 정리한 자료입니다.</p>
+						</section>
+					</div>
+				</div>
+				<footer style="margin-top: 2.5em;">
+					<a href="index.html#projects" class="button alt">메인페이지로 돌아가기</a>
+				</footer>
+			</div>
+		</article>
+
+		<footer style="padding: 2.5em 0 3em 0; text-align: center;">
+			<ul id="copyright">
+				<li>&copy; 2026 Saeon Bae</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+			</ul>
+		</footer>
+
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

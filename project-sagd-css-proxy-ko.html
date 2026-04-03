@@ -1,0 +1,368 @@
+<!DOCTYPE HTML>
+<!--
+	Miniport by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="ko">
+	<head>
+		<title>SAGD-CSS 프록시 모델링 | bso.name</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="불균질 오일샌드 저류층에서 SAGD-CSS 열공법의 시추공 배열과 운영 조건을 DNN 프록시 모델로 최적화한 석사논문 상세 페이지" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<style>
+			.tag {
+				display: inline-block;
+				margin: 0 0.4em 0.5em 0;
+				padding: 0.22em 0.7em;
+				border-radius: 999px;
+				background: rgba(0,0,0,0.08);
+				font-size: 0.78em;
+				font-weight: 700;
+				letter-spacing: 0.02em;
+			}
+			.kicker {
+				display: block;
+				font-size: 0.82em;
+				font-weight: 700;
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+				color: #666;
+				margin-bottom: 0.9em;
+			}
+			.stat-grid {
+				display: grid;
+				grid-template-columns: repeat(4, minmax(0, 1fr));
+				gap: 1.25em;
+				margin-top: 2em;
+			}
+			.stat-card {
+				background: rgba(255,255,255,0.82);
+				border-radius: 1em;
+				padding: 1.6em 1.2em;
+				box-shadow: 0 0.35em 1.5em rgba(0,0,0,0.06);
+				text-align: center;
+			}
+			.stat-value {
+				display: block;
+				font-size: 2em;
+				font-weight: 700;
+				line-height: 1.1em;
+				margin-bottom: 0.2em;
+			}
+			.info-card, .doc-card {
+				background: rgba(255,255,255,0.78);
+				border-radius: 1em;
+				padding: 1.6em 1.5em;
+				box-shadow: 0 0.35em 1.5em rgba(0,0,0,0.06);
+				height: 100%;
+			}
+			.info-card h3, .doc-card h3 {
+				margin-bottom: 0.55em;
+			}
+			.timeline {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+			.timeline li {
+				position: relative;
+				padding-left: 1.4em;
+				margin-bottom: 0.9em;
+				text-align: left;
+			}
+			.timeline li:before {
+				content: '';
+				position: absolute;
+				left: 0;
+				top: 0.62em;
+				width: 0.52em;
+				height: 0.52em;
+				border-radius: 50%;
+				background: #484d55;
+			}
+			.note-list {
+				margin: 0;
+				padding-left: 1.2em;
+				text-align: left;
+			}
+			.note-list li {
+				margin-bottom: 0.55em;
+			}
+			.doc-meta {
+				font-size: 0.92em;
+				color: #666;
+				margin-bottom: 0.7em;
+			}
+			.hero-actions .button {
+				margin-right: 0.75em;
+				margin-bottom: 0.75em;
+			}
+			.callout {
+				padding: 1.15em 1.25em;
+				border-left: 5px solid rgba(72,77,85,0.65);
+				background: rgba(0,0,0,0.035);
+				border-radius: 0.5em;
+				text-align: left;
+			}
+			@media screen and (max-width: 980px) {
+				.stat-grid {
+					grid-template-columns: repeat(2, minmax(0, 1fr));
+				}
+			}
+			@media screen and (max-width: 736px) {
+				.stat-grid {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body class="is-preload">
+
+
+		<nav id="nav">
+			<ul class="container">
+				<li><a href="index.html">홈</a></li>
+				<li><a href="#top">개요</a></li>
+				<li><a href="#system">연구 대상</a></li>
+				<li><a href="#approach">접근 방식</a></li>
+				<li><a href="#results">결과</a></li>
+				<li><a href="#docs">자료</a></li>
+			</ul>
+		</nav>
+
+		<article id="top" class="wrapper style1">
+			<div class="container">
+				<div class="row">
+					<div class="col-8 col-12-medium">
+						<span class="kicker">Project Detail</span>
+						<header>
+							<h1>불균질 오일샌드 저류층에서<br /><strong>SAGD-CSS 프록시 모델링과 최적화</strong></h1>
+						</header>
+						<p>
+							석사논문으로 수행한 연구로,
+							불균질 오일샌드 저류층에서 복합 열공법(SAGD-CSS)의
+							시추공 배열과 운영 조건을 최적화하기 위해
+							<strong>DNN 기반 프록시 모델</strong>을 적용한 작업입니다.
+						</p>
+						<p>
+							논문에는 거리기반 민감도 분석, 심층신경망 기반 오일 회수율 예측 모델,
+							선형근사 제약 최적화가 연구 방법으로 제시되어 있습니다.
+							즉, 전산 시뮬레이션을 그대로 반복하는 대신
+							대리모델로 탐색 공간을 줄이고 최적 운영 조건을 찾는 방향입니다.
+						</p>
+						<p>
+							<span class="tag">석사논문</span>
+							<span class="tag">오일샌드</span>
+							<span class="tag">SAGD-CSS</span>
+							<span class="tag">DNN Proxy</span>
+							<span class="tag">최적화</span>
+							<span class="tag">저류층 시뮬레이션</span>
+						</p>
+						<div class="hero-actions">
+							<a href="#system" class="button large scrolly">자세히 보기</a>
+							<a href="index.html#projects" class="button alt">프로젝트 목록으로</a>
+						</div>
+					</div>
+					<div class="col-4 col-12-medium">
+						<section class="info-card">
+							<h3>한눈에 보기</h3>
+							<ul class="note-list">
+								<li>불균질 저류층에서 SAGD-CSS 시추공 배열·운영 조건 최적화</li>
+								<li>DNN 기반 프록시 모델로 오일 회수율 예측</li>
+								<li>전산 시뮬레이션과 예측값 비교를 통한 검증</li>
+								<li>SAGD 대비 SAGD-CSS의 회수율 개선 효과 확인</li>
+							</ul>
+						</section>
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<article id="system" class="wrapper style2">
+			<div class="container">
+				<header>
+					<h2>무엇을 연구했는가</h2>
+					<p>계산 비용이 큰 열공법 최적화 문제를, 프록시 모델로 더 빠르게 탐색하려는 연구입니다.</p>
+				</header>
+				<div class="row aln-center">
+					<div class="col-4 col-12-medium">
+						<section class="info-card">
+							<h3>연구 대상</h3>
+							<p>
+								불균질 오일샌드 저류층에서 SAGD와 CSS를 결합한 복합 열공법의
+								시추공 위치와 운영 제약을 어떻게 잡아야 하는지 연구했습니다.
+							</p>
+						</section>
+					</div>
+					<div class="col-4 col-12-medium">
+						<section class="info-card">
+							<h3>핵심 방법</h3>
+							<p>
+								논문 목차 기준으로 거리기반 민감도 분석, 심층신경망 기반 오일 회수율 예측모델,
+								선형근사 제약 최적화를 사용했습니다.
+							</p>
+						</section>
+					</div>
+					<div class="col-4 col-12-medium">
+						<section class="info-card">
+							<h3>검증 방식</h3>
+							<p>
+								프록시 모델이 제안한 최적 조건을 전산 시뮬레이션 결과와 비교하여
+								예측과 실제 수치의 차이를 확인하는 방식으로 검증했습니다.
+							</p>
+						</section>
+					</div>
+				</div>
+				<div class="stat-grid">
+					<div class="stat-card">
+						<span class="stat-value">40.38%</span>
+						SAGD-CSS 최적 모델<br />시뮬레이션 회수율
+					</div>
+					<div class="stat-card">
+						<span class="stat-value">35.50%</span>
+						SAGD 단독 운전<br />회수율
+					</div>
+					<div class="stat-card">
+						<span class="stat-value">+5%</span>
+						회수율 개선 폭<br />논문 요약 기준
+					</div>
+					<div class="stat-card">
+						<span class="stat-value">2.52</span>
+						SAGD-CSS<br />cSOR 예시
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<article id="approach" class="wrapper style3">
+			<div class="container">
+				<header>
+					<h2>어떻게 접근했는가</h2>
+					<p>전산 시뮬레이션을 전부 반복하기보다, 프록시 모델과 최적화를 결합했습니다.</p>
+				</header>
+				<div class="row">
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<span class="kicker">Proxy Modeling</span>
+							<h3>DNN 기반 대리모델</h3>
+							<p>
+								논문은 DNN 최적화 모델별 평가 지표와 최적 조건 표,
+								전산 시뮬레이션과 프록시 모델의 비교 결과를 별도로 제시합니다.
+								이는 모델이 단순 보조가 아니라, 실제 최적화 탐색의 핵심 도구였음을 보여줍니다.
+							</p>
+						</section>
+					</div>
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<span class="kicker">Optimization Target</span>
+							<h3>무엇을 최적화했는가</h3>
+							<ul class="timeline">
+								<li>CSS well 시작 시점</li>
+								<li>well location (Y grid, Z grid)</li>
+								<li>steam rate와 pressure 같은 운영 제약</li>
+								<li>오일 회수율과 cSOR의 균형</li>
+							</ul>
+						</section>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 1.2em;">
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<span class="kicker">Result Interpretation</span>
+							<h3>수치가 보여주는 것</h3>
+							<p>
+								논문 요약 부분에서는 Model 3 기준으로
+								SAGD 단독 35.5%, SAGD-CSS 40.38%로 약 5% 회수율 상승이 나타났고,
+								cSOR 증가는 0.2 수준으로 크지 않아 성능 개선을 확인했다고 정리합니다.
+							</p>
+						</section>
+					</div>
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<span class="kicker">Why It Matters</span>
+							<h3>포트폴리오에서의 의미</h3>
+							<div class="callout">
+								이 연구는 단순한 저류층 해석이 아니라,
+								시뮬레이션 · 머신러닝 · 최적화를 한 흐름으로 연결했다는 점에서
+								에너지 + AI 배경을 가장 직접적으로 보여주는 항목입니다.
+							</div>
+						</section>
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<article id="results" class="wrapper style2">
+			<div class="container">
+				<header>
+					<h2>결과와 의의</h2>
+					<p>프록시 모델을 통해 실제 시뮬레이션 최적화 문제를 더 효율적으로 다룰 수 있음을 보였습니다.</p>
+				</header>
+				<div class="row aln-center">
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<h3>주요 결과</h3>
+							<ul class="note-list">
+								<li>최적 SAGD-CSS 모델에서 시뮬레이션 회수율 40.38%를 확인했습니다.</li>
+								<li>동일 제약 조건의 SAGD 단독 케이스는 35.50%로, 약 5%p 차이를 보였습니다.</li>
+								<li>프록시 모델 예측값과 전산 시뮬레이션 값의 차이를 비교하며 모델 타당성을 검토했습니다.</li>
+							</ul>
+						</section>
+					</div>
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<h3>남는 메시지</h3>
+							<ul class="note-list">
+								<li>불균질 저류층에서는 well placement와 운영 조건의 조합이 중요함</li>
+								<li>머신러닝은 단순 분류가 아니라 공학 최적화의 계산 비용 절감 수단이 될 수 있음</li>
+								<li>에너지 자원공학 문제를 데이터 기반 모델과 연결하는 실질적 예시</li>
+							</ul>
+						</section>
+					</div>
+				</div>
+				<div class="callout" style="margin-top: 2em;">
+					<strong>정리</strong><br />
+					석사논문은 에너지공학 배경과 AI 응용 관심이 가장 깊게 만나는 작업으로,
+					연구형 포트폴리오의 중심 축 역할을 할 수 있습니다.
+				</div>
+			</div>
+		</article>
+
+		<article id="docs" class="wrapper style4">
+			<div class="container medium">
+				<header>
+					<h2>관련 자료</h2>
+					<p>현재 페이지는 석사논문을 바탕으로 다시 정리했습니다.</p>
+				</header>
+				<div class="row">
+					<div class="col-12">
+						<section class="doc-card">
+							<h3>배새온 석사논문.pdf</h3>
+							<p class="doc-meta">공학석사 학위논문</p>
+							<p>연구 제목, 연구 방법, DNN 최적화 모델 평가 지표, 전산 시뮬레이션 비교 결과, 회수율과 cSOR 분석을 포함한 핵심 문서입니다.</p>
+						</section>
+					</div>
+				</div>
+				<footer style="margin-top: 2.5em;">
+					<a href="index.html#projects" class="button alt">메인페이지로 돌아가기</a>
+				</footer>
+			</div>
+		</article>
+
+<footer style="padding: 2.5em 0 3em 0; text-align: center;">
+			<ul id="copyright">
+				<li>&copy; 2026 Saeon Bae</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+			</ul>
+		</footer>
+
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

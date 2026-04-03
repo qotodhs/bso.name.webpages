@@ -1,0 +1,374 @@
+<!DOCTYPE HTML>
+<!--
+	Miniport by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="ko">
+	<head>
+		<title>Coconut 클라우드 인프라 프로젝트 | bso.name</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="GCP, Kubernetes, ArgoCD, HPA, etcd 백업, 모니터링을 묶은 팀 Coconut 프로젝트 상세 페이지" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<style>
+			.tag {
+				display: inline-block;
+				margin: 0 0.4em 0.5em 0;
+				padding: 0.22em 0.7em;
+				border-radius: 999px;
+				background: rgba(0,0,0,0.08);
+				font-size: 0.78em;
+				font-weight: 700;
+				letter-spacing: 0.02em;
+			}
+			.kicker {
+				display: block;
+				font-size: 0.82em;
+				font-weight: 700;
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+				color: #666;
+				margin-bottom: 0.9em;
+			}
+			.stat-grid {
+				display: grid;
+				grid-template-columns: repeat(4, minmax(0, 1fr));
+				gap: 1.25em;
+				margin-top: 2em;
+			}
+			.stat-card {
+				background: rgba(255,255,255,0.82);
+				border-radius: 1em;
+				padding: 1.6em 1.2em;
+				box-shadow: 0 0.35em 1.5em rgba(0,0,0,0.06);
+				text-align: center;
+			}
+			.stat-value {
+				display: block;
+				font-size: 2em;
+				font-weight: 700;
+				line-height: 1.1em;
+				margin-bottom: 0.2em;
+			}
+			.info-card, .doc-card {
+				background: rgba(255,255,255,0.78);
+				border-radius: 1em;
+				padding: 1.6em 1.5em;
+				box-shadow: 0 0.35em 1.5em rgba(0,0,0,0.06);
+				height: 100%;
+			}
+			.info-card h3, .doc-card h3 {
+				margin-bottom: 0.55em;
+			}
+			.timeline {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+			.timeline li {
+				position: relative;
+				padding-left: 1.4em;
+				margin-bottom: 0.9em;
+				text-align: left;
+			}
+			.timeline li:before {
+				content: '';
+				position: absolute;
+				left: 0;
+				top: 0.62em;
+				width: 0.52em;
+				height: 0.52em;
+				border-radius: 50%;
+				background: #484d55;
+			}
+			.note-list {
+				margin: 0;
+				padding-left: 1.2em;
+				text-align: left;
+			}
+			.note-list li {
+				margin-bottom: 0.55em;
+			}
+			.doc-meta {
+				font-size: 0.92em;
+				color: #666;
+				margin-bottom: 0.7em;
+			}
+			.hero-actions .button {
+				margin-right: 0.75em;
+				margin-bottom: 0.75em;
+			}
+			.callout {
+				padding: 1.15em 1.25em;
+				border-left: 5px solid rgba(72,77,85,0.65);
+				background: rgba(0,0,0,0.035);
+				border-radius: 0.5em;
+				text-align: left;
+			}
+			@media screen and (max-width: 980px) {
+				.stat-grid {
+					grid-template-columns: repeat(2, minmax(0, 1fr));
+				}
+			}
+			@media screen and (max-width: 736px) {
+				.stat-grid {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body class="is-preload">
+
+
+		<nav id="nav">
+			<ul class="container">
+				<li><a href="index.html">홈</a></li>
+				<li><a href="#top">개요</a></li>
+				<li><a href="#system">시스템</a></li>
+				<li><a href="#approach">접근 방식</a></li>
+				<li><a href="#results">결과</a></li>
+				<li><a href="#docs">자료</a></li>
+			</ul>
+		</nav>
+
+		<article id="top" class="wrapper style1">
+			<div class="container">
+				<div class="row">
+					<div class="col-8 col-12-medium">
+						<span class="kicker">Project Detail</span>
+						<header>
+							<h1>Coconut<br /><strong>클라우드 인프라 협업 프로젝트</strong></h1>
+						</header>
+						<p>
+							GCP 기반 Kubernetes 환경 위에 ArgoCD를 중심으로 GitOps, 웹 배포, 모니터링,
+							HPA, etcd 백업을 묶어 <strong>협업형 클라우드 인프라</strong>를 구성한 팀 프로젝트입니다.
+						</p>
+						<p>
+							발표자료 기준으로 저는 <strong>HPA와 백업</strong>을 맡았습니다.
+							각 파드의 CPU·메모리 사용량에 따른 스케일링을 확인하고,
+							cronjob·etcd·Rclone을 이용한 주기적 백업과 Google Drive 자동 백업 환경을 구축했습니다.
+						</p>
+						<p>
+							<span class="tag">팀 Coconut</span>
+							<span class="tag">GCP</span>
+							<span class="tag">Kubernetes</span>
+							<span class="tag">ArgoCD</span>
+							<span class="tag">HPA</span>
+							<span class="tag">etcd Backup</span>
+						</p>
+						<div class="hero-actions">
+							<a href="#system" class="button large scrolly">자세히 보기</a>
+							<a href="index.html#projects" class="button alt">프로젝트 목록으로</a>
+						</div>
+					</div>
+					<div class="col-4 col-12-medium">
+						<section class="info-card">
+							<h3>한눈에 보기</h3>
+							<ul class="note-list">
+								<li>GCP VM 기반 1 master, 3 node Kubernetes 환경 구축</li>
+								<li>GitHub Organization과 ArgoCD로 협업형 GitOps 구성</li>
+								<li>Ingress-nginx, MariaDB, PHP 웹 서비스 배포</li>
+								<li>Prometheus/Grafana/Slack 관제와 HPA·백업 자동화 연동</li>
+							</ul>
+						</section>
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<article id="system" class="wrapper style2">
+			<div class="container">
+				<header>
+					<h2>무엇을 만들었는가</h2>
+					<p>수업시간에 배운 기술을 하나의 실제 협업 환경으로 묶는 것이 목표였습니다.</p>
+				</header>
+				<div class="row aln-center">
+					<div class="col-4 col-12-medium">
+						<section class="info-card">
+							<h3>기반 인프라</h3>
+							<p>
+								GCP에 Kubernetes 환경을 만들고, ArgoCD를 배치해
+								GitHub 변경사항이 배포 환경으로 자동 동기화되는 구조를 구축했습니다.
+							</p>
+							<p class="doc-meta">GCP VM, ArgoCD, GitHub Organization, Portainer, Headlamp</p>
+						</section>
+					</div>
+					<div class="col-4 col-12-medium">
+						<section class="info-card">
+							<h3>웹 서비스와 라우팅</h3>
+							<p>
+								ingress-nginx 라우팅 규칙과 MariaDB + PHP 컨테이너 환경을 통해
+								로그인·회원가입·수정 기능이 있는 웹 서비스를 올렸습니다.
+							</p>
+							<p class="doc-meta">분리된 네임스페이스를 통한 팀별 역할 분담</p>
+						</section>
+					</div>
+					<div class="col-4 col-12-medium">
+						<section class="info-card">
+							<h3>운영 기능</h3>
+							<p>
+								모니터링, HPA, etcd 백업, Rclone 자동 백업을 결합해
+								단순 배포보다 운영 안정성에 초점을 맞췄습니다.
+							</p>
+							<p class="doc-meta">가용성과 협업 가능성을 함께 본 프로젝트</p>
+						</section>
+					</div>
+				</div>
+				<div class="stat-grid">
+					<div class="stat-card">
+						<span class="stat-value">1 + 3</span>
+						master 1대 / node 3대<br />GCP 클러스터
+					</div>
+					<div class="stat-card">
+						<span class="stat-value">62.5%</span>
+						HPA 및 백업 파트<br />자체평가 완성도
+					</div>
+					<div class="stat-card">
+						<span class="stat-value">71.4%</span>
+						기본 인프라·GitOps 파트<br />자체평가 완성도
+					</div>
+					<div class="stat-card">
+						<span class="stat-value">57.1%</span>
+						모니터링 파트<br />자체평가 완성도
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<article id="approach" class="wrapper style3">
+			<div class="container">
+				<header>
+					<h2>어떻게 접근했는가</h2>
+					<p>실습용 기능을 개별적으로 만드는 대신, 팀 협업이 가능한 배포 흐름으로 묶었습니다.</p>
+				</header>
+				<div class="row">
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<span class="kicker">My Role</span>
+							<h3>HPA와 백업 자동화</h3>
+							<ul class="timeline">
+								<li>CPU·메모리 리소스 사용량에 따라 파드 수가 증감하는지 확인</li>
+								<li>edit, login, regist, app 서비스에 HPA를 적용</li>
+								<li>cronjob으로 etcd 백업을 주기적으로 수행</li>
+								<li>Rclone으로 Google Drive까지 자동 백업하도록 확장</li>
+							</ul>
+						</section>
+					</div>
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<span class="kicker">GitOps</span>
+							<h3>ArgoCD 중심 협업 구조</h3>
+							<p>
+								GitHub Organization에서 팀원별 폴더를 분리하고,
+								ArgoCD가 각 폴더를 다른 네임스페이스에 배포하도록 설계했습니다.
+								이를 통해 한 클러스터 안에서도 역할별 구성 요소를 나누어 실험했습니다.
+							</p>
+							<div class="callout">
+								Coconut의 핵심은 기술 스택 나열이 아니라,
+								배포·모니터링·백업을 각자 맡아도 한 시스템으로 합쳐지는 협업 흐름을 만들었다는 점입니다.
+							</div>
+						</section>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 1.2em;">
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<span class="kicker">Backup</span>
+							<h3>단순 스냅샷이 아닌 자동화</h3>
+							<ul class="note-list">
+								<li>etcd 백업 수행</li>
+								<li>cronjob 기반 주기적 스케줄링</li>
+								<li>Rclone을 통한 Google Drive 자동 백업</li>
+								<li>삭제 후에도 자동 백업이 다시 생성되는 동작 확인</li>
+							</ul>
+						</section>
+					</div>
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<span class="kicker">Learned Constraints</span>
+							<h3>구현하면서 드러난 한계</h3>
+							<ul class="note-list">
+								<li>구체적인 협업 가이드라인과 브랜치 전략 부족</li>
+								<li>YAML 구성이 맞아도 실제 배포 문제는 별도로 발생 가능</li>
+								<li>Velero 기반 복구 자동화, 실제 복구 리허설은 후속 과제로 남음</li>
+							</ul>
+						</section>
+					</div>
+				</div>
+			</div>
+		</article>
+
+		<article id="results" class="wrapper style2">
+			<div class="container">
+				<header>
+					<h2>결과와 의의</h2>
+					<p>배포 자체보다, 운영 가능성과 팀 협업성을 함께 학습했다는 점이 중요합니다.</p>
+				</header>
+				<div class="row aln-center">
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<h3>주요 결과</h3>
+							<ul class="note-list">
+								<li>GCP와 ArgoCD 기반 GitOps 환경을 실제로 구성했습니다.</li>
+								<li>Ingress-nginx, MariaDB, PHP 웹 서비스 흐름을 실습 환경에 맞게 배포했습니다.</li>
+								<li>리소스 부하에 따른 파드 증감과 etcd 백업 동작을 확인했습니다.</li>
+								<li>드라이브 이중 백업으로 안정성 향상 방향을 검토했습니다.</li>
+							</ul>
+						</section>
+					</div>
+					<div class="col-6 col-12-medium">
+						<section class="info-card">
+							<h3>프로젝트가 남긴 것</h3>
+							<ul class="note-list">
+								<li>인프라와 운영 자동화는 협업 가이드와 함께 설계되어야 한다는 점</li>
+								<li>단일 기능 구현보다, 배포·백업·관제를 함께 보는 시각이 중요하다는 점</li>
+								<li>문서화, 브랜치 전략, 장애 원인 파악 능력이 후속 성장 포인트라는 점</li>
+							</ul>
+						</section>
+					</div>
+				</div>
+				<div class="callout" style="margin-top: 2em;">
+					<strong>정리</strong><br />
+					Coconut은 배포 실습 과제가 아니라,
+					Kubernetes 운영 요소들을 팀 단위 협업 환경으로 묶어본 첫 인프라 프로젝트라는 점에서 의미가 있습니다.
+				</div>
+			</div>
+		</article>
+
+		<article id="docs" class="wrapper style4">
+			<div class="container medium">
+				<header>
+					<h2>관련 자료</h2>
+					<p>현재 페이지는 발표 자료를 바탕으로 다시 정리했습니다.</p>
+				</header>
+				<div class="row">
+					<div class="col-12">
+						<section class="doc-card">
+							<h3>kt 클라우드 인프라 1차 프로젝트 (1).pdf</h3>
+							<p class="doc-meta">팀 프로젝트 발표 자료</p>
+							<p>프로젝트 개요, 역할 분담, GCP/ArgoCD 구조, ingress, HPA, etcd 백업, monitoring, 자체 평가 내용을 포함하는 핵심 문서입니다.</p>
+						</section>
+					</div>
+				</div>
+				<footer style="margin-top: 2.5em;">
+					<a href="index.html#projects" class="button alt">메인페이지로 돌아가기</a>
+				</footer>
+			</div>
+		</article>
+
+<footer style="padding: 2.5em 0 3em 0; text-align: center;">
+			<ul id="copyright">
+				<li>&copy; 2026 Saeon Bae</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+			</ul>
+		</footer>
+
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/jquery.scrolly.min.js"></script>
+		<script src="assets/js/browser.min.js"></script>
+		<script src="assets/js/breakpoints.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
