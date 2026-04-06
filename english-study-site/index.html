@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English Study Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <nav class="nav">
+      <div class="brand">English Study Hub</div>
+      <div class="nav-links">
+        <a href="#today">오늘의 학습</a>
+        <a href="#vocab">단어</a>
+        <a href="#routine">루틴</a>
+        <a href="#log">기록</a>
+      </div>
+    </nav>
+
+    <div class="hero-content">
+      <div>
+        <p class="eyebrow">영어공부 전용 개인 웹페이지</p>
+        <h1>매일 조금씩, 꾸준히 공부하는 영어 페이지</h1>
+        <p class="hero-text">
+          단어, 표현, 쉐도잉, 퀴즈, 학습기록을 한 곳에 모아두는 개인용 영어공부 사이트입니다.
+          도메인 연결 없이도 로컬 파일이나 GitHub Pages로 바로 사용할 수 있습니다.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#today">바로 시작</a>
+          <a class="btn secondary" href="#log">학습 기록 보기</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <p class="mini-title">오늘의 목표</p>
+        <ul>
+          <li>표현 3개 익히기</li>
+          <li>단어 10개 복습</li>
+          <li>쉐도잉 10분</li>
+          <li>짧은 영어 일기 3문장</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="today" class="panel grid-two">
+      <div>
+        <p class="section-label">TODAY</p>
+        <h2>오늘의 표현</h2>
+        <div class="expression-box" id="expressionBox">
+          <h3 id="expression">I’m trying to get used to it.</h3>
+          <p id="meaning">아직 익숙해지려고 하는 중이에요.</p>
+          <p id="example">Example: I recently started studying every morning, so I’m trying to get used to it.</p>
+        </div>
+        <button class="btn primary small" id="changeExpression">다른 표현 보기</button>
+      </div>
+
+      <div class="card-list">
+        <article class="card">
+          <h3>오늘의 루틴</h3>
+          <ol>
+            <li>표현 읽기 3회</li>
+            <li>예문 소리 내어 읽기</li>
+            <li>비슷한 문장 직접 만들기</li>
+            <li>저녁에 한 번 더 복습</li>
+          </ol>
+        </article>
+        <article class="card accent">
+          <h3>짧은 팁</h3>
+          <p>영어는 한 번에 오래 하는 것보다, 짧게 자주 보는 쪽이 보통 더 오래 남습니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="vocab" class="panel">
+      <p class="section-label">VOCAB</p>
+      <div class="section-head">
+        <h2>오늘의 단어</h2>
+        <button class="btn secondary small" id="shuffleWords">단어 섞기</button>
+      </div>
+      <div class="vocab-grid" id="vocabGrid">
+        <article class="vocab-card">
+          <h3>maintain</h3>
+          <p>유지하다</p>
+          <span>maintain a routine</span>
+        </article>
+        <article class="vocab-card">
+          <h3>gradually</h3>
+          <p>점차, 서서히</p>
+          <span>improve gradually</span>
+        </article>
+        <article class="vocab-card">
+          <h3>confident</h3>
+          <p>자신감 있는</p>
+          <span>feel confident about speaking</span>
+        </article>
+        <article class="vocab-card">
+          <h3>review</h3>
+          <p>복습하다</p>
+          <span>review old notes</span>
+        </article>
+        <article class="vocab-card">
+          <h3>hesitate</h3>
+          <p>망설이다</p>
+          <span>don’t hesitate to ask</span>
+        </article>
+        <article class="vocab-card">
+          <h3>habit</h3>
+          <p>습관</p>
+          <span>build a study habit</span>
+        </article>
+      </div>
+    </section>
+
+    <section id="routine" class="panel grid-three">
+      <article class="card">
+        <p class="section-label">SPEAKING</p>
+        <h3>쉐도잉</h3>
+        <p>짧은 문장을 듣고, 3번 따라 말하고, 녹음해서 발음을 비교합니다.</p>
+        <div class="check-row">
+          <input type="checkbox" id="shadowingDone" />
+          <label for="shadowingDone">오늘 쉐도잉 완료</label>
+        </div>
+      </article>
+
+      <article class="card">
+        <p class="section-label">WRITING</p>
+        <h3>3문장 영어 일기</h3>
+        <textarea id="diary" rows="7" placeholder="Today I studied English for 20 minutes..."></textarea>
+        <button class="btn primary small" id="saveDiary">임시 저장</button>
+        <p class="saved-note" id="savedDiaryText"></p>
+      </article>
+
+      <article class="card">
+        <p class="section-label">QUIZ</p>
+        <h3>짧은 체크</h3>
+        <p class="quiz-q">‘점차 익숙해지고 있다’에 가장 가까운 표현은?</p>
+        <div class="quiz-options">
+          <button class="quiz-btn" data-answer="no">I gave up quickly.</button>
+          <button class="quiz-btn" data-answer="yes">I’m getting used to it.</button>
+          <button class="quiz-btn" data-answer="no">I’m afraid of it.</button>
+        </div>
+        <p id="quizResult" class="quiz-result"></p>
+      </article>
+    </section>
+
+    <section id="log" class="panel">
+      <p class="section-label">LOG</p>
+      <h2>주간 학습 기록</h2>
+      <div class="log-grid">
+        <div class="log-card done">Mon<br><span>20 min</span></div>
+        <div class="log-card done">Tue<br><span>15 min</span></div>
+        <div class="log-card">Wed<br><span>0 min</span></div>
+        <div class="log-card done">Thu<br><span>25 min</span></div>
+        <div class="log-card">Fri<br><span>0 min</span></div>
+        <div class="log-card">Sat<br><span>0 min</span></div>
+        <div class="log-card">Sun<br><span>0 min</span></div>
+      </div>
+      <p class="muted">학습 시간, 목표, 문장, 단어를 나중에 직접 바꿔가며 사용할 수 있게 만든 기본 템플릿입니다.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Made for personal English study. Static site, no domain connection required.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

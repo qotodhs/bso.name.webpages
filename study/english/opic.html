@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OPIc | BSO English</title>
+  <meta name="description" content="OPIc 전용 학습 페이지" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="page-hero">
+    <nav class="nav">
+      <a class="brand" href="./index.html">bso.name/english</a>
+      <div class="nav-links">
+        <a href="./index.html">허브</a>
+        <a href="./toeic.html">TOEIC</a>
+        <a href="./vocabulary.html">어휘</a>
+        <a href="./news.html">기사 읽기</a>
+      </div>
+    </nav>
+
+    <div class="page-hero-content">
+      <div>
+        <p class="eyebrow">OPIC</p>
+        <h1>OPIc 전용 페이지</h1>
+        <p class="page-hero-text">
+          주제별 답변 틀과 랜덤 질문을 따로 두어서, 스크립트 암기보다 말하기 연습 중심으로 쓰기 좋게 정리했습니다.
+        </p>
+      </div>
+      <div class="page-side-card">
+        <p class="mini-title">답변 흐름</p>
+        <ul>
+          <li>배경 설명</li>
+          <li>평소 루틴</li>
+          <li>최근 경험</li>
+          <li>느낀 점</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-container">
+    <section class="panel">
+      <div class="section-intro">
+        <div>
+          <p class="section-label">SPEAKING</p>
+          <h2>말하기 연습</h2>
+        </div>
+        <span class="badge">말하기 연습</span>
+      </div>
+
+      <div class="study-grid two-wide">
+        <article class="card accent">
+          <h3>주제별 답변 틀</h3>
+          <ul class="clean-list">
+            <li>배경 설명</li>
+            <li>평소 루틴</li>
+            <li>최근 경험</li>
+            <li>느낀 점 / 비교</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>오늘의 연습 질문</h3>
+          <div class="question-box">
+            <p class="question-label">QUESTION</p>
+            <h3 id="opicQuestion">Describe your favorite place to study.</h3>
+            <p id="opicHint" class="muted">장소, 이유, 자주 하는 행동, 장점을 4문장 정도로 연결해보세요.</p>
+          </div>
+          <button class="btn secondary small" id="changeOpicQuestion">다른 질문 보기</button>
+        </article>
+
+        <article class="card">
+          <h3>자주 쓸 연결 표현</h3>
+          <div class="tag-row">
+            <span class="tag">To be honest</span>
+            <span class="tag">Most of the time</span>
+            <span class="tag">One thing I like is</span>
+            <span class="tag">That’s why</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>답변 초안</h3>
+          <textarea id="opicDraft" rows="8" placeholder="I usually study at..."></textarea>
+          <button class="btn primary small save-btn" data-storage-key="englishOpicDraft" data-textarea="opicDraft" data-target="opicStatus">초안 저장</button>
+          <p id="opicStatus" class="saved-note"></p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>OPIc page for bso.name/english</p>
+  </footer>
+
+  <script src="./script.js"></script>
+</body>
+</html>

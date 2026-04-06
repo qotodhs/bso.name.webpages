@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vocabulary | BSO English</title>
+  <meta name="description" content="어휘 전용 학습 페이지" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="page-hero">
+    <nav class="nav">
+      <a class="brand" href="./index.html">bso.name/english</a>
+      <div class="nav-links">
+        <a href="./index.html">허브</a>
+        <a href="./toeic.html">TOEIC</a>
+        <a href="./opic.html">OPIc</a>
+        <a href="./news.html">기사 읽기</a>
+      </div>
+    </nav>
+
+    <div class="page-hero-content">
+      <div>
+        <p class="eyebrow">VOCABULARY</p>
+        <h1>어휘 전용 페이지</h1>
+        <p class="page-hero-text">
+          지금은 샘플 카드만 두고, 나중에 가지고 있는 단어장을 JSON으로 연결하기 쉽게 비워둔 구조입니다.
+        </p>
+      </div>
+      <div class="page-side-card">
+        <p class="mini-title">확장 예정</p>
+        <ul>
+          <li>단어 / 품사 / 뜻 / 예문</li>
+          <li>태그: TOEIC / OPIc / News</li>
+          <li>암기 여부 / 복습일 저장</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-container">
+    <section class="panel">
+      <div class="section-intro">
+        <div>
+          <p class="section-label">VOCAB CARDS</p>
+          <h2>샘플 카드</h2>
+        </div>
+        <button class="btn secondary small" id="shuffleWords">카드 섞기</button>
+      </div>
+
+      <div class="vocab-grid" id="vocabGrid">
+        <article class="vocab-card">
+          <h3>analyze</h3>
+          <p>분석하다</p>
+          <span>analyze the results carefully</span>
+        </article>
+        <article class="vocab-card">
+          <h3>respond</h3>
+          <p>대답하다, 반응하다</p>
+          <span>respond to the question clearly</span>
+        </article>
+        <article class="vocab-card">
+          <h3>efficient</h3>
+          <p>효율적인</p>
+          <span>an efficient study routine</span>
+        </article>
+        <article class="vocab-card">
+          <h3>summarize</h3>
+          <p>요약하다</p>
+          <span>summarize the article in English</span>
+        </article>
+        <article class="vocab-card">
+          <h3>context</h3>
+          <p>맥락</p>
+          <span>understand the word in context</span>
+        </article>
+        <article class="vocab-card">
+          <h3>fluently</h3>
+          <p>유창하게</p>
+          <span>speak more fluently over time</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-intro">
+        <div>
+          <p class="section-label">MEMO</p>
+          <h2>단어장 연결 메모</h2>
+        </div>
+        <span class="badge">나중에 JSON 연결</span>
+      </div>
+
+      <div class="study-grid two-wide">
+        <article class="card accent">
+          <h3>설계 포인트</h3>
+          <ul class="clean-list">
+            <li>단어 / 품사 / 뜻 / 예문</li>
+            <li>태그별 필터</li>
+            <li>암기 체크와 복습일 기록</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>개인 메모</h3>
+          <textarea id="vocabMemo" rows="7" placeholder="예: 토익 단어 우선, 기사 읽기용 어휘는 별도 태그"></textarea>
+          <button class="btn primary small save-btn" data-storage-key="englishVocabMemo" data-textarea="vocabMemo" data-target="vocabStatus">메모 저장</button>
+          <p id="vocabStatus" class="saved-note"></p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Vocabulary page for bso.name/english</p>
+  </footer>
+
+  <script src="./script.js"></script>
+</body>
+</html>

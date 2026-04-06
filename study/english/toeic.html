@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TOEIC | BSO English</title>
+  <meta name="description" content="TOEIC 전용 학습 페이지" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="page-hero">
+    <nav class="nav">
+      <a class="brand" href="./index.html">bso.name/english</a>
+      <div class="nav-links">
+        <a href="./index.html">허브</a>
+        <a href="./opic.html">OPIc</a>
+        <a href="./vocabulary.html">어휘</a>
+        <a href="./news.html">기사 읽기</a>
+      </div>
+    </nav>
+
+    <div class="page-hero-content">
+      <div>
+        <p class="eyebrow">TOEIC</p>
+        <h1>TOEIC 전용 페이지</h1>
+        <p class="page-hero-text">
+          LC와 RC를 분리해서 공부하고, 오답 유형과 점수 목표를 정리할 수 있도록 구성했습니다.
+        </p>
+      </div>
+      <div class="page-side-card">
+        <p class="mini-title">오늘의 흐름</p>
+        <ul>
+          <li>LC 1세트</li>
+          <li>RC 20문제</li>
+          <li>오답 5개 복습</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-container">
+    <section class="panel">
+      <div class="section-intro">
+        <div>
+          <p class="section-label">PLAN</p>
+          <h2>공부 구성</h2>
+        </div>
+        <span class="badge">시험 대비</span>
+      </div>
+
+      <div class="study-grid two-wide">
+        <article class="card accent">
+          <h3>LC 루틴</h3>
+          <ul class="clean-list">
+            <li>Part 3/4 먼저 집중</li>
+            <li>틀린 문제는 스크립트 확인</li>
+            <li>함정 표현 따로 정리</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>RC 루틴</h3>
+          <ul class="clean-list">
+            <li>Part 5 문법 유형 반복</li>
+            <li>Part 6 연결 흐름 확인</li>
+            <li>Part 7 시간 관리 체크</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>오답 분류</h3>
+          <div class="tag-row">
+            <span class="tag">문법</span>
+            <span class="tag">어휘</span>
+            <span class="tag">듣기 포인트</span>
+            <span class="tag">시간 부족</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>목표 점수 메모</h3>
+          <textarea id="toeicMemo" rows="7" placeholder="예: 850점 목표, Part 5 정확도 먼저 올리기"></textarea>
+          <button class="btn primary small save-btn" data-storage-key="englishToeicMemo" data-textarea="toeicMemo" data-target="toeicStatus">메모 저장</button>
+          <p id="toeicStatus" class="saved-note"></p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <p class="section-label">LINKS</p>
+      <h2>다른 파트로 이동</h2>
+      <div class="inline-links">
+        <a class="btn secondary small" href="./opic.html">OPIc</a>
+        <a class="btn secondary small" href="./vocabulary.html">어휘</a>
+        <a class="btn secondary small" href="./news.html">기사 읽기</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>TOEIC page for bso.name/english</p>
+  </footer>
+
+  <script src="./script.js"></script>
+</body>
+</html>

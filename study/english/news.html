@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News Reading | BSO English</title>
+  <meta name="description" content="기사 읽기 전용 학습 페이지" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="page-hero">
+    <nav class="nav">
+      <a class="brand" href="./index.html">bso.name/english</a>
+      <div class="nav-links">
+        <a href="./index.html">허브</a>
+        <a href="./toeic.html">TOEIC</a>
+        <a href="./opic.html">OPIc</a>
+        <a href="./vocabulary.html">어휘</a>
+      </div>
+    </nav>
+
+    <div class="page-hero-content">
+      <div>
+        <p class="eyebrow">NEWS READING</p>
+        <h1>기사 읽기 전용 페이지</h1>
+        <p class="page-hero-text">
+          기사 링크, 새 표현, 핵심 문장을 모으고, 읽은 뒤 3문장 요약을 남길 수 있게 구성했습니다.
+        </p>
+      </div>
+      <div class="page-side-card">
+        <p class="mini-title">읽기 순서</p>
+        <ul>
+          <li>제목과 첫 문단 먼저</li>
+          <li>전체 의미 파악</li>
+          <li>핵심 문장 체크</li>
+          <li>3문장 요약</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-container">
+    <section class="panel">
+      <div class="section-intro">
+        <div>
+          <p class="section-label">READING</p>
+          <h2>기사 읽기 루틴</h2>
+        </div>
+        <span class="badge">읽기 훈련</span>
+      </div>
+
+      <div class="study-grid two-wide">
+        <article class="card accent">
+          <h3>읽기 루틴</h3>
+          <ol class="clean-list ordered">
+            <li>제목과 첫 문단 먼저 읽기</li>
+            <li>모르는 단어는 표시만 하기</li>
+            <li>전체 의미 먼저 파악하기</li>
+            <li>마지막에 요약 3문장 쓰기</li>
+          </ol>
+        </article>
+
+        <article class="card">
+          <h3>기사 체크포인트</h3>
+          <div class="tag-row">
+            <span class="tag">Headline</span>
+            <span class="tag">Lead</span>
+            <span class="tag">Key sentence</span>
+            <span class="tag">New expression</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>오늘 읽을 기사 메모</h3>
+          <textarea id="newsMemo" rows="8" placeholder="기사 제목, 링크, 핵심 단어 등을 적어두기"></textarea>
+          <button class="btn primary small save-btn" data-storage-key="englishNewsMemo" data-textarea="newsMemo" data-target="newsStatus">메모 저장</button>
+          <p id="newsStatus" class="saved-note"></p>
+        </article>
+
+        <article class="card">
+          <h3>3문장 요약 템플릿</h3>
+          <p class="muted">1) 이 기사는 무엇에 관한 기사인가?</p>
+          <p class="muted">2) 핵심 사실은 무엇인가?</p>
+          <p class="muted">3) 새로 배운 표현은 무엇인가?</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>News reading page for bso.name/english</p>
+  </footer>
+
+  <script src="./script.js"></script>
+</body>
+</html>
