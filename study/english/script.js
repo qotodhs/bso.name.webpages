@@ -343,3 +343,264 @@ if (calendarGrid) {
   loadDailyNote();
   renderCalendar();
 }
+
+
+const toeicVocabApp = document.getElementById("toeicVocabApp");
+
+if (toeicVocabApp) {
+  const chunkSelect = document.getElementById("toeicChunkSelect");
+  const searchInput = document.getElementById("toeicSearchInput");
+  const prevBtn = document.getElementById("toeicPrevSet");
+  const nextBtn = document.getElementById("toeicNextSet");
+  const toggleMeaningBtn = document.getElementById("toeicToggleMeaning");
+  const clearSearchBtn = document.getElementById("toeicClearSearch");
+  const deckSummary = document.getElementById("toeicDeckSummary");
+  const totalWords = document.getElementById("toeicTotalWords");
+  const currentSet = document.getElementById("toeicCurrentSet");
+  const currentRange = document.getElementById("toeicCurrentRange");
+  const searchCount = document.getElementById("toeicSearchCount");
+  const setDescription = document.getElementById("toeicSetDescription");
+  const vocabGrid = document.getElementById("toeicVocabGrid");
+  const emptyState = document.getElementById("toeicEmptyState");
+
+  const doneStorageKey = "englishToeicVocabChecked";
+  const uiStorageKey = "englishToeicVocabUiState";
+  const chunkSize = 100;
+
+  const state = {
+    allEntries: [],
+    filteredEntries: [],
+    chunkIndex: 0,
+    hideMeaning: false,
+    search: "",
+    checked: {}
+  };
+
+  function loadChecked() {
+    try {
+      state.checked = JSON.parse(localStorage.getItem(doneStorageKey) || "{}");
+    } catch (error) {
+      state.checked = {};
+    }
+  }
+
+  function saveChecked() {
+    localStorage.setItem(doneStorageKey, JSON.stringify(state.checked));
+  }
+
+  function loadUiState() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(uiStorageKey) || "{}");
+      if (typeof saved.chunkIndex === "number") state.chunkIndex = saved.chunkIndex;
+      if (typeof saved.hideMeaning === "boolean") state.hideMeaning = saved.hideMeaning;
+      if (typeof saved.search === "string") state.search = saved.search;
+    } catch (error) {
+      state.chunkIndex = 0;
+    }
+  }
+
+  function saveUiState() {
+    localStorage.setItem(uiStorageKey, JSON.stringify({
+      chunkIndex: state.chunkIndex,
+      hideMeaning: state.hideMeaning,
+      search: state.search
+    }));
+  }
+
+  function getTotalChunks() {
+    return Math.max(1, Math.ceil(state.filteredEntries.length / chunkSize));
+  }
+
+  function getCurrentEntries() {
+    const start = state.chunkIndex * chunkSize;
+    return state.filteredEntries.slice(start, start + chunkSize);
+  }
+
+  function applyFilter() {
+    const keyword = state.search.trim().toLowerCase();
+    if (!keyword) {
+      state.filteredEntries = [...state.allEntries];
+    } else {
+      state.filteredEntries = state.allEntries.filter((entry) => {
+        return entry.term.toLowerCase().includes(keyword)
+          || entry.detail.toLowerCase().includes(keyword)
+          || String(entry.source_day).includes(keyword);
+      });
+    }
+
+    if (state.chunkIndex >= getTotalChunks()) {
+      state.chunkIndex = 0;
+    }
+    saveUiState();
+    renderToeicDeck();
+  }
+
+  function renderChunkOptions() {
+    const totalChunks = getTotalChunks();
+    chunkSelect.innerHTML = "";
+
+    for (let index = 0; index < totalChunks; index += 1) {
+      const start = index * chunkSize + 1;
+      const end = Math.min((index + 1) * chunkSize, state.filteredEntries.length);
+      const option = document.createElement("option");
+      option.value = String(index);
+      option.textContent = `세트 ${String(index + 1).padStart(2, "0")} · ${start}-${end}`;
+      chunkSelect.appendChild(option);
+    }
+
+    chunkSelect.value = String(state.chunkIndex);
+  }
+
+  function renderToeicDeck() {
+    const currentEntries = getCurrentEntries();
+    const totalChunks = getTotalChunks();
+    const total = state.allEntries.length;
+    const filteredTotal = state.filteredEntries.length;
+
+    renderChunkOptions();
+
+    totalWords.textContent = total.toLocaleString("ko-KR");
+    searchCount.textContent = filteredTotal.toLocaleString("ko-KR");
+    currentSet.textContent = `${String(state.chunkIndex + 1).padStart(2, "0")} / ${String(totalChunks).padStart(2, "0")}`;
+
+    const start = currentEntries.length ? state.chunkIndex * chunkSize + 1 : 0;
+    const end = currentEntries.length ? state.chunkIndex * chunkSize + currentEntries.length : 0;
+    currentRange.textContent = currentEntries.length ? `${start} - ${end}` : "0 - 0";
+    deckSummary.textContent = state.hideMeaning ? "뜻 가리기 켜짐" : "뜻 보기";
+    setDescription.textContent = currentEntries.length
+      ? `현재 세트는 ${start}번부터 ${end}번까지입니다. 검색하면 결과 기준으로 다시 100개씩 나뉩니다.`
+      : "검색 결과가 없어서 표시할 단어가 없습니다.";
+
+    prevBtn.disabled = state.chunkIndex === 0;
+    nextBtn.disabled = state.chunkIndex >= totalChunks - 1;
+
+    vocabGrid.innerHTML = "";
+    emptyState.hidden = currentEntries.length > 0;
+
+    currentEntries.forEach((entry, offset) => {
+      const card = document.createElement("article");
+      card.className = "toeic-vocab-card";
+
+      const top = document.createElement("div");
+      top.className = "toeic-vocab-top";
+
+      const indexPill = document.createElement("span");
+      indexPill.className = "toeic-vocab-index";
+      indexPill.textContent = String(start + offset).padStart(4, "0");
+
+      const checkBtn = document.createElement("button");
+      checkBtn.type = "button";
+      checkBtn.className = "check-btn";
+      checkBtn.textContent = state.checked[entry.id] ? "체크됨" : "체크";
+      if (state.checked[entry.id]) {
+        checkBtn.classList.add("is-done");
+      }
+      checkBtn.addEventListener("click", () => {
+        state.checked[entry.id] = !state.checked[entry.id];
+        saveChecked();
+        renderToeicDeck();
+      });
+
+      top.appendChild(indexPill);
+      top.appendChild(checkBtn);
+
+      const term = document.createElement("h3");
+      term.textContent = entry.term;
+
+      const meaning = document.createElement("p");
+      meaning.className = "toeic-vocab-meaning";
+      meaning.textContent = state.hideMeaning ? "뜻 가리기 상태입니다." : entry.detail;
+
+      const meta = document.createElement("div");
+      meta.className = "toeic-vocab-meta";
+
+      const dayChip = document.createElement("span");
+      dayChip.className = "day-chip";
+      dayChip.textContent = `Source Day ${String(entry.source_day).padStart(2, "0")} · ${entry.source_index}`;
+
+      meta.appendChild(dayChip);
+
+      card.appendChild(top);
+      card.appendChild(term);
+      card.appendChild(meaning);
+      card.appendChild(meta);
+      vocabGrid.appendChild(card);
+    });
+  }
+
+  chunkSelect?.addEventListener("change", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLSelectElement)) return;
+    state.chunkIndex = Number(target.value);
+    saveUiState();
+    renderToeicDeck();
+  });
+
+  searchInput?.addEventListener("input", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement)) return;
+    state.search = target.value;
+    state.chunkIndex = 0;
+    saveUiState();
+    applyFilter();
+  });
+
+  prevBtn?.addEventListener("click", () => {
+    if (state.chunkIndex > 0) {
+      state.chunkIndex -= 1;
+      saveUiState();
+      renderToeicDeck();
+    }
+  });
+
+  nextBtn?.addEventListener("click", () => {
+    if (state.chunkIndex < getTotalChunks() - 1) {
+      state.chunkIndex += 1;
+      saveUiState();
+      renderToeicDeck();
+    }
+  });
+
+  toggleMeaningBtn?.addEventListener("click", () => {
+    state.hideMeaning = !state.hideMeaning;
+    toggleMeaningBtn.textContent = state.hideMeaning ? "뜻 보기" : "뜻 가리기";
+    saveUiState();
+    renderToeicDeck();
+  });
+
+  clearSearchBtn?.addEventListener("click", () => {
+    state.search = "";
+    state.chunkIndex = 0;
+    if (searchInput instanceof HTMLInputElement) {
+      searchInput.value = "";
+    }
+    saveUiState();
+    applyFilter();
+  });
+
+  loadChecked();
+  loadUiState();
+
+  const data = window.__TOEIC_VOCAB_DATA;
+
+  if (data && Array.isArray(data.entries)) {
+    state.allEntries = data.entries;
+    state.filteredEntries = [...state.allEntries];
+
+    if (searchInput instanceof HTMLInputElement) {
+      searchInput.value = state.search;
+    }
+    toggleMeaningBtn.textContent = state.hideMeaning ? "뜻 보기" : "뜻 가리기";
+
+    applyFilter();
+  } else {
+    deckSummary.textContent = "불러오기 실패";
+    setDescription.textContent = "단어장 데이터 파일을 읽지 못했습니다.";
+    totalWords.textContent = "0";
+    currentSet.textContent = "-";
+    currentRange.textContent = "-";
+    searchCount.textContent = "0";
+    emptyState.hidden = false;
+    emptyState.textContent = "데이터를 불러오지 못했습니다.";
+  }
+}

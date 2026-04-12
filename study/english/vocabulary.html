@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vocabulary | BSO English</title>
-  <meta name="description" content="어휘 전용 학습 페이지" />
+  <meta name="description" content="영어 단어장 허브 페이지" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -25,17 +25,18 @@
     <div class="page-hero-content">
       <div>
         <p class="eyebrow">VOCABULARY</p>
-        <h1>어휘 전용 페이지</h1>
+        <h1>어휘 페이지</h1>
         <p class="page-hero-text">
-          지금은 샘플 카드만 두고, 나중에 가지고 있는 단어장을 JSON으로 연결하기 쉽게 비워둔 구조입니다.
+          단어장을 카테고리별로 모아두는 허브입니다.
+          지금은 토익 단어장을 먼저 넣었고, 나중에 OPIc 표현이나 기사 읽기 어휘도 같은 방식으로 확장할 수 있습니다.
         </p>
       </div>
       <div class="page-side-card">
-        <p class="mini-title">확장 예정</p>
+        <p class="mini-title">현재 구성</p>
         <ul>
-          <li>단어 / 품사 / 뜻 / 예문</li>
-          <li>태그: TOEIC / OPIc / News</li>
-          <li>암기 여부 / 복습일 저장</li>
+          <li>TOEIC 단어장</li>
+          <li>100개씩 끊어서 학습</li>
+          <li>검색 / 뜻 가리기 / 세트 이동</li>
         </ul>
       </div>
     </div>
@@ -45,76 +46,52 @@
     <section class="panel">
       <div class="section-intro">
         <div>
-          <p class="section-label">VOCAB CARDS</p>
-          <h2>샘플 카드</h2>
+          <p class="section-label">DECKS</p>
+          <h2>사용 가능한 단어장</h2>
         </div>
-        <button class="btn secondary small" id="shuffleWords">카드 섞기</button>
+        <span class="badge">단어장 허브</span>
       </div>
 
-      <div class="vocab-grid" id="vocabGrid">
-        <article class="vocab-card">
-          <h3>analyze</h3>
-          <p>분석하다</p>
-          <span>analyze the results carefully</span>
+      <div class="link-grid">
+        <a class="link-card deck-link-card" href="./vocabulary-toeic.html">
+          <p class="part-label">01</p>
+          <h3>TOEIC Vocabulary</h3>
+          <p>업로드한 토익 단어 PDF를 바탕으로 만든 단어장입니다. 한 번에 100개씩 볼 수 있게 구성했습니다.</p>
+          <span>/english/vocabulary-toeic.html</span>
+        </a>
+
+        <article class="card mini-card">
+          <p class="part-label">02</p>
+          <h3>OPIc Expressions</h3>
+          <p>나중에 서베이 주제별 표현, 연결 표현, 자주 쓰는 동사 묶음을 넣기 좋은 자리입니다.</p>
         </article>
-        <article class="vocab-card">
-          <h3>respond</h3>
-          <p>대답하다, 반응하다</p>
-          <span>respond to the question clearly</span>
+
+        <article class="card mini-card">
+          <p class="part-label">03</p>
+          <h3>News Vocabulary</h3>
+          <p>기사 읽기에서 모은 단어와 표현을 주제별로 묶어 넣기 좋은 자리입니다.</p>
         </article>
-        <article class="vocab-card">
-          <h3>efficient</h3>
-          <p>효율적인</p>
-          <span>an efficient study routine</span>
-        </article>
-        <article class="vocab-card">
-          <h3>summarize</h3>
-          <p>요약하다</p>
-          <span>summarize the article in English</span>
-        </article>
-        <article class="vocab-card">
-          <h3>context</h3>
-          <p>맥락</p>
-          <span>understand the word in context</span>
-        </article>
-        <article class="vocab-card">
-          <h3>fluently</h3>
-          <p>유창하게</p>
-          <span>speak more fluently over time</span>
+
+        <article class="card mini-card">
+          <p class="part-label">04</p>
+          <h3>Custom Deck</h3>
+          <p>나중에 직접 만든 JSON 단어장을 붙이거나, 시험별/분야별 단어장을 추가하기 쉽도록 비워두었습니다.</p>
         </article>
       </div>
     </section>
 
     <section class="panel">
-      <div class="section-intro">
-        <div>
-          <p class="section-label">MEMO</p>
-          <h2>단어장 연결 메모</h2>
-        </div>
-        <span class="badge">나중에 JSON 연결</span>
-      </div>
-
-      <div class="study-grid two-wide">
-        <article class="card accent">
-          <h3>설계 포인트</h3>
-          <ul class="clean-list">
-            <li>단어 / 품사 / 뜻 / 예문</li>
-            <li>태그별 필터</li>
-            <li>암기 체크와 복습일 기록</li>
-          </ul>
-        </article>
-        <article class="card">
-          <h3>개인 메모</h3>
-          <textarea id="vocabMemo" rows="7" placeholder="예: 토익 단어 우선, 기사 읽기용 어휘는 별도 태그"></textarea>
-          <button class="btn primary small save-btn" data-storage-key="englishVocabMemo" data-textarea="vocabMemo" data-target="vocabStatus">메모 저장</button>
-          <p id="vocabStatus" class="saved-note"></p>
-        </article>
+      <p class="section-label">QUICK LINK</p>
+      <h2>바로 이동</h2>
+      <div class="inline-links">
+        <a class="btn primary small" href="./vocabulary-toeic.html">TOEIC 단어장 열기</a>
+        <a class="btn secondary small" href="./toeic.html">TOEIC 메인</a>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <p>Vocabulary page for bso.name/english</p>
+    <p>Vocabulary hub for bso.name/english</p>
   </footer>
 
   <script src="./script.js"></script>

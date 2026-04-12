@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TOEIC Vocabulary | BSO English</title>
+  <meta name="description" content="TOEIC 단어장 페이지" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="page-hero">
+    <nav class="nav">
+      <a class="brand" href="./index.html">bso.name/english</a>
+      <div class="nav-links">
+        <a href="./index.html">허브</a>
+        <a href="./toeic.html">TOEIC</a>
+        <a href="./vocabulary.html">어휘 허브</a>
+        <a href="./news.html">기사 읽기</a>
+      </div>
+    </nav>
+
+    <div class="page-hero-content">
+      <div>
+        <p class="eyebrow">TOEIC VOCABULARY</p>
+        <h1>토익 단어장</h1>
+        <p class="page-hero-text">
+          업로드한 토익 단어 PDF를 바탕으로 만든 학습 페이지입니다.
+          기본은 100개씩 끊어서 보고, 필요하면 검색으로 특정 단어만 좁혀서 볼 수 있습니다.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#toeicVocabApp">100개 세트 보기</a>
+          <a class="btn secondary" href="./vocabulary.html">어휘 허브로</a>
+        </div>
+      </div>
+      <div class="page-side-card">
+        <p class="mini-title">사용법</p>
+        <ul>
+          <li>세트 이동으로 100개씩 학습</li>
+          <li>검색으로 단어/뜻 빠르게 찾기</li>
+          <li>뜻 가리기로 암기 점검</li>
+          <li>체크 버튼으로 본 단어 표시</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-container">
+    <section class="panel" id="toeicVocabApp">
+      <div class="section-head">
+        <div>
+          <p class="section-label">TOEIC DECK</p>
+          <h2>100개씩 보는 학습 세트</h2>
+        </div>
+        <span class="badge" id="toeicDeckSummary">불러오는 중...</span>
+      </div>
+
+      <div class="study-grid three-wide compact-top">
+        <article class="card mini-card">
+          <p class="part-label">TOTAL WORDS</p>
+          <h3 id="toeicTotalWords">-</h3>
+          <p>업로드한 토익 단어장 전체 단어 수</p>
+        </article>
+        <article class="card mini-card">
+          <p class="part-label">CURRENT SET</p>
+          <h3 id="toeicCurrentSet">-</h3>
+          <p id="toeicCurrentRange">-</p>
+        </article>
+        <article class="card mini-card">
+          <p class="part-label">SEARCH RESULT</p>
+          <h3 id="toeicSearchCount">-</h3>
+          <p>검색 결과 기준으로 세트가 다시 계산됩니다.</p>
+        </article>
+      </div>
+
+      <div class="toeic-controls">
+        <div class="toeic-controls-row">
+          <label class="control-block">
+            <span>세트 선택</span>
+            <select id="toeicChunkSelect"></select>
+          </label>
+
+          <label class="control-block grow">
+            <span>검색</span>
+            <input id="toeicSearchInput" type="text" placeholder="단어 또는 뜻 검색 (예: strategy, 전략)" />
+          </label>
+
+          <div class="control-block control-actions">
+            <span>기능</span>
+            <div class="inline-links">
+              <button class="btn secondary small" id="toeicPrevSet">이전 100개</button>
+              <button class="btn secondary small" id="toeicNextSet">다음 100개</button>
+              <button class="btn secondary small" id="toeicToggleMeaning">뜻 가리기</button>
+              <button class="btn secondary small" id="toeicClearSearch">검색 지우기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toeic-set-meta">
+        <p id="toeicSetDescription" class="muted">세트를 불러오는 중입니다.</p>
+      </div>
+
+      <div class="toeic-vocab-grid" id="toeicVocabGrid"></div>
+      <p id="toeicEmptyState" class="muted empty-state" hidden>검색 결과가 없습니다.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>TOEIC vocabulary page for bso.name/english</p>
+  </footer>
+
+  <script src="./data/toeic-ets-vocab.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
