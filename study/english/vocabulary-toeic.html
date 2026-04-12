@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TOEIC Vocabulary | BSO English</title>
-  <meta name="description" content="TOEIC 단어장 페이지" />
+  <meta name="description" content="TOEIC 단어 학습 세트 페이지" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -25,34 +25,34 @@
     <div class="page-hero-content">
       <div>
         <p class="eyebrow">TOEIC VOCABULARY</p>
-        <h1>토익 단어장</h1>
+        <h1>토익 학습 세트</h1>
         <p class="page-hero-text">
-          업로드한 토익 단어 PDF를 바탕으로 만든 학습 페이지입니다.
-          기본은 100개씩 끊어서 보고, 필요하면 검색으로 특정 단어만 좁혀서 볼 수 있습니다.
+          날짜로 묶인 CSV 단어장이 아니라, 이미 가지고 있는 토익 단어 데이터를 100개 단위 학습 세트로 나누어 공부하는 페이지입니다.
+          세트를 고르고 시작하면 뜻 보기, 알고있음/모르겠음, 모르는 단어 복습까지 웹에서 바로 진행할 수 있습니다.
         </p>
         <div class="hero-actions">
-          <a class="btn primary" href="#toeicVocabApp">100개 세트 보기</a>
-          <a class="btn secondary" href="./vocabulary.html">어휘 허브로</a>
+          <a class="btn primary" href="#toeicStudyApp">학습 시작</a>
+          <a class="btn secondary" href="#toeicSetList">세트 단어 보기</a>
         </div>
       </div>
       <div class="page-side-card">
-        <p class="mini-title">사용법</p>
+        <p class="mini-title">사용 흐름</p>
         <ul>
-          <li>세트 이동으로 100개씩 학습</li>
-          <li>검색으로 단어/뜻 빠르게 찾기</li>
-          <li>뜻 가리기로 암기 점검</li>
-          <li>체크 버튼으로 본 단어 표시</li>
+          <li>100개 단위 세트 선택</li>
+          <li>카드형으로 단어 1개씩 확인</li>
+          <li>모르겠음 단어만 재복습</li>
+          <li>현재 세트 전체 목록도 아래에서 확인</li>
         </ul>
       </div>
     </div>
   </header>
 
   <main class="page-container">
-    <section class="panel" id="toeicVocabApp">
+    <section class="panel" id="toeicStudyApp">
       <div class="section-head">
         <div>
-          <p class="section-label">TOEIC DECK</p>
-          <h2>100개씩 보는 학습 세트</h2>
+          <p class="section-label">STUDY MODE</p>
+          <h2>100개 학습 세트로 공부하기</h2>
         </div>
         <span class="badge" id="toeicDeckSummary">불러오는 중...</span>
       </div>
@@ -61,39 +61,39 @@
         <article class="card mini-card">
           <p class="part-label">TOTAL WORDS</p>
           <h3 id="toeicTotalWords">-</h3>
-          <p>업로드한 토익 단어장 전체 단어 수</p>
+          <p>토익 전체 단어 수</p>
+        </article>
+        <article class="card mini-card">
+          <p class="part-label">TOTAL SETS</p>
+          <h3 id="toeicTotalSets">-</h3>
+          <p>100개 단위 학습 세트 수</p>
         </article>
         <article class="card mini-card">
           <p class="part-label">CURRENT SET</p>
           <h3 id="toeicCurrentSet">-</h3>
           <p id="toeicCurrentRange">-</p>
         </article>
-        <article class="card mini-card">
-          <p class="part-label">SEARCH RESULT</p>
-          <h3 id="toeicSearchCount">-</h3>
-          <p>검색 결과 기준으로 세트가 다시 계산됩니다.</p>
-        </article>
       </div>
 
       <div class="toeic-controls">
         <div class="toeic-controls-row">
           <label class="control-block">
-            <span>세트 선택</span>
+            <span>학습 세트</span>
             <select id="toeicChunkSelect"></select>
           </label>
 
           <label class="control-block grow">
-            <span>검색</span>
-            <input id="toeicSearchInput" type="text" placeholder="단어 또는 뜻 검색 (예: strategy, 전략)" />
+            <span>현재 세트 검색</span>
+            <input id="toeicSearchInput" type="text" placeholder="현재 세트 안에서 단어 또는 뜻 검색" />
           </label>
 
           <div class="control-block control-actions">
-            <span>기능</span>
+            <span>세트 이동 / 기능</span>
             <div class="inline-links">
-              <button class="btn secondary small" id="toeicPrevSet">이전 100개</button>
-              <button class="btn secondary small" id="toeicNextSet">다음 100개</button>
+              <button class="btn secondary small" id="toeicPrevSet">이전 세트</button>
+              <button class="btn secondary small" id="toeicNextSet">다음 세트</button>
+              <button class="btn secondary small" id="toeicStartStudy">학습 시작</button>
               <button class="btn secondary small" id="toeicToggleMeaning">뜻 가리기</button>
-              <button class="btn secondary small" id="toeicClearSearch">검색 지우기</button>
             </div>
           </div>
         </div>
@@ -103,13 +103,54 @@
         <p id="toeicSetDescription" class="muted">세트를 불러오는 중입니다.</p>
       </div>
 
-      <div class="toeic-vocab-grid" id="toeicVocabGrid"></div>
-      <p id="toeicEmptyState" class="muted empty-state" hidden>검색 결과가 없습니다.</p>
+      <section class="toeic-study-session" id="toeicSessionPanel" hidden>
+        <div class="toeic-session-top">
+          <div>
+            <p class="part-label" id="toeicRoundLabel">학습 라운드</p>
+            <h3 id="toeicStudyProgress">1 / 100</h3>
+          </div>
+          <div class="toeic-session-meta">
+            <span class="badge" id="toeicUnknownCount">모르는 단어 0개</span>
+          </div>
+        </div>
+
+        <article class="toeic-study-card">
+          <p class="toeic-study-index" id="toeicStudyWordIndex">#0001</p>
+          <h3 id="toeicStudyTerm">loading...</h3>
+          <p id="toeicStudyMeaning" class="toeic-study-meaning is-hidden">뜻 보기 버튼을 눌러주세요.</p>
+          <p id="toeicStudySource" class="toeic-study-source">Source Day -</p>
+        </article>
+
+        <div class="toeic-study-actions">
+          <button class="btn secondary" id="toeicRevealMeaning">뜻 보기</button>
+          <button class="btn primary" id="toeicKnowBtn">알고있음</button>
+          <button class="btn secondary" id="toeicDontKnowBtn">모르겠음</button>
+          <button class="btn ghost" id="toeicEndSession">학습 종료</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel" id="toeicSetList">
+      <div class="section-head section-head-toggle">
+        <div>
+          <p class="section-label">SET WORDS</p>
+          <h2>현재 세트 단어 목록</h2>
+        </div>
+        <div class="section-head-actions">
+          <span class="badge" id="toeicSearchCount">-</span>
+          <button type="button" class="btn secondary small" id="toeicClearChecked">체크 해제</button>
+          <button type="button" class="btn secondary small" id="toeicToggleList" aria-expanded="true" aria-controls="toeicSetListPanel">접기</button>
+        </div>
+      </div>
+      <div id="toeicSetListPanel">
+        <div class="toeic-vocab-grid" id="toeicVocabGrid"></div>
+        <p id="toeicEmptyState" class="muted empty-state" hidden>검색 결과가 없습니다.</p>
+      </div>
     </section>
   </main>
 
   <footer class="footer">
-    <p>TOEIC vocabulary page for bso.name/english</p>
+    <p>TOEIC study set page for bso.name/english</p>
   </footer>
 
   <script src="./data/toeic-ets-vocab.js"></script>

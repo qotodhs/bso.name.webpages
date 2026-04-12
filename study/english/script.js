@@ -345,47 +345,73 @@ if (calendarGrid) {
 }
 
 
-const toeicVocabApp = document.getElementById("toeicVocabApp");
+const toeicVocabApp = document.getElementById("toeicStudyApp");
 
 if (toeicVocabApp) {
   const chunkSelect = document.getElementById("toeicChunkSelect");
   const searchInput = document.getElementById("toeicSearchInput");
   const prevBtn = document.getElementById("toeicPrevSet");
   const nextBtn = document.getElementById("toeicNextSet");
+  const startStudyBtn = document.getElementById("toeicStartStudy");
   const toggleMeaningBtn = document.getElementById("toeicToggleMeaning");
-  const clearSearchBtn = document.getElementById("toeicClearSearch");
+  const clearCheckedBtn = document.getElementById("toeicClearChecked");
   const deckSummary = document.getElementById("toeicDeckSummary");
   const totalWords = document.getElementById("toeicTotalWords");
+  const totalSets = document.getElementById("toeicTotalSets");
   const currentSet = document.getElementById("toeicCurrentSet");
   const currentRange = document.getElementById("toeicCurrentRange");
   const searchCount = document.getElementById("toeicSearchCount");
   const setDescription = document.getElementById("toeicSetDescription");
+  const toggleListBtn = document.getElementById("toeicToggleList");
+  const setListPanel = document.getElementById("toeicSetListPanel");
   const vocabGrid = document.getElementById("toeicVocabGrid");
   const emptyState = document.getElementById("toeicEmptyState");
 
-  const doneStorageKey = "englishToeicVocabChecked";
+  const sessionPanel = document.getElementById("toeicSessionPanel");
+  const roundLabel = document.getElementById("toeicRoundLabel");
+  const studyProgress = document.getElementById("toeicStudyProgress");
+  const unknownCount = document.getElementById("toeicUnknownCount");
+  const studyWordIndex = document.getElementById("toeicStudyWordIndex");
+  const studyTerm = document.getElementById("toeicStudyTerm");
+  const studyMeaning = document.getElementById("toeicStudyMeaning");
+  const studySource = document.getElementById("toeicStudySource");
+  const revealMeaningBtn = document.getElementById("toeicRevealMeaning");
+  const knowBtn = document.getElementById("toeicKnowBtn");
+  const dontKnowBtn = document.getElementById("toeicDontKnowBtn");
+  const endSessionBtn = document.getElementById("toeicEndSession");
+
+  const checkedStorageKey = "englishToeicVocabChecked";
   const uiStorageKey = "englishToeicVocabUiState";
   const chunkSize = 100;
 
   const state = {
     allEntries: [],
-    filteredEntries: [],
+    chunkedEntries: [],
+    currentSetEntries: [],
+    visibleEntries: [],
     chunkIndex: 0,
     hideMeaning: false,
+    listExpanded: true,
     search: "",
-    checked: {}
+    checked: {},
+    sessionActive: false,
+    reviewMode: false,
+    showMeaning: false,
+    sessionQueue: [],
+    unknownPool: [],
+    sessionIndex: 0
   };
 
   function loadChecked() {
     try {
-      state.checked = JSON.parse(localStorage.getItem(doneStorageKey) || "{}");
+      state.checked = JSON.parse(localStorage.getItem(checkedStorageKey) || "{}");
     } catch (error) {
       state.checked = {};
     }
   }
 
   function saveChecked() {
-    localStorage.setItem(doneStorageKey, JSON.stringify(state.checked));
+    localStorage.setItem(checkedStorageKey, JSON.stringify(state.checked));
   }
 
   function loadUiState() {
@@ -393,9 +419,12 @@ if (toeicVocabApp) {
       const saved = JSON.parse(localStorage.getItem(uiStorageKey) || "{}");
       if (typeof saved.chunkIndex === "number") state.chunkIndex = saved.chunkIndex;
       if (typeof saved.hideMeaning === "boolean") state.hideMeaning = saved.hideMeaning;
+      if (typeof saved.listExpanded === "boolean") state.listExpanded = saved.listExpanded;
       if (typeof saved.search === "string") state.search = saved.search;
     } catch (error) {
       state.chunkIndex = 0;
+      state.hideMeaning = false;
+      state.search = "";
     }
   }
 
@@ -403,81 +432,98 @@ if (toeicVocabApp) {
     localStorage.setItem(uiStorageKey, JSON.stringify({
       chunkIndex: state.chunkIndex,
       hideMeaning: state.hideMeaning,
+      listExpanded: state.listExpanded,
       search: state.search
     }));
   }
 
+  function buildChunks(entries) {
+    const chunks = [];
+    for (let index = 0; index < entries.length; index += chunkSize) {
+      chunks.push(entries.slice(index, index + chunkSize));
+    }
+    return chunks;
+  }
+
   function getTotalChunks() {
-    return Math.max(1, Math.ceil(state.filteredEntries.length / chunkSize));
+    return state.chunkedEntries.length;
   }
 
-  function getCurrentEntries() {
-    const start = state.chunkIndex * chunkSize;
-    return state.filteredEntries.slice(start, start + chunkSize);
+  function getCurrentChunk() {
+    return state.chunkedEntries[state.chunkIndex] || [];
   }
 
-  function applyFilter() {
+  function applyCurrentSetFilter() {
     const keyword = state.search.trim().toLowerCase();
+    state.currentSetEntries = getCurrentChunk();
+
     if (!keyword) {
-      state.filteredEntries = [...state.allEntries];
+      state.visibleEntries = [...state.currentSetEntries];
     } else {
-      state.filteredEntries = state.allEntries.filter((entry) => {
+      state.visibleEntries = state.currentSetEntries.filter((entry) => {
         return entry.term.toLowerCase().includes(keyword)
           || entry.detail.toLowerCase().includes(keyword)
           || String(entry.source_day).includes(keyword);
       });
     }
 
-    if (state.chunkIndex >= getTotalChunks()) {
-      state.chunkIndex = 0;
-    }
     saveUiState();
-    renderToeicDeck();
+    renderSetBrowser();
+  }
+
+  function updateListVisibility() {
+    if (setListPanel) {
+      setListPanel.hidden = !state.listExpanded;
+    }
+    if (toggleListBtn instanceof HTMLButtonElement) {
+      toggleListBtn.textContent = state.listExpanded ? "접기" : "펼치기";
+      toggleListBtn.setAttribute("aria-expanded", String(state.listExpanded));
+    }
   }
 
   function renderChunkOptions() {
-    const totalChunks = getTotalChunks();
     chunkSelect.innerHTML = "";
-
-    for (let index = 0; index < totalChunks; index += 1) {
+    state.chunkedEntries.forEach((entries, index) => {
       const start = index * chunkSize + 1;
-      const end = Math.min((index + 1) * chunkSize, state.filteredEntries.length);
+      const end = start + entries.length - 1;
       const option = document.createElement("option");
       option.value = String(index);
       option.textContent = `세트 ${String(index + 1).padStart(2, "0")} · ${start}-${end}`;
       chunkSelect.appendChild(option);
-    }
-
+    });
     chunkSelect.value = String(state.chunkIndex);
   }
 
-  function renderToeicDeck() {
-    const currentEntries = getCurrentEntries();
-    const totalChunks = getTotalChunks();
+  function renderSetBrowser() {
     const total = state.allEntries.length;
-    const filteredTotal = state.filteredEntries.length;
+    const totalChunkCount = getTotalChunks();
+    const currentEntries = getCurrentChunk();
+    const visibleEntries = state.visibleEntries;
+    const start = currentEntries.length ? state.chunkIndex * chunkSize + 1 : 0;
+    const end = currentEntries.length ? start + currentEntries.length - 1 : 0;
 
     renderChunkOptions();
 
     totalWords.textContent = total.toLocaleString("ko-KR");
-    searchCount.textContent = filteredTotal.toLocaleString("ko-KR");
-    currentSet.textContent = `${String(state.chunkIndex + 1).padStart(2, "0")} / ${String(totalChunks).padStart(2, "0")}`;
-
-    const start = currentEntries.length ? state.chunkIndex * chunkSize + 1 : 0;
-    const end = currentEntries.length ? state.chunkIndex * chunkSize + currentEntries.length : 0;
+    totalSets.textContent = String(totalChunkCount).padStart(2, "0");
+    currentSet.textContent = `${String(state.chunkIndex + 1).padStart(2, "0")} / ${String(totalChunkCount).padStart(2, "0")}`;
     currentRange.textContent = currentEntries.length ? `${start} - ${end}` : "0 - 0";
-    deckSummary.textContent = state.hideMeaning ? "뜻 가리기 켜짐" : "뜻 보기";
+    deckSummary.textContent = state.sessionActive ? "학습 진행 중" : "세트 탐색 중";
+    searchCount.textContent = `${visibleEntries.length}개 표시 중`;
     setDescription.textContent = currentEntries.length
-      ? `현재 세트는 ${start}번부터 ${end}번까지입니다. 검색하면 결과 기준으로 다시 100개씩 나뉩니다.`
-      : "검색 결과가 없어서 표시할 단어가 없습니다.";
+      ? `현재 세트는 전체 ${total.toLocaleString("ko-KR")}개 단어 중 ${start}번부터 ${end}번까지입니다. 검색은 현재 세트 안에서만 적용됩니다.`
+      : "표시할 세트가 없습니다.";
+
+    updateListVisibility();
 
     prevBtn.disabled = state.chunkIndex === 0;
-    nextBtn.disabled = state.chunkIndex >= totalChunks - 1;
+    nextBtn.disabled = state.chunkIndex >= totalChunkCount - 1;
 
     vocabGrid.innerHTML = "";
-    emptyState.hidden = currentEntries.length > 0;
+    emptyState.hidden = visibleEntries.length > 0;
 
-    currentEntries.forEach((entry, offset) => {
+    visibleEntries.forEach((entry) => {
+      const absoluteIndex = state.chunkIndex * chunkSize + (entry.source_order_in_set || 0);
       const card = document.createElement("article");
       card.className = "toeic-vocab-card";
 
@@ -486,7 +532,7 @@ if (toeicVocabApp) {
 
       const indexPill = document.createElement("span");
       indexPill.className = "toeic-vocab-index";
-      indexPill.textContent = String(start + offset).padStart(4, "0");
+      indexPill.textContent = String(absoluteIndex || entry.absolute_index || 0).padStart(4, "0");
 
       const checkBtn = document.createElement("button");
       checkBtn.type = "button";
@@ -498,7 +544,7 @@ if (toeicVocabApp) {
       checkBtn.addEventListener("click", () => {
         state.checked[entry.id] = !state.checked[entry.id];
         saveChecked();
-        renderToeicDeck();
+        renderSetBrowser();
       });
 
       top.appendChild(indexPill);
@@ -517,7 +563,6 @@ if (toeicVocabApp) {
       const dayChip = document.createElement("span");
       dayChip.className = "day-chip";
       dayChip.textContent = `Source Day ${String(entry.source_day).padStart(2, "0")} · ${entry.source_index}`;
-
       meta.appendChild(dayChip);
 
       card.appendChild(top);
@@ -528,78 +573,231 @@ if (toeicVocabApp) {
     });
   }
 
+  function randomizeEntries(entries) {
+    const copy = [...entries];
+    for (let index = copy.length - 1; index > 0; index -= 1) {
+      const swapIndex = Math.floor(Math.random() * (index + 1));
+      [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
+    }
+    return copy;
+  }
+
+  function updateSessionCard() {
+    if (!state.sessionActive || !state.sessionQueue.length) return;
+    const entry = state.sessionQueue[state.sessionIndex];
+
+    roundLabel.textContent = state.reviewMode ? "복습 라운드" : "학습 라운드";
+    studyProgress.textContent = `${state.sessionIndex + 1} / ${state.sessionQueue.length}`;
+    unknownCount.textContent = `모르는 단어 ${state.unknownPool.length}개`;
+    studyWordIndex.textContent = `#${String((state.chunkIndex * chunkSize) + state.sessionIndex + 1).padStart(4, "0")}`;
+    studyTerm.textContent = entry.term;
+    studyMeaning.textContent = state.showMeaning ? entry.detail : "뜻 보기 버튼을 눌러주세요.";
+    studyMeaning.classList.toggle("is-hidden", !state.showMeaning);
+    studySource.textContent = `Source Day ${String(entry.source_day).padStart(2, "0")} · ${entry.source_index}`;
+    revealMeaningBtn.textContent = state.showMeaning ? "뜻 숨기기" : "뜻 보기";
+  }
+
+  function openSession() {
+    state.sessionActive = true;
+    state.reviewMode = false;
+    state.showMeaning = false;
+    state.sessionIndex = 0;
+    state.unknownPool = [];
+    state.sessionQueue = randomizeEntries(getCurrentChunk());
+    sessionPanel.hidden = false;
+    updateSessionCard();
+    deckSummary.textContent = "학습 진행 중";
+  }
+
+  function closeSession(message) {
+    state.sessionActive = false;
+    state.reviewMode = false;
+    state.showMeaning = false;
+    state.sessionIndex = 0;
+    state.sessionQueue = [];
+    state.unknownPool = [];
+    sessionPanel.hidden = true;
+    deckSummary.textContent = "세트 탐색 중";
+    if (message) {
+      window.alert(message);
+    }
+  }
+
+  function startReviewRound() {
+    state.reviewMode = true;
+    state.showMeaning = false;
+    state.sessionIndex = 0;
+    state.sessionQueue = randomizeEntries(state.unknownPool);
+    updateSessionCard();
+  }
+
+  function moveNext() {
+    if (state.sessionIndex < state.sessionQueue.length - 1) {
+      state.sessionIndex += 1;
+      state.showMeaning = false;
+      updateSessionCard();
+      return;
+    }
+
+    if (!state.reviewMode) {
+      if (!state.unknownPool.length) {
+        closeSession("수고하셨습니다. 현재 세트 학습이 끝났습니다.");
+      } else {
+        startReviewRound();
+      }
+      return;
+    }
+
+    if (!state.unknownPool.length) {
+      closeSession("수고하셨습니다. 현재 세트 복습까지 끝났습니다.");
+    } else {
+      startReviewRound();
+    }
+  }
+
+  function markKnown() {
+    if (!state.sessionActive) return;
+    const current = state.sessionQueue[state.sessionIndex];
+    state.checked[current.id] = true;
+    saveChecked();
+    if (state.reviewMode) {
+      state.unknownPool = state.unknownPool.filter((item) => item.id !== current.id);
+    }
+    renderSetBrowser();
+    moveNext();
+  }
+
+  function markUnknown() {
+    if (!state.sessionActive) return;
+    const current = state.sessionQueue[state.sessionIndex];
+    if (!state.reviewMode && !state.unknownPool.some((item) => item.id === current.id)) {
+      state.unknownPool.push(current);
+    }
+    renderSetBrowser();
+    moveNext();
+  }
+
   chunkSelect?.addEventListener("change", (event) => {
     const target = event.target;
     if (!(target instanceof HTMLSelectElement)) return;
     state.chunkIndex = Number(target.value);
+    state.search = "";
+    if (searchInput instanceof HTMLInputElement) {
+      searchInput.value = "";
+    }
     saveUiState();
-    renderToeicDeck();
+    applyCurrentSetFilter();
+    if (state.sessionActive) {
+      closeSession();
+    }
   });
 
   searchInput?.addEventListener("input", (event) => {
     const target = event.target;
     if (!(target instanceof HTMLInputElement)) return;
     state.search = target.value;
-    state.chunkIndex = 0;
     saveUiState();
-    applyFilter();
+    applyCurrentSetFilter();
   });
 
   prevBtn?.addEventListener("click", () => {
     if (state.chunkIndex > 0) {
       state.chunkIndex -= 1;
+      state.search = "";
+      if (searchInput instanceof HTMLInputElement) searchInput.value = "";
       saveUiState();
-      renderToeicDeck();
+      applyCurrentSetFilter();
+      if (state.sessionActive) closeSession();
     }
   });
 
   nextBtn?.addEventListener("click", () => {
     if (state.chunkIndex < getTotalChunks() - 1) {
       state.chunkIndex += 1;
+      state.search = "";
+      if (searchInput instanceof HTMLInputElement) searchInput.value = "";
       saveUiState();
-      renderToeicDeck();
+      applyCurrentSetFilter();
+      if (state.sessionActive) closeSession();
     }
+  });
+
+  toggleListBtn?.addEventListener("click", () => {
+    state.listExpanded = !state.listExpanded;
+    saveUiState();
+    updateListVisibility();
+  });
+
+  startStudyBtn?.addEventListener("click", () => {
+    openSession();
   });
 
   toggleMeaningBtn?.addEventListener("click", () => {
     state.hideMeaning = !state.hideMeaning;
     toggleMeaningBtn.textContent = state.hideMeaning ? "뜻 보기" : "뜻 가리기";
     saveUiState();
-    renderToeicDeck();
+    renderSetBrowser();
   });
 
-  clearSearchBtn?.addEventListener("click", () => {
-    state.search = "";
-    state.chunkIndex = 0;
-    if (searchInput instanceof HTMLInputElement) {
-      searchInput.value = "";
+  clearCheckedBtn?.addEventListener("click", () => {
+    if (Object.keys(state.checked).length === 0) {
+      alert("체크된 단어가 없습니다.");
+      return;
     }
-    saveUiState();
-    applyFilter();
+    if (confirm("체크해둔 모든 단어(전체 세트)를 일괄 해제하시겠습니까?")) {
+      state.checked = {};
+      saveChecked();
+      renderSetBrowser();
+    }
+  });
+
+  revealMeaningBtn?.addEventListener("click", () => {
+    state.showMeaning = !state.showMeaning;
+    updateSessionCard();
+  });
+
+  knowBtn?.addEventListener("click", markKnown);
+  dontKnowBtn?.addEventListener("click", markUnknown);
+  endSessionBtn?.addEventListener("click", () => {
+    closeSession();
   });
 
   loadChecked();
   loadUiState();
+  updateListVisibility();
 
   const data = window.__TOEIC_VOCAB_DATA;
 
   if (data && Array.isArray(data.entries)) {
-    state.allEntries = data.entries;
-    state.filteredEntries = [...state.allEntries];
+    state.allEntries = data.entries.map((entry, index) => ({
+      ...entry,
+      absolute_index: index + 1
+    }));
+    state.chunkedEntries = buildChunks(state.allEntries).map((chunk) => {
+      return chunk.map((entry, index) => ({
+        ...entry,
+        source_order_in_set: index + 1
+      }));
+    });
+
+    if (state.chunkIndex >= getTotalChunks()) {
+      state.chunkIndex = 0;
+    }
 
     if (searchInput instanceof HTMLInputElement) {
       searchInput.value = state.search;
     }
     toggleMeaningBtn.textContent = state.hideMeaning ? "뜻 보기" : "뜻 가리기";
 
-    applyFilter();
+    applyCurrentSetFilter();
   } else {
     deckSummary.textContent = "불러오기 실패";
     setDescription.textContent = "단어장 데이터 파일을 읽지 못했습니다.";
     totalWords.textContent = "0";
+    totalSets.textContent = "0";
     currentSet.textContent = "-";
     currentRange.textContent = "-";
-    searchCount.textContent = "0";
+    searchCount.textContent = "0개";
     emptyState.hidden = false;
     emptyState.textContent = "데이터를 불러오지 못했습니다.";
   }
