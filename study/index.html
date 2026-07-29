@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="영어, IT, HVAC 공부 페이지를 선택하는 bso.name 개인 학습 허브" />
+  <title>Study Hub | bso.name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <nav class="topbar" aria-label="상단 메뉴">
+      <a class="brand" href="/">bso.name</a>
+      <span class="path-label">/study</span>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="pageTitle">
+      <div class="hero-copy">
+        <p class="eyebrow">PERSONAL STUDY SPACE</p>
+        <h1 id="pageTitle">오늘은 무엇을<br />공부할까요?</h1>
+        <p>
+          영어, IT 인프라, HVAC 학습 페이지를 한곳에서 선택합니다.
+          각 분야의 기록과 문제풀이 기능은 서로 독립적으로 운영됩니다.
+        </p>
+      </div>
+      <div class="hero-mark" aria-hidden="true">
+        <span>STUDY</span>
+        <strong>03</strong>
+        <small>LEARNING TRACKS</small>
+      </div>
+    </section>
+
+    <section class="track-section" aria-labelledby="trackTitle">
+      <div class="section-heading">
+        <div>
+          <p class="section-label">SELECT A TRACK</p>
+          <h2 id="trackTitle">학습 분야 선택</h2>
+        </div>
+        <p>카드를 누르면 해당 공부 공간으로 이동합니다.</p>
+      </div>
+
+      <div class="track-grid">
+        <a class="track-card english" href="./english/">
+          <div class="card-top">
+            <span class="track-number">01</span>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="track-icon" aria-hidden="true">Aa</div>
+          <p class="card-kicker">LANGUAGE</p>
+          <h3>영어 공부</h3>
+          <p class="card-description">
+            TOEIC, OPIc, 어휘, 기사 읽기와 월간·주간 학습 계획을 관리합니다.
+          </p>
+          <div class="tag-row" aria-label="영어 공부 구성">
+            <span>TOEIC</span><span>OPIc</span><span>Vocabulary</span>
+          </div>
+          <span class="card-path">bso.name/study/english</span>
+        </a>
+
+        <a class="track-card it" href="./IT/">
+          <div class="card-top">
+            <span class="track-number">02</span>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="track-icon terminal" aria-hidden="true">&gt;_</div>
+          <p class="card-kicker">INFRASTRUCTURE</p>
+          <h3>IT 공부</h3>
+          <p class="card-description">
+            Linux, 네트워크, 클라우드, 컨테이너와 자동화 학습 공간으로 확장합니다.
+          </p>
+          <div class="tag-row" aria-label="IT 공부 구성">
+            <span>Cloud</span><span>Kubernetes</span><span>IaC</span>
+          </div>
+          <span class="card-path">bso.name/study/IT</span>
+        </a>
+
+        <a class="track-card hvac" href="./HVAC/engicert/">
+          <div class="card-top">
+            <span class="track-number">03</span>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="track-icon fan" aria-hidden="true"><span></span></div>
+          <p class="card-kicker">MECHANICAL ENGINEERING</p>
+          <h3>HVAC 공부</h3>
+          <p class="card-description">
+            공조냉동기계기사 예상문제를 플래시카드와 모의고사로 학습합니다.
+          </p>
+          <div class="tag-row" aria-label="HVAC 공부 구성">
+            <span>기사시험</span><span>Flashcard</span><span>Mock Exam</span>
+          </div>
+          <span class="card-path">bso.name/study/HVAC/engicert</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="note-panel" aria-label="학습 허브 안내">
+      <div>
+        <p class="section-label">STRUCTURE</p>
+        <h2>분야별로 분리하고, 필요할 때 연결합니다.</h2>
+      </div>
+      <p>
+        이 페이지는 학습 공간으로 들어가는 입구입니다. 영어 기록, IT 학습 자료,
+        HVAC 이론과 자격시험 문제은행은 각각의 하위 경로에서 독립적으로 확장합니다.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Personal study hub · bso.name/study</p>
+  </footer>
+</body>
+</html>
