@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="공조냉동기계기사 필기 예상문제를 플래시카드와 모의고사 방식으로 학습하는 개인 문제은행" />
+  <title>공조냉동기계기사 문제은행 | bso.name</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <nav class="topbar" aria-label="페이지 상단">
+      <div class="brand">bso.name/study/HVAC/engicert</div>
+      <span class="status-pill">2025–2029 출제기준</span>
+    </nav>
+
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">HVAC ENGINEER CERTIFICATE</p>
+        <h1>공조냉동기계기사<br />예상문제 학습실</h1>
+        <p class="hero-copy">
+          필기 4과목의 핵심 예상문제를 플래시카드로 반복하거나,
+          제한시간이 있는 모의고사로 점검합니다.
+        </p>
+        <div class="hero-actions">
+          <button class="button primary" type="button" data-mode-target="flashcard">플래시카드 시작</button>
+          <button class="button secondary" type="button" data-mode-target="exam">모의고사 시작</button>
+        </div>
+      </div>
+
+      <aside class="hero-card">
+        <p class="mini-label">필기시험 구성</p>
+        <ol>
+          <li>에너지관리</li>
+          <li>공조냉동설계</li>
+          <li>시운전 및 안전관리</li>
+          <li>유지보수 공사관리</li>
+        </ol>
+        <p class="hero-note">각 과목 20문항 · 과목별 30분</p>
+      </aside>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="summary-grid" aria-label="학습 현황">
+      <article class="summary-card">
+        <span>문제은행</span>
+        <strong id="totalQuestionCount">0문제</strong>
+      </article>
+      <article class="summary-card">
+        <span>최근 정답률</span>
+        <strong id="recentAccuracy">기록 없음</strong>
+      </article>
+      <article class="summary-card">
+        <span>저장된 오답</span>
+        <strong id="savedWrongCount">0문제</strong>
+      </article>
+    </section>
+
+    <section class="mode-panel" aria-label="학습 방식 선택">
+      <div class="mode-tabs" role="tablist" aria-label="학습 방식">
+        <button id="flashcardTab" class="mode-tab active" type="button" role="tab" aria-selected="true" data-mode="flashcard">
+          플래시카드
+          <small>선택 즉시 채점</small>
+        </button>
+        <button id="examTab" class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="exam">
+          모의고사
+          <small>종료 후 일괄 채점</small>
+        </button>
+      </div>
+
+      <div id="flashcardSetup" class="setup-panel">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">FLASHCARD</p>
+            <h2>반복해서 개념 익히기</h2>
+          </div>
+          <p>문제를 선택하면 바로 정답 여부와 한 문장 해설이 표시됩니다.</p>
+        </div>
+
+        <div class="control-grid">
+          <label>
+            <span>과목</span>
+            <select id="flashSubject"></select>
+          </label>
+          <label>
+            <span>학습 범위</span>
+            <select id="flashRange">
+              <option value="10">무작위 10문제</option>
+              <option value="20">무작위 20문제</option>
+              <option value="all">선택 과목 전체</option>
+              <option value="wrong">저장된 오답만</option>
+            </select>
+          </label>
+          <label>
+            <span>문제 순서</span>
+            <select id="flashOrder">
+              <option value="random">무작위</option>
+              <option value="default">기본 순서</option>
+            </select>
+          </label>
+          <button id="startFlashcard" class="button primary control-button" type="button">학습 시작</button>
+        </div>
+      </div>
+
+      <div id="examSetup" class="setup-panel hidden">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">MOCK EXAM</p>
+            <h2>시간을 재며 실전처럼 풀기</h2>
+          </div>
+          <p>답안은 시험 종료 후 공개되며, 혼합형은 과목별 점수와 과락을 계산합니다.</p>
+        </div>
+
+        <div class="control-grid exam-controls">
+          <label>
+            <span>시험 범위</span>
+            <select id="examSubject"></select>
+          </label>
+          <label>
+            <span>문항 수</span>
+            <select id="examCount">
+              <option value="20">20문항 · 30분</option>
+              <option value="36">전체 36문항 · 54분</option>
+            </select>
+          </label>
+          <label class="check-label">
+            <input id="shuffleChoices" type="checkbox" checked />
+            <span>보기 순서 섞기</span>
+          </label>
+          <button id="startExam" class="button primary control-button" type="button">모의고사 시작</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="practiceArea" class="practice-panel hidden" aria-live="polite">
+      <div class="practice-toolbar">
+        <div>
+          <span id="practiceModeBadge" class="subject-badge">플래시카드</span>
+          <strong id="practiceSubjectLabel">전체 과목</strong>
+        </div>
+        <div class="toolbar-stats">
+          <span id="questionProgress">1 / 10</span>
+          <span id="scoreProgress">정답 0</span>
+          <span id="timerDisplay" class="timer hidden">30:00</span>
+        </div>
+      </div>
+
+      <div class="progress-track" aria-hidden="true">
+        <div id="progressBar" class="progress-value"></div>
+      </div>
+
+      <article class="question-card">
+        <div class="question-meta">
+          <span id="questionSubject" class="subject-badge"></span>
+          <span id="questionTopic"></span>
+        </div>
+        <h2 id="questionText"></h2>
+        <div id="choiceList" class="choice-list"></div>
+
+        <div id="instantFeedback" class="feedback hidden">
+          <strong id="feedbackTitle"></strong>
+          <p id="feedbackText"></p>
+          <a id="theoryLink" class="theory-link" href="#">관련 이론 보기 <span>↗</span></a>
+        </div>
+      </article>
+
+      <div class="question-navigation">
+        <button id="previousQuestion" class="button ghost" type="button">이전</button>
+        <button id="finishExam" class="button danger hidden" type="button">시험 종료</button>
+        <button id="nextQuestion" class="button primary" type="button">다음</button>
+      </div>
+
+      <div id="examPalette" class="exam-palette hidden" aria-label="문제 이동"></div>
+    </section>
+
+    <section id="resultArea" class="result-panel hidden" aria-live="polite">
+      <div class="result-header">
+        <div>
+          <p class="section-label">RESULT</p>
+          <h2 id="resultTitle">학습 결과</h2>
+          <p id="resultMessage"></p>
+        </div>
+        <div id="resultScore" class="score-ring">0점</div>
+      </div>
+
+      <div id="subjectScores" class="subject-score-grid"></div>
+
+      <div class="result-actions">
+        <button id="retryWrong" class="button primary" type="button">오답 다시 풀기</button>
+        <button id="restartPractice" class="button ghost" type="button">새 학습 시작</button>
+      </div>
+
+      <div class="review-heading">
+        <h3>문제별 검토</h3>
+        <button id="toggleReview" class="text-button" type="button">전체 펼치기</button>
+      </div>
+      <div id="reviewList" class="review-list"></div>
+    </section>
+
+    <section class="info-panel">
+      <div>
+        <p class="section-label">THEORY LINK</p>
+        <h2>문제와 이론을 같은 주제로 연결합니다</h2>
+        <p>
+          각 문제의 해설 아래 링크는 앞으로 작성할
+          <code>/study/HVAC/theory</code>의 해당 개념 앵커를 가리킵니다.
+          이론 페이지는 아직 생성하지 않았습니다.
+        </p>
+      </div>
+      <div class="path-card">
+        <span>문제은행</span>
+        <code>/study/HVAC/engicert</code>
+        <span>이론 노트 · 준비 중</span>
+        <code>/study/HVAC/theory</code>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Personal HVAC study tool · bso.name/study/HVAC/engicert</p>
+  </footer>
+
+  <script src="./questions.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
