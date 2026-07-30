@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="공조냉동기계기사 문제풀이와 향후 HVAC 이론 학습 자료를 연결하는 bso.name HVAC 학습 허브" />
+  <title>HVAC Study | bso.name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    .hvac-main {
+      min-height: calc(100vh - 150px);
+      padding: 72px 0 64px;
+    }
+    .hvac-heading {
+      max-width: 760px;
+      margin-bottom: 36px;
+    }
+    .hvac-heading h1 {
+      margin: 14px 0 20px;
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 0.98;
+      letter-spacing: -0.07em;
+    }
+    .hvac-heading > p:not(.eyebrow) {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.04rem;
+      line-height: 1.8;
+    }
+    .hvac-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .hvac-card {
+      min-height: 330px;
+      display: flex;
+      flex-direction: column;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.07);
+    }
+    a.hvac-card {
+      transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    }
+    a.hvac-card:hover,
+    a.hvac-card:focus-visible {
+      transform: translateY(-6px);
+      border-color: #67e8f9;
+      box-shadow: 0 28px 70px rgba(15,23,42,0.14);
+      outline: none;
+    }
+    .hvac-card .card-top {
+      margin-bottom: 46px;
+    }
+    .hvac-card h2 {
+      margin: 10px 0 14px;
+      font-size: 2rem;
+      letter-spacing: -0.05em;
+    }
+    .hvac-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .hvac-card .tag-row {
+      margin-top: 22px;
+    }
+    .hvac-card .card-path {
+      display: block;
+      margin-top: auto;
+    }
+    .hvac-card.active .card-kicker { color: #0891b2; }
+    .hvac-card.active .arrow,
+    .hvac-card.active .tag-row span { color: #0e7490; background: #e6f8fb; }
+    .hvac-card.coming {
+      background: rgba(248,250,252,0.82);
+      border-style: dashed;
+    }
+    .hvac-card.coming .card-kicker { color: #64748b; }
+    .coming-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 0 11px;
+      border-radius: 999px;
+      color: #475569;
+      background: #e2e8f0;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+    .back-row {
+      margin-top: 28px;
+    }
+    @media (max-width: 760px) {
+      .hvac-main { padding-top: 54px; }
+      .hvac-grid { grid-template-columns: 1fr; }
+      .hvac-card { min-height: 310px; border-radius: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="topbar" aria-label="상단 메뉴">
+      <a class="brand" href="/study/">bso.name/study</a>
+      <span class="path-label">/HVAC</span>
+    </nav>
+  </header>
+
+  <main class="hvac-main">
+    <section class="hvac-heading" aria-labelledby="pageTitle">
+      <p class="eyebrow">HVAC STUDY SPACE</p>
+      <h1 id="pageTitle">HVAC 공부</h1>
+      <p>
+        공조냉동기계기사 문제풀이와 HVAC 이론 정리를 분리해 운영합니다.
+        현재는 기사시험 문제은행을 이용할 수 있으며, 이론 페이지는 이후 추가할 예정입니다.
+      </p>
+    </section>
+
+    <section class="hvac-grid" aria-label="HVAC 학습 메뉴">
+      <a class="hvac-card active" href="./engicert/">
+        <div class="card-top">
+          <span class="track-number">01</span>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </div>
+        <p class="card-kicker">ENGINEER CERTIFICATE</p>
+        <h2>공조냉동기계기사</h2>
+        <p>예상문제를 플래시카드로 반복하고, 제한시간이 있는 모의고사로 실력을 점검합니다.</p>
+        <div class="tag-row" aria-label="기사시험 학습 기능">
+          <span>예상문제</span><span>Flashcard</span><span>Mock Exam</span>
+        </div>
+        <span class="card-path">bso.name/study/HVAC/engicert</span>
+      </a>
+
+      <article class="hvac-card coming" aria-label="HVAC 이론 페이지 준비 중">
+        <div class="card-top">
+          <span class="track-number">02</span>
+          <span class="coming-badge">준비 중</span>
+        </div>
+        <p class="card-kicker">THEORY NOTES</p>
+        <h2>HVAC 이론</h2>
+        <p>열역학, 냉동공학, 공기조화, 배관, 전기·제어 등 문제와 연결되는 이론을 정리할 공간입니다.</p>
+        <div class="tag-row" aria-label="예정된 이론 분야">
+          <span>Thermodynamics</span><span>Refrigeration</span><span>Piping</span>
+        </div>
+        <span class="card-path">bso.name/study/HVAC/theory · 추후 작성</span>
+      </article>
+    </section>
+
+    <div class="back-row">
+      <a class="button secondary" href="/study/">학습 분야 선택으로 돌아가기</a>
+    </div>
+  </main>
+
+  <footer>
+    <p>HVAC study hub · bso.name/study/HVAC</p>
+  </footer>
+</body>
+</html>
