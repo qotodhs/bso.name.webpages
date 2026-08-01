@@ -1,5 +1,5 @@
 // 공조냉동기계기사 문제은행 로더
-// 업로드한 Anki 덱을 과목별 데이터 파일로 나누어 동기식으로 불러옵니다.
+// 문제 데이터는 과목별 파일로 나누고, 이 파일을 불러온 페이지의 위치와 관계없이 동작합니다.
 window.HVAC_QUESTION_BANK = [];
 window.HVAC_SUBJECTS = {
   all: { label: "전체 과목", short: "전체" },
@@ -11,8 +11,16 @@ window.HVAC_SUBJECTS = {
   ncs: { label: "6과목 NCS 학습모듈 (심화)", short: "NCS 모듈" }
 };
 
+const questionLoaderScript = document.currentScript;
+const questionDataBase = new URL("./question-data/", questionLoaderScript.src);
+const theoryBase = new URL("../theory/", questionLoaderScript.src);
+
 window.addHVACQuestions = (subject, rows) => {
   rows.forEach(([id, topic, question, choices, answer, explanation]) => {
+    const theoryUrl = new URL(theoryBase);
+    theoryUrl.searchParams.set("subject", subject);
+    theoryUrl.searchParams.set("topic", topic);
+
     window.HVAC_QUESTION_BANK.push({
       id,
       subject,
@@ -21,22 +29,25 @@ window.addHVACQuestions = (subject, rows) => {
       choices,
       answer,
       explanation,
-      theory: "../theory/"
+      theory: theoryUrl.href
     });
   });
 };
 
 [
-  "./question-data/01-energy.js",
-  "./question-data/02-design.js",
-  "./question-data/03-safety.js",
-  "./question-data/04-maint-00-core.js",
-  "./question-data/04-maint-01-materials.js",
-  "./question-data/04-maint-02-support.js",
-  "./question-data/04-maint-03-water.js",
-  "./question-data/04-maint-04-heating.js",
-  "./question-data/04-maint-05-refrigeration.js",
-  "./question-data/04-maint-06-management.js",
-  "./question-data/05-law.js",
-  "./question-data/06-ncs.js"
-].forEach((src) => document.write(`<script src="${src}"><\/script>`));
+  "01-energy.js",
+  "02-design.js",
+  "03-safety.js",
+  "04-maint-00-core.js",
+  "04-maint-01-materials.js",
+  "04-maint-02-support.js",
+  "04-maint-03-water.js",
+  "04-maint-04-heating.js",
+  "04-maint-05-refrigeration.js",
+  "04-maint-06-management.js",
+  "05-law.js",
+  "06-ncs.js"
+].forEach((filename) => {
+  const src = new URL(filename, questionDataBase).href;
+  document.write(`<script src="${src}"><\/script>`);
+});
