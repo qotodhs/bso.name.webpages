@@ -3,21 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="공조냉동기계기사 문제풀이와 향후 HVAC 이론 학습 자료를 연결하는 bso.name HVAC 학습 허브" />
+  <meta name="description" content="공조냉동기계기사 문제은행, HVAC 이론 노트와 오답노트를 연결하는 bso.name HVAC 학습 허브" />
   <title>HVAC Study | bso.name</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../styles.css" />
   <style>
-    .hvac-main {
-      min-height: calc(100vh - 150px);
-      padding: 72px 0 64px;
-    }
-    .hvac-heading {
-      max-width: 760px;
-      margin-bottom: 36px;
-    }
+    .hvac-main { min-height: calc(100vh - 150px); padding: 72px 0 64px; }
+    .hvac-heading { max-width: 790px; margin-bottom: 36px; }
     .hvac-heading h1 {
       margin: 14px 0 20px;
       font-size: clamp(3rem, 8vw, 6rem);
@@ -32,75 +26,51 @@
     }
     .hvac-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
     }
     .hvac-card {
-      min-height: 330px;
+      --card-color: #0891b2;
+      --card-soft: #e6f8fb;
+      min-height: 360px;
       display: flex;
       flex-direction: column;
-      padding: 28px;
+      padding: 26px;
       border: 1px solid var(--line);
       border-radius: 28px;
       background: rgba(255,255,255,0.95);
       box-shadow: 0 18px 40px rgba(15,23,42,0.07);
-    }
-    a.hvac-card {
       transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
     }
-    a.hvac-card:hover,
-    a.hvac-card:focus-visible {
+    .hvac-card:hover,
+    .hvac-card:focus-visible {
       transform: translateY(-6px);
-      border-color: #67e8f9;
+      border-color: var(--card-color);
       box-shadow: 0 28px 70px rgba(15,23,42,0.14);
       outline: none;
     }
-    .hvac-card .card-top {
-      margin-bottom: 46px;
-    }
+    .hvac-card.theory { --card-color: #0f766e; --card-soft: #e6fffb; }
+    .hvac-card.wrongnote { --card-color: #b42318; --card-soft: #fff1f0; }
+    .hvac-card .card-top { margin-bottom: 42px; }
     .hvac-card h2 {
       margin: 10px 0 14px;
-      font-size: 2rem;
+      font-size: 1.85rem;
       letter-spacing: -0.05em;
     }
-    .hvac-card p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.75;
+    .hvac-card p { margin: 0; color: var(--muted); line-height: 1.75; }
+    .hvac-card .card-kicker { color: var(--card-color); }
+    .hvac-card .arrow,
+    .hvac-card .tag-row span { color: var(--card-color); background: var(--card-soft); }
+    .hvac-card .tag-row { margin-top: 22px; }
+    .hvac-card .card-path { display: block; margin-top: auto; padding-top: 28px; }
+    .back-row { margin-top: 28px; }
+    @media (max-width: 980px) {
+      .hvac-grid { grid-template-columns: 1fr 1fr; }
     }
-    .hvac-card .tag-row {
-      margin-top: 22px;
-    }
-    .hvac-card .card-path {
-      display: block;
-      margin-top: auto;
-    }
-    .hvac-card.active .card-kicker { color: #0891b2; }
-    .hvac-card.active .arrow,
-    .hvac-card.active .tag-row span { color: #0e7490; background: #e6f8fb; }
-    .hvac-card.coming {
-      background: rgba(248,250,252,0.82);
-      border-style: dashed;
-    }
-    .hvac-card.coming .card-kicker { color: #64748b; }
-    .coming-badge {
-      display: inline-flex;
-      align-items: center;
-      min-height: 32px;
-      padding: 0 11px;
-      border-radius: 999px;
-      color: #475569;
-      background: #e2e8f0;
-      font-size: 0.75rem;
-      font-weight: 800;
-    }
-    .back-row {
-      margin-top: 28px;
-    }
-    @media (max-width: 760px) {
+    @media (max-width: 700px) {
       .hvac-main { padding-top: 54px; }
       .hvac-grid { grid-template-columns: 1fr; }
-      .hvac-card { min-height: 310px; border-radius: 24px; }
+      .hvac-card { min-height: 320px; border-radius: 24px; }
     }
   </style>
 </head>
@@ -117,13 +87,13 @@
       <p class="eyebrow">HVAC STUDY SPACE</p>
       <h1 id="pageTitle">HVAC 공부</h1>
       <p>
-        공조냉동기계기사 문제풀이와 HVAC 이론 정리를 분리해 운영합니다.
-        현재는 기사시험 문제은행을 이용할 수 있으며, 이론 페이지는 이후 추가할 예정입니다.
+        예상문제를 풀고, 연결된 이론을 확인하고, 틀린 문제를 오답노트에서 반복합니다.
+        세 공간은 같은 문제은행과 브라우저 학습 기록을 공유합니다.
       </p>
     </section>
 
     <section class="hvac-grid" aria-label="HVAC 학습 메뉴">
-      <a class="hvac-card active" href="./engicert/">
+      <a class="hvac-card" href="./engicert/">
         <div class="card-top">
           <span class="track-number">01</span>
           <span class="arrow" aria-hidden="true">↗</span>
@@ -137,19 +107,33 @@
         <span class="card-path">bso.name/study/HVAC/engicert</span>
       </a>
 
-      <article class="hvac-card coming" aria-label="HVAC 이론 페이지 준비 중">
+      <a class="hvac-card theory" href="./theory/">
         <div class="card-top">
           <span class="track-number">02</span>
-          <span class="coming-badge">준비 중</span>
+          <span class="arrow" aria-hidden="true">↗</span>
         </div>
         <p class="card-kicker">THEORY NOTES</p>
         <h2>HVAC 이론</h2>
-        <p>열역학, 냉동공학, 공기조화, 배관, 전기·제어 등 문제와 연결되는 이론을 정리할 공간입니다.</p>
-        <div class="tag-row" aria-label="예정된 이론 분야">
-          <span>Thermodynamics</span><span>Refrigeration</span><span>Piping</span>
+        <p>문제은행의 주제와 해설을 과목별 핵심 이론으로 묶고, 주제마다 개인 메모를 저장합니다.</p>
+        <div class="tag-row" aria-label="HVAC 이론 기능">
+          <span>Topic Notes</span><span>Search</span><span>Personal Memo</span>
         </div>
-        <span class="card-path">bso.name/study/HVAC/theory · 추후 작성</span>
-      </article>
+        <span class="card-path">bso.name/study/HVAC/theory</span>
+      </a>
+
+      <a class="hvac-card wrongnote" href="./wrongnote/">
+        <div class="card-top">
+          <span class="track-number">03</span>
+          <span class="arrow" aria-hidden="true">↗</span>
+        </div>
+        <p class="card-kicker">WRONG ANSWER NOTE</p>
+        <h2>오답노트</h2>
+        <p>틀린 문제를 자동으로 모아 다시 채점하고, 오답 원인을 기록한 뒤 정복 처리합니다.</p>
+        <div class="tag-row" aria-label="오답노트 기능">
+          <span>Retry</span><span>Explanation</span><span>Mastered</span>
+        </div>
+        <span class="card-path">bso.name/study/HVAC/wrongnote</span>
+      </a>
     </section>
 
     <div class="back-row">
