@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="공조냉동기계기사 문제은행에서 저장된 오답을 복습하는 오답노트" />
+  <title>공조냉동기계기사 오답노트 | bso.name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <nav class="topbar" aria-label="상단 메뉴">
+      <a class="brand" href="../">bso.name/study/HVAC</a>
+      <div class="top-links">
+        <a href="../engicert/">문제은행</a>
+        <a href="../theory/">이론 노트</a>
+      </div>
+    </nav>
+
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">WRONG ANSWER NOTE</p>
+        <h1>틀린 문제를<br />다시 내 것으로</h1>
+        <p class="hero-copy">
+          플래시카드와 모의고사에서 틀린 문제가 자동으로 모입니다.
+          답을 다시 선택해 채점하고, 개인 메모를 남긴 뒤 정복 처리할 수 있습니다.
+        </p>
+      </div>
+      <aside class="hero-card">
+        <span>저장된 오답</span>
+        <strong id="wrongCount">0문제</strong>
+        <p id="subjectCount">0개 과목</p>
+      </aside>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="control-panel" aria-label="오답 필터">
+      <label>
+        <span>과목</span>
+        <select id="subjectFilter"></select>
+      </label>
+      <label class="search-field">
+        <span>문제·주제 검색</span>
+        <input id="searchInput" type="search" placeholder="예: 펌프, 냉매, 트랩" />
+      </label>
+      <label>
+        <span>정렬</span>
+        <select id="sortOrder">
+          <option value="subject">과목·주제순</option>
+          <option value="recent">최근 저장순</option>
+          <option value="random">무작위</option>
+        </select>
+      </label>
+      <button id="clearAll" class="button danger" type="button">오답 전체 비우기</button>
+    </section>
+
+    <section class="guide-panel">
+      <div>
+        <p class="section-label">REVIEW LOOP</p>
+        <h2>다시 풀고, 설명하고, 정복 처리하기</h2>
+      </div>
+      <p>보기 하나를 선택하면 즉시 채점됩니다. 맞혔더라도 ‘정복 처리’를 눌러야 오답 목록에서 제거됩니다.</p>
+    </section>
+
+    <section id="wrongList" class="wrong-list" aria-live="polite"></section>
+
+    <section id="emptyState" class="empty-state hidden">
+      <div class="empty-icon">✓</div>
+      <h2>저장된 오답이 없습니다.</h2>
+      <p>문제은행에서 플래시카드나 모의고사를 풀면 틀린 문제가 이곳에 자동 저장됩니다.</p>
+      <a class="button primary" href="../engicert/">문제 풀러 가기</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>HVAC wrong answer note · bso.name/study/HVAC/wrongnote</p>
+  </footer>
+
+  <script src="../engicert/questions.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
