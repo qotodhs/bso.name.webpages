@@ -315,6 +315,66 @@ footer p {
   font-weight: 800;
 }
 
+.exam-subject-picker {
+  margin: 24px 0 0;
+  padding: 15px 16px 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fbfdfd;
+}
+
+.exam-subject-picker legend {
+  padding: 0 7px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.subject-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.subject-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 11px 12px;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.subject-checkbox:has(input:checked) {
+  color: var(--teal-dark);
+  border-color: rgba(15, 118, 110, 0.45);
+  background: #effaf8;
+}
+
+.subject-checkbox input {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  accent-color: var(--teal);
+}
+
+.exam-selection-summary {
+  display: block;
+  margin-top: 10px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.exam-controls {
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.2fr) minmax(180px, 0.8fr) auto;
+}
+
 select {
   width: 100%;
   padding: 10px 42px 10px 13px;
@@ -793,6 +853,10 @@ footer p {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .subject-checkboxes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .subject-score-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -824,6 +888,7 @@ footer p {
   .summary-grid,
   .mode-tabs,
   .control-grid,
+  .subject-checkboxes,
   .subject-score-grid {
     grid-template-columns: 1fr;
   }

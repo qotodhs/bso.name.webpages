@@ -43,6 +43,16 @@ const appElementIds = new Set([...appSource.matchAll(/\$\("([^"]+)"\)/g)].map((m
 const htmlElementIds = new Set([...htmlSource.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]));
 const missingElementIds = [...appElementIds].filter((id) => !htmlElementIds.has(id));
 for (const id of missingElementIds) failures.push(`missing HTML element: ${id}`);
+if (!/<option value="40">무작위 40문제<\/option>/.test(htmlSource)) {
+  failures.push("missing 40-question flashcard option");
+}
+if (!appSource.includes('const EXAM_COUNT_MODES = ["10", "20", "40", "all", "wrong"]')) {
+  failures.push("missing exam count modes");
+}
+if (!appSource.includes('const EXAM_SUBJECT_KEYS = ["energy", "design", "safety", "maintenance"]')) {
+  failures.push("missing exam subject keys");
+}
+if (!htmlElementIds.has("examSubjects")) failures.push("missing exam subject checkbox group");
 
 for (const question of questions) {
   if (ids.has(question.id)) failures.push(`duplicate id: ${question.id}`);

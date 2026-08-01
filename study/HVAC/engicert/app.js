@@ -8,6 +8,8 @@
     wrong: "bso-hvac-engicert-wrong-v1",
     recent: "bso-hvac-engicert-recent-v1"
   };
+  const EXAM_SUBJECT_KEYS = ["energy", "design", "safety", "maintenance"];
+  const EXAM_COUNT_MODES = ["10", "20", "40", "all", "wrong"];
   const choiceMarks = ["①", "②", "③", "④"];
 
   const state = {
@@ -37,7 +39,8 @@
     flashRange: $("flashRange"),
     flashOrder: $("flashOrder"),
     examDataset: $("examDataset"),
-    examSubject: $("examSubject"),
+    examSubjects: $("examSubjects"),
+    examSelectionSummary: $("examSelectionSummary"),
     examCount: $("examCount"),
     shuffleChoices: $("shuffleChoices"),
     startFlashcard: $("startFlashcard"),
@@ -128,15 +131,38 @@
   }
 
   function fillSubjectOptions() {
-    [elements.flashSubject, elements.examSubject].forEach((select) => {
-      select.innerHTML = "";
-      Object.entries(SUBJECTS).forEach(([value, subject]) => {
-        const option = document.createElement("option");
-        option.value = value;
-        option.textContent = subject.label;
-        select.appendChild(option);
-      });
+    elements.flashSubject.innerHTML = "";
+    Object.entries(SUBJECTS).forEach(([value, subject]) => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = subject.label;
+      elements.flashSubject.appendChild(option);
     });
+  }
+
+  function fillExamSubjectOptions() {
+    elements.examSubjects.innerHTML = "";
+    EXAM_SUBJECT_KEYS.forEach((subjectKey) => {
+      const label = document.createElement("label");
+      label.className = "subject-checkbox";
+
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      input.name = "examSubject";
+      input.value = subjectKey;
+      input.checked = true;
+
+      const text = document.createElement("span");
+      text.textContent = SUBJECTS[subjectKey].label;
+
+      label.append(input, text);
+      elements.examSubjects.appendChild(label);
+    });
+  }
+
+  function selectedExamSubjects() {
+    return [...elements.examSubjects.querySelectorAll('input[name="examSubject"]:checked')]
+      .map((input) => input.value);
   }
 
   function fillDatasetOptions() {
@@ -193,29 +219,44 @@
   }
 
   function updateExamCountOptions() {
-    const subject = elements.examSubject.value;
     const dataset = elements.examDataset.value;
-    const available = questionsForSubject(subject, dataset).length;
+    const subjects = selectedExamSubjects();
+    const wrongIds = new Set(getWrongIds());
+    const availableBySubject = Object.fromEntries(
+      subjects.map((subject) => [subject, questionsForSubject(subject, dataset)])
+    );
+    const totalAvailable = Object.values(availableBySubject)
+      .reduce((total, questions) => total + questions.length, 0);
+    const savedWrongCount = Object.values(availableBySubject)
+      .flat()
+      .filter((question) => wrongIds.has(question.id)).length;
+    const previousValue = elements.examCount.value;
 
     elements.examCount.innerHTML = "";
-    if (subject === "all") {
-      const practice = document.createElement("option");
-      practice.value = String(Math.min(20, available));
-      practice.textContent = `${Math.min(20, available)}문항 · ${Math.ceil(Math.min(20, available) * 1.5)}분`;
-      elements.examCount.appendChild(practice);
-
-      if (available > 20) {
-        const full = document.createElement("option");
-        full.value = String(available);
-        full.textContent = `전체 ${available}문항 · ${Math.ceil(available * 1.5)}분`;
-        elements.examCount.appendChild(full);
-      }
-    } else {
+    EXAM_COUNT_MODES.forEach((mode) => {
       const option = document.createElement("option");
-      option.value = String(available);
-      option.textContent = `${available}문항 · ${Math.ceil(available * 1.5)}분`;
+      option.value = mode;
+
+      if (mode === "all") {
+        option.textContent = `선택 과목 전체 · 총 ${totalAvailable}문항`;
+      } else if (mode === "wrong") {
+        option.textContent = `저장된 오답만 · 총 ${savedWrongCount}문항`;
+      } else {
+        const perSubject = Number(mode);
+        const actualTotal = Object.values(availableBySubject)
+          .reduce((total, questions) => total + Math.min(perSubject, questions.length), 0);
+        option.textContent = `각 과목당 ${perSubject}문항 · 총 ${actualTotal}문항`;
+      }
+
+      option.disabled = subjects.length === 0;
       elements.examCount.appendChild(option);
-    }
+    });
+
+    if (EXAM_COUNT_MODES.includes(previousValue)) elements.examCount.value = previousValue;
+    elements.examSelectionSummary.textContent = subjects.length
+      ? `${subjects.map((subject) => SUBJECTS[subject].label).join(" · ")} 선택`
+      : "최소 한 과목을 선택해 주세요.";
+    elements.startExam.disabled = subjects.length === 0;
   }
 
   function switchMode(mode, shouldScroll = false) {
@@ -240,24 +281,11 @@
       : datasetQuestions.filter((question) => question.subject === subject).map(cloneQuestion);
   }
 
-  function balancedMixedQuestions(count, dataset) {
-    const subjectKeys = Object.keys(SUBJECTS).filter((key) => key !== "all");
-    const groups = Object.fromEntries(
-      subjectKeys.map((key) => [key, shuffle(questionsForSubject(key, dataset))])
-    );
-    const selected = [];
-    let cursor = 0;
-
-    while (selected.length < count) {
-      const key = subjectKeys[cursor % subjectKeys.length];
-      if (groups[key].length) {
-        selected.push(groups[key].shift());
-      }
-      cursor += 1;
-      if (cursor > count * subjectKeys.length * 2) break;
-    }
-
-    return shuffle(selected);
+  function examSubjectLabel(subjects) {
+    if (subjects.length === EXAM_SUBJECT_KEYS.length) return "1~4과목 전체";
+    return subjects
+      .map((subject) => SUBJECTS[subject].label.split(" ")[0])
+      .join(" · ");
   }
 
   function startFlashcard(config = null) {
@@ -299,11 +327,30 @@
   function startExam() {
     stopTimer();
     const dataset = elements.examDataset.value;
-    const subject = elements.examSubject.value;
-    const requestedCount = Number(elements.examCount.value);
-    let questions = subject === "all"
-      ? balancedMixedQuestions(requestedCount, dataset)
-      : shuffle(questionsForSubject(subject, dataset)).slice(0, requestedCount);
+    const subjects = selectedExamSubjects();
+    const countMode = elements.examCount.value;
+
+    if (!subjects.length) {
+      window.alert("모의고사에 포함할 과목을 하나 이상 선택해 주세요.");
+      return;
+    }
+
+    const wrongIds = new Set(getWrongIds());
+    const groups = subjects.map((subject) => {
+      let subjectQuestions = shuffle(questionsForSubject(subject, dataset));
+      if (countMode === "wrong") {
+        subjectQuestions = subjectQuestions.filter((question) => wrongIds.has(question.id));
+      } else if (countMode !== "all") {
+        subjectQuestions = subjectQuestions.slice(0, Number(countMode));
+      }
+      return subjectQuestions;
+    });
+    let questions = shuffle(groups.flat());
+
+    if (countMode === "wrong" && !questions.length) {
+      window.alert("선택한 문제 구분과 과목에 저장된 오답이 없습니다.");
+      return;
+    }
 
     if (elements.shuffleChoices.checked) {
       questions = questions.map(shuffledChoices);
@@ -317,13 +364,14 @@
     beginSession({
       type: "exam",
       questions,
-      subject,
+      subject: null,
+      subjectLabel: examSubjectLabel(subjects),
       dataset,
       seconds: Math.ceil(questions.length * 1.5) * 60
     });
   }
 
-  function beginSession({ type, questions, subject, dataset, seconds }) {
+  function beginSession({ type, questions, subject, subjectLabel, dataset, seconds }) {
     state.sessionType = type;
     state.questions = questions;
     state.currentIndex = 0;
@@ -335,7 +383,7 @@
     elements.practiceArea.classList.remove("hidden");
     elements.resultArea.classList.add("hidden");
     elements.practiceModeBadge.textContent = type === "exam" ? "모의고사" : "플래시카드";
-    elements.practiceSubjectLabel.textContent = `${datasetLabel(dataset)} · ${SUBJECTS[subject]?.label ?? "전체 과목"}`;
+    elements.practiceSubjectLabel.textContent = `${datasetLabel(dataset)} · ${subjectLabel ?? SUBJECTS[subject]?.label ?? "전체 과목"}`;
     elements.timerDisplay.classList.toggle("hidden", type !== "exam");
     elements.examPalette.classList.toggle("hidden", type !== "exam");
     elements.finishExam.classList.toggle("hidden", type !== "exam");
@@ -676,7 +724,7 @@
     });
 
     elements.examDataset.addEventListener("change", updateExamCountOptions);
-    elements.examSubject.addEventListener("change", updateExamCountOptions);
+    elements.examSubjects.addEventListener("change", updateExamCountOptions);
     elements.startFlashcard.addEventListener("click", () => startFlashcard());
     elements.startExam.addEventListener("click", startExam);
     elements.previousQuestion.addEventListener("click", previousQuestion);
@@ -692,6 +740,7 @@
   function initialize() {
     fillDatasetOptions();
     fillSubjectOptions();
+    fillExamSubjectOptions();
     updateExamCountOptions();
     updateSummary();
     bindEvents();

@@ -38,7 +38,7 @@
           <li>시운전 및 안전관리</li>
           <li>유지보수 공사관리</li>
         </ol>
-        <p class="hero-note">각 과목 20문항 · 과목별 30분</p>
+        <p class="hero-note">1~4과목 선택 · 각 과목당 10·20·40문항 또는 전체</p>
       </aside>
     </div>
   </header>
@@ -94,6 +94,7 @@
             <select id="flashRange">
               <option value="10">무작위 10문제</option>
               <option value="20">무작위 20문제</option>
+              <option value="40">무작위 40문제</option>
               <option value="all">선택 과목 전체</option>
               <option value="wrong">저장된 오답만</option>
             </select>
@@ -115,17 +116,19 @@
             <p class="section-label">MOCK EXAM</p>
             <h2>시간을 재며 실전처럼 풀기</h2>
           </div>
-          <p>답안은 시험 종료 후 공개되며, 혼합형은 과목별 점수와 과락을 계산합니다.</p>
+          <p>1~4과목 중 원하는 과목을 체크하면 선택한 각 과목에서 같은 수의 문제를 출제합니다.</p>
         </div>
+
+        <fieldset class="exam-subject-picker">
+          <legend>시험 과목</legend>
+          <div id="examSubjects" class="subject-checkboxes"></div>
+          <small id="examSelectionSummary" class="exam-selection-summary"></small>
+        </fieldset>
 
         <div class="control-grid exam-controls">
           <label>
             <span>문제 구분</span>
             <select id="examDataset"></select>
-          </label>
-          <label>
-            <span>시험 범위</span>
-            <select id="examSubject"></select>
           </label>
           <label>
             <span>문항 수</span>
