@@ -3,6 +3,7 @@
 
   const QUESTIONS = Array.isArray(window.HVAC_QUESTION_BANK) ? window.HVAC_QUESTION_BANK : [];
   const SUBJECTS = window.HVAC_SUBJECTS || {};
+  const EXAMS = Array.isArray(window.HVAC_EXAMS) ? window.HVAC_EXAMS : [];
   const STORAGE = {
     wrong: "bso-hvac-engicert-wrong-v1",
     recent: "bso-hvac-engicert-recent-v1"
@@ -31,9 +32,11 @@
     examTab: $("examTab"),
     flashcardSetup: $("flashcardSetup"),
     examSetup: $("examSetup"),
+    flashDataset: $("flashDataset"),
     flashSubject: $("flashSubject"),
     flashRange: $("flashRange"),
     flashOrder: $("flashOrder"),
+    examDataset: $("examDataset"),
     examSubject: $("examSubject"),
     examCount: $("examCount"),
     shuffleChoices: $("shuffleChoices"),
@@ -50,6 +53,7 @@
     questionSubject: $("questionSubject"),
     questionTopic: $("questionTopic"),
     questionText: $("questionText"),
+    questionImages: $("questionImages"),
     choiceList: $("choiceList"),
     instantFeedback: $("instantFeedback"),
     feedbackTitle: $("feedbackTitle"),
@@ -135,11 +139,63 @@
     });
   }
 
+  function fillDatasetOptions() {
+    [elements.flashDataset, elements.examDataset].forEach((select) => {
+      select.innerHTML = "";
+
+      [
+        ["predicted", "예상문제"],
+        ["exam-all", `기출문제 전체 (${EXAMS.length}회)`],
+        ["all", "예상 + 기출 전체"]
+      ].forEach(([value, label]) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = label;
+        select.appendChild(option);
+      });
+
+      const group = document.createElement("optgroup");
+      group.label = "회차별 기출문제";
+      [...EXAMS].reverse().forEach((exam) => {
+        const option = document.createElement("option");
+        option.value = `exam:${exam.id}`;
+        option.textContent = `${exam.label} · ${exam.total}문항`;
+        group.appendChild(option);
+      });
+      select.appendChild(group);
+    });
+  }
+
+  function questionsForDataset(dataset) {
+    if (dataset === "all") return QUESTIONS;
+    if (dataset === "predicted") {
+      return QUESTIONS.filter((question) => question.sourceType !== "exam");
+    }
+    if (dataset === "exam-all") {
+      return QUESTIONS.filter((question) => question.sourceType === "exam");
+    }
+    if (dataset.startsWith("exam:")) {
+      const examId = dataset.slice("exam:".length);
+      return QUESTIONS.filter((question) => question.exam === examId);
+    }
+    return QUESTIONS;
+  }
+
+  function datasetLabel(dataset) {
+    if (dataset.startsWith("exam:")) {
+      return EXAMS.find((exam) => exam.id === dataset.slice("exam:".length))?.label ?? "기출문제";
+    }
+    return {
+      predicted: "예상문제",
+      "exam-all": "기출문제 전체",
+      all: "전체 문제"
+    }[dataset] ?? "전체 문제";
+  }
+
   function updateExamCountOptions() {
     const subject = elements.examSubject.value;
-    const available = subject === "all"
-      ? QUESTIONS.length
-      : QUESTIONS.filter((question) => question.subject === subject).length;
+    const dataset = elements.examDataset.value;
+    const available = questionsForSubject(subject, dataset).length;
 
     elements.examCount.innerHTML = "";
     if (subject === "all") {
@@ -177,16 +233,17 @@
     }
   }
 
-  function questionsForSubject(subject) {
+  function questionsForSubject(subject, dataset = "all") {
+    const datasetQuestions = questionsForDataset(dataset);
     return subject === "all"
-      ? QUESTIONS.map(cloneQuestion)
-      : QUESTIONS.filter((question) => question.subject === subject).map(cloneQuestion);
+      ? datasetQuestions.map(cloneQuestion)
+      : datasetQuestions.filter((question) => question.subject === subject).map(cloneQuestion);
   }
 
-  function balancedMixedQuestions(count) {
+  function balancedMixedQuestions(count, dataset) {
     const subjectKeys = Object.keys(SUBJECTS).filter((key) => key !== "all");
     const groups = Object.fromEntries(
-      subjectKeys.map((key) => [key, shuffle(questionsForSubject(key))])
+      subjectKeys.map((key) => [key, shuffle(questionsForSubject(key, dataset))])
     );
     const selected = [];
     let cursor = 0;
@@ -205,17 +262,18 @@
 
   function startFlashcard(config = null) {
     stopTimer();
+    const dataset = config?.dataset ?? elements.flashDataset.value;
     const subject = config?.subject ?? elements.flashSubject.value;
     const range = config?.range ?? elements.flashRange.value;
     const order = config?.order ?? elements.flashOrder.value;
-    let pool = questionsForSubject(subject);
+    let pool = questionsForSubject(subject, dataset);
 
     if (range === "wrong") {
       const wrongIds = config?.wrongIds ?? getWrongIds();
       pool = pool.filter((question) => wrongIds.includes(question.id));
       if (!pool.length) {
         window.alert("선택한 범위에 저장된 오답이 없어 전체 문제에서 10문제를 시작합니다.");
-        pool = questionsForSubject(subject);
+        pool = questionsForSubject(subject, dataset);
       }
     }
 
@@ -233,17 +291,19 @@
       type: "flashcard",
       questions: pool,
       subject,
+      dataset,
       seconds: 0
     });
   }
 
   function startExam() {
     stopTimer();
+    const dataset = elements.examDataset.value;
     const subject = elements.examSubject.value;
     const requestedCount = Number(elements.examCount.value);
     let questions = subject === "all"
-      ? balancedMixedQuestions(requestedCount)
-      : shuffle(questionsForSubject(subject)).slice(0, requestedCount);
+      ? balancedMixedQuestions(requestedCount, dataset)
+      : shuffle(questionsForSubject(subject, dataset)).slice(0, requestedCount);
 
     if (elements.shuffleChoices.checked) {
       questions = questions.map(shuffledChoices);
@@ -258,11 +318,12 @@
       type: "exam",
       questions,
       subject,
+      dataset,
       seconds: Math.ceil(questions.length * 1.5) * 60
     });
   }
 
-  function beginSession({ type, questions, subject, seconds }) {
+  function beginSession({ type, questions, subject, dataset, seconds }) {
     state.sessionType = type;
     state.questions = questions;
     state.currentIndex = 0;
@@ -274,7 +335,7 @@
     elements.practiceArea.classList.remove("hidden");
     elements.resultArea.classList.add("hidden");
     elements.practiceModeBadge.textContent = type === "exam" ? "모의고사" : "플래시카드";
-    elements.practiceSubjectLabel.textContent = SUBJECTS[subject]?.label ?? "전체 과목";
+    elements.practiceSubjectLabel.textContent = `${datasetLabel(dataset)} · ${SUBJECTS[subject]?.label ?? "전체 과목"}`;
     elements.timerDisplay.classList.toggle("hidden", type !== "exam");
     elements.examPalette.classList.toggle("hidden", type !== "exam");
     elements.finishExam.classList.toggle("hidden", type !== "exam");
@@ -323,6 +384,7 @@
     elements.questionSubject.textContent = SUBJECTS[question.subject]?.short ?? question.subject;
     elements.questionTopic.textContent = question.topic;
     elements.questionText.textContent = question.question;
+    renderQuestionImages(question);
     elements.choiceList.innerHTML = "";
 
     question.choices.forEach((choice, index) => {
@@ -360,6 +422,26 @@
       : "다음";
 
     if (state.sessionType === "exam") renderPalette();
+  }
+
+  function renderQuestionImages(question) {
+    const images = Array.isArray(question.images) ? question.images : [];
+    elements.questionImages.innerHTML = "";
+    elements.questionImages.classList.toggle("hidden", images.length === 0);
+    images.forEach((source, index) => {
+      const link = document.createElement("a");
+      link.href = source;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.title = "원문 이미지를 새 창에서 크게 보기";
+
+      const image = document.createElement("img");
+      image.src = source;
+      image.alt = `${question.examLabel ?? "기출문제"} ${question.id.split("-").at(-1)}번 원문 ${index + 1}`;
+      image.loading = "eager";
+      link.appendChild(image);
+      elements.questionImages.appendChild(link);
+    });
   }
 
   function escapeHtml(value) {
@@ -534,6 +616,11 @@
         ? `${choiceMarks[result.selected]} ${result.question.choices[result.selected]}`
         : "미응답";
       const correctText = `${choiceMarks[result.question.answer]} ${result.question.choices[result.question.answer]}`;
+      const reviewImages = (result.question.images ?? []).map((source, imageIndex) => `
+        <a href="${escapeHtml(source)}" target="_blank" rel="noopener">
+          <img src="${escapeHtml(source)}" alt="원문 이미지 ${imageIndex + 1}" loading="lazy" />
+        </a>
+      `).join("");
       details.innerHTML = `
         <summary>
           <span class="review-status ${result.correct ? "correct" : "wrong"}">${result.correct ? "정답" : "오답"}</span>
@@ -541,6 +628,7 @@
           <span>${escapeHtml(SUBJECTS[result.question.subject]?.short ?? "")}</span>
         </summary>
         <div class="review-body">
+          ${reviewImages ? `<div class="review-images">${reviewImages}</div>` : ""}
           <p><strong>선택:</strong> ${escapeHtml(selectedText)}</p>
           <p><strong>정답:</strong> ${escapeHtml(correctText)}</p>
           <p>${escapeHtml(result.question.explanation)}</p>
@@ -555,6 +643,7 @@
     if (!state.lastWrongIds.length) return;
     switchMode("flashcard", false);
     startFlashcard({
+      dataset: "all",
       subject: "all",
       range: "wrong",
       order: "random",
@@ -586,6 +675,7 @@
       button.addEventListener("click", () => switchMode(button.dataset.modeTarget, true));
     });
 
+    elements.examDataset.addEventListener("change", updateExamCountOptions);
     elements.examSubject.addEventListener("change", updateExamCountOptions);
     elements.startFlashcard.addEventListener("click", () => startFlashcard());
     elements.startExam.addEventListener("click", startExam);
@@ -600,6 +690,7 @@
   }
 
   function initialize() {
+    fillDatasetOptions();
     fillSubjectOptions();
     updateExamCountOptions();
     updateSummary();
