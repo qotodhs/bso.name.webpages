@@ -301,7 +301,7 @@ footer p {
 
 .control-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) auto;
   gap: 14px;
   align-items: end;
   margin-top: 24px;
@@ -464,6 +464,34 @@ select {
   font-size: clamp(1.25rem, 3vw, 1.75rem);
   line-height: 1.48;
   letter-spacing: -0.025em;
+}
+
+.question-images,
+.review-images {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 24px;
+}
+
+.question-images a,
+.review-images a {
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.question-images img,
+.review-images img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.question-images a:hover,
+.review-images a:hover {
+  border-color: var(--teal);
 }
 
 .choice-list {

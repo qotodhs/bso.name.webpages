@@ -82,6 +82,10 @@
 
         <div class="control-grid">
           <label>
+            <span>문제 구분</span>
+            <select id="flashDataset"></select>
+          </label>
+          <label>
             <span>과목</span>
             <select id="flashSubject"></select>
           </label>
@@ -115,6 +119,10 @@
         </div>
 
         <div class="control-grid exam-controls">
+          <label>
+            <span>문제 구분</span>
+            <select id="examDataset"></select>
+          </label>
           <label>
             <span>시험 범위</span>
             <select id="examSubject"></select>
@@ -153,6 +161,7 @@
           <span id="questionTopic"></span>
         </div>
         <h2 id="questionText"></h2>
+        <div id="questionImages" class="question-images hidden"></div>
         <div id="choiceList" class="choice-list"></div>
 
         <div id="instantFeedback" class="feedback hidden">

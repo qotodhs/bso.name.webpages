@@ -1,6 +1,7 @@
 // 공조냉동기계기사 문제은행 로더
 // 문제 데이터는 과목별 파일로 나누고, 이 파일을 불러온 페이지의 위치와 관계없이 동작합니다.
 window.HVAC_QUESTION_BANK = [];
+window.HVAC_EXAMS = [];
 window.HVAC_SUBJECTS = {
   all: { label: "전체 과목", short: "전체" },
   energy: { label: "1과목 에너지관리", short: "에너지관리" },
@@ -29,6 +30,35 @@ window.addHVACQuestions = (subject, rows) => {
       choices,
       answer,
       explanation,
+      sourceType: "predicted",
+      theory: theoryUrl.href
+    });
+  });
+};
+
+window.addHVACExamQuestions = (exam, rows) => {
+  window.HVAC_EXAMS.push(exam);
+  const choiceMarks = ["①", "②", "③", "④"];
+
+  rows.forEach(([id, subject, subjectLabel, question, choices, answer, images]) => {
+    const topic = `${exam.label} · ${subjectLabel}`;
+    const theoryUrl = new URL(theoryBase);
+    theoryUrl.searchParams.set("subject", subject);
+    theoryUrl.searchParams.set("topic", subjectLabel);
+
+    window.HVAC_QUESTION_BANK.push({
+      id,
+      subject,
+      topic,
+      question,
+      choices,
+      answer,
+      explanation: `${exam.label} 기출문제의 정답은 ${choiceMarks[answer]}입니다.`,
+      images,
+      sourceType: "exam",
+      exam: exam.id,
+      examLabel: exam.label,
+      sourceSubject: subjectLabel,
       theory: theoryUrl.href
     });
   });
@@ -46,7 +76,8 @@ window.addHVACQuestions = (subject, rows) => {
   "04-maint-05-refrigeration.js",
   "04-maint-06-management.js",
   "05-law.js",
-  "06-ncs.js"
+  "06-ncs.js",
+  "history/index.js"
 ].forEach((filename) => {
   const src = new URL(filename, questionDataBase).href;
   document.write(`<script src="${src}"><\/script>`);
