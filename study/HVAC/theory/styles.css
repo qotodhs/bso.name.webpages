@@ -231,15 +231,27 @@ input:focus, select:focus, textarea:focus { outline: 3px solid rgba(8,145,178,0.
   border-radius: 16px;
   background: #f7fdff;
 }
-.formula-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
-.formula-row code {
+.formula-row { display: grid; gap: 4px; }
+.formula-expr { overflow-x: auto; overflow-y: hidden; padding: 2px 0; color: #0c4a6e; }
+.formula-expr .katex-display { margin: 0; text-align: left; }
+.formula-expr .katex-display > .katex { text-align: left; }
+.formula-expr .katex { font-size: 1.08em; }
+.formula-row span { color: var(--muted); font-size: 0.84rem; line-height: 1.6; }
+.math-fallback {
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   font-size: 0.95rem;
   font-weight: 700;
   color: #0c4a6e;
   line-height: 1.6;
 }
-.formula-row span { color: var(--muted); font-size: 0.84rem; }
+/* 본문 안 인라인 수식이 줄 높이를 흔들지 않도록 */
+.section-body .katex,
+.point-list .katex,
+.theory-table .katex,
+.tip-box .katex,
+.summary .katex,
+.exam-box .katex { font-size: 1em; }
+.theory-table .katex { white-space: nowrap; }
 
 .table-scroll { margin: 16px 0; overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; }
 .theory-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
