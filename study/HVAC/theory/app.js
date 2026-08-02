@@ -33,6 +33,31 @@
       .replaceAll("'", "&#039;");
   }
 
+  // KaTeX 는 CDN 에서 불러온다. 로드에 실패해도 원본 수식을 그대로 보여준다.
+  function renderMath(expr, displayMode) {
+    const source = String(expr);
+    if (typeof window.katex === "undefined") {
+      return `<code class="math-fallback">${escapeHtml(source)}</code>`;
+    }
+    try {
+      return window.katex.renderToString(source, {
+        displayMode: Boolean(displayMode),
+        throwOnError: false,
+        strict: false
+      });
+    } catch (error) {
+      return `<code class="math-fallback">${escapeHtml(source)}</code>`;
+    }
+  }
+
+  // 본문·목록·표 안의 $...$ 구간만 수식으로 렌더링하고 나머지는 그대로 이스케이프한다.
+  function withInlineMath(text) {
+    return String(text ?? "")
+      .split(/\$([^$]+)\$/g)
+      .map((part, index) => (index % 2 ? renderMath(part, false) : escapeHtml(part)))
+      .join("");
+  }
+
   function safeParse(key, fallback) {
     try {
       const value = JSON.parse(localStorage.getItem(key));
@@ -117,7 +142,12 @@
         section.table.rows.forEach((row) => parts.push(row.join(" ")));
       }
     });
-    return parts.join(" ").toLowerCase();
+    // 검색어는 평문으로 들어오므로 LaTeX 제어문자를 걷어낸 형태로 색인한다.
+    return parts
+      .join(" ")
+      .replace(/\\[a-zA-Z]+/g, " ")
+      .replace(/[${}\\^_&]/g, " ")
+      .toLowerCase();
   }
 
   const chapterHaystacks = new Map(THEORY.map((chapter) => [chapter.id, haystackOf(chapter)]));
@@ -127,8 +157,8 @@
     const rows = formulas
       .map(([expr, note]) => `
         <div class="formula-row">
-          <code>${escapeHtml(expr)}</code>
-          ${note ? `<span>${escapeHtml(note)}</span>` : ""}
+          <div class="formula-expr">${renderMath(expr, true)}</div>
+          ${note ? `<span>${withInlineMath(note)}</span>` : ""}
         </div>
       `)
       .join("");
@@ -137,9 +167,9 @@
 
   function renderTable(table) {
     if (!table) return "";
-    const head = table.head.map((cell) => `<th>${escapeHtml(cell)}</th>`).join("");
+    const head = table.head.map((cell) => `<th>${withInlineMath(cell)}</th>`).join("");
     const body = table.rows
-      .map((row) => `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join("")}</tr>`)
+      .map((row) => `<tr>${row.map((cell) => `<td>${withInlineMath(cell)}</td>`).join("")}</tr>`)
       .join("");
     return `
       <div class="table-scroll">
@@ -155,13 +185,13 @@
     return `
       <section class="theory-section">
         <h3>${escapeHtml(section.heading || "")}</h3>
-        ${section.body ? `<p class="section-body">${escapeHtml(section.body)}</p>` : ""}
+        ${section.body ? `<p class="section-body">${withInlineMath(section.body)}</p>` : ""}
         ${renderFormulas(section.formulas)}
         ${section.list && section.list.length
-          ? `<ul class="point-list">${section.list.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+          ? `<ul class="point-list">${section.list.map((item) => `<li>${withInlineMath(item)}</li>`).join("")}</ul>`
           : ""}
         ${renderTable(section.table)}
-        ${section.tip ? `<p class="tip-box"><strong>짚고 넘어가기</strong>${escapeHtml(section.tip)}</p>` : ""}
+        ${section.tip ? `<p class="tip-box"><strong>짚고 넘어가기</strong>${withInlineMath(section.tip)}</p>` : ""}
       </section>
     `;
   }
@@ -213,7 +243,7 @@
       ? `
         <div class="exam-box">
           <strong>시험에 이렇게 나온다</strong>
-          <ul>${chapter.exam.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+          <ul>${chapter.exam.map((item) => `<li>${withInlineMath(item)}</li>`).join("")}</ul>
         </div>
       `
       : "";
@@ -231,7 +261,7 @@
         </div>
         <a class="button secondary small" href="../engicert/?subject=${encodeURIComponent(chapter.subject)}">문제 풀기 ↗</a>
       </div>
-      ${chapter.summary ? `<p class="summary">${escapeHtml(chapter.summary)}</p>` : ""}
+      ${chapter.summary ? `<p class="summary">${withInlineMath(chapter.summary)}</p>` : ""}
       <div class="theory-body">${sectionsHtml}</div>
       ${examHtml}
       ${renderProblems(chapter)}

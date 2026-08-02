@@ -25,8 +25,8 @@ window.addHVACTheory("maintenance", [
           ]
         },
         formulas: [
-          ["Sch No. = 1,000 × P / S", "스케줄 번호. P 사용압력[kgf/cm²], S 허용응력[kgf/mm²]"],
-          ["허용응력 S = 인장강도 / 안전율", "안전율은 통상 4"]
+          ["\\text{Sch No.} = 1{,}000 \\times \\frac{P}{S}", "스케줄 번호 · $P$ 사용압력 [kgf/cm²], $S$ 허용응력 [kgf/mm²]"],
+          ["S = \\frac{\\text{인장강도}}{\\text{안전율}}", "허용응력 · 안전율은 통상 4"]
         ],
         tip:
           "스케줄 번호가 클수록 관 두께가 두껍다. 호칭지름이 같으면 바깥지름은 같고 스케줄에 따라 안지름이 달라진다."
@@ -205,8 +205,8 @@ window.addHVACTheory("maintenance", [
       {
         heading: "2. 신축이음",
         formulas: [
-          ["λ = l × α × Δt", "신축량 [mm]. l 관 길이, α 선팽창계수, Δt 온도차"],
-          ["강관 α ≈ 1.2 × 10⁻⁵ /℃", "동관 1.7, 스테인리스 1.7, PVC 7 ~ 8 × 10⁻⁵"]
+          ["\\lambda = l \\cdot \\alpha \\cdot \\Delta t", "신축량 [mm] · $l$ 관 길이, $\\alpha$ 선팽창계수, $\\Delta t$ 온도차"],
+          ["\\alpha_{강관} \\approx 1.2 \\times 10^{-5}\\ /\\mathrm{^\\circ C}", "동관 1.7, 스테인리스 1.7, PVC $7 \\sim 8 \\times 10^{-5}$"]
         ],
         table: {
           head: ["형식", "흡수량", "특징", "적용"],
@@ -423,8 +423,8 @@ window.addHVACTheory("maintenance", [
           ]
         },
         formulas: [
-          ["P = P₁ + P₂ + P₃", "필요 급수압 = 기구 최저압 + 마찰손실 + 위치수두"],
-          ["1 mAq ≈ 9.8 kPa", "수두 ↔ 압력 환산"]
+          ["P = P_1 + P_2 + P_3", "필요 급수압 = 기구 최저압 + 마찰손실 + 위치수두"],
+          ["1\\ \\mathrm{mAq} \\approx 9.8\\ \\mathrm{kPa}", "수두 ↔ 압력 환산"]
         ],
         list: [
           "급수관 유속은 2 m/s 이하(권장 0.9 ~ 2.0 m/s)로 제한한다",
@@ -836,9 +836,9 @@ window.addHVACTheory("maintenance", [
           "특수펌프 — 제트펌프, 기포펌프, 수격펌프, 볼텍스펌프"
         ],
         formulas: [
-          ["L = ρ·g·Q·H / (1,000 × η) [kW]", "펌프 축동력. Q [m³/s], H [m]"],
-          ["Q ∝ N, H ∝ N², L ∝ N³", "펌프 상사법칙(회전수)"],
-          ["직렬 운전 → 양정 증가, 병렬 운전 → 유량 증가", "복수 운전 특성"]
+          ["L = \\frac{\\rho g Q H}{1{,}000\\,\\eta}", "펌프 축동력 [kW] · $Q$ [m³/s], $H$ [m]"],
+          ["Q \\propto N, \\qquad H \\propto N^{2}, \\qquad L \\propto N^{3}", "펌프 상사법칙(회전수)"],
+          ["\\text{직렬} \\Rightarrow H\\ \\uparrow, \\qquad \\text{병렬} \\Rightarrow Q\\ \\uparrow", "복수 운전 특성"]
         ]
       },
       {
@@ -915,7 +915,7 @@ window.addHVACTheory("maintenance", [
           ]
         },
         formulas: [
-          ["V = F / C", "가치공학(VE). 기능 F를 유지·향상시키며 비용 C를 낮춰 가치 V를 높인다"]
+          ["V = \\frac{F}{C}", "가치공학(VE) · 기능 $F$ 를 유지·향상시키며 비용 $C$ 를 낮춰 가치 $V$ 를 높인다"]
         ],
         list: [
           "적산 — 공사에 필요한 재료·품의 수량을 산출하는 일. 견적은 여기에 단가를 곱해 금액을 내는 일",
