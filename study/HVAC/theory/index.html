@@ -25,8 +25,8 @@
         <p class="eyebrow">HVAC THEORY NOTES</p>
         <h1>문제와 연결되는<br />HVAC 이론 노트</h1>
         <p class="hero-copy">
-          문제은행의 과목·주제·해설을 자동으로 묶어 핵심 이론을 정리합니다.
-          문제에서 들어오면 해당 주제만 바로 표시됩니다.
+          공조냉동기계기사 4개 과목의 핵심 이론을 공식·비교표·시험 포인트까지 정리했습니다.
+          문제은행에서 들어오면 해당 이론으로 바로 이동합니다.
         </p>
       </div>
       <aside class="hero-card">
@@ -56,12 +56,13 @@
         <h2>이론 → 문제 → 오답노트 순환</h2>
       </div>
       <ol>
-        <li>이론 카드에서 핵심 포인트를 확인합니다.</li>
+        <li>이론 카드에서 공식과 비교표를 확인합니다.</li>
         <li>연결 문제를 펼쳐 이해 여부를 점검합니다.</li>
         <li>틀린 문제는 오답노트에서 반복합니다.</li>
       </ol>
     </section>
 
+    <nav id="chapterNav" class="chapter-nav hidden" aria-label="이론 목차"></nav>
     <div id="activeFilter" class="active-filter hidden" aria-live="polite"></div>
     <section id="theoryList" class="theory-list" aria-live="polite"></section>
 
@@ -76,6 +77,7 @@
   </footer>
 
   <script src="../engicert/questions.js"></script>
+  <script src="./theory.js"></script>
   <script src="./app.js"></script>
 </body>
 </html>
