@@ -151,6 +151,34 @@ input:focus, select:focus, textarea:focus { outline: 3px solid rgba(8,145,178,0.
   background: var(--cyan-soft);
   font-weight: 700;
 }
+.chapter-nav {
+  margin: 22px 0 0;
+  padding: 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  background: rgba(255,255,255,0.96);
+  display: grid;
+  gap: 16px;
+}
+.nav-group { display: grid; gap: 9px; }
+.nav-label {
+  color: var(--cyan-dark);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.nav-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.nav-links a {
+  padding: 7px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #f8fafc;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.nav-links a:hover { border-color: var(--cyan); color: var(--cyan-dark); background: var(--cyan-soft); }
+
 .theory-list { display: grid; gap: 18px; }
 .theory-card { padding: 26px; box-shadow: 0 14px 40px rgba(15,23,42,0.07); scroll-margin-top: 18px; }
 .theory-card.highlight { border-color: #22d3ee; box-shadow: 0 0 0 4px rgba(34,211,238,0.12), var(--shadow); }
@@ -174,7 +202,75 @@ input:focus, select:focus, textarea:focus { outline: 3px solid rgba(8,145,178,0.
 }
 .badge.neutral { color: var(--muted); background: #f1f5f9; }
 .theory-card h2 { margin: 0; font-size: clamp(1.45rem, 3vw, 2rem); letter-spacing: -0.045em; }
-.point-list { display: grid; gap: 10px; margin: 22px 0; padding: 0; list-style: none; }
+.tagline { margin: 8px 0 0; color: var(--muted); font-size: 0.9rem; font-weight: 600; }
+.summary {
+  margin: 20px 0 0;
+  padding: 16px 18px;
+  border-left: 4px solid var(--cyan);
+  border-radius: 0 14px 14px 0;
+  background: var(--cyan-soft);
+  color: #0c4a6e;
+  line-height: 1.8;
+}
+
+.theory-body { display: grid; gap: 26px; margin-top: 24px; }
+.theory-section > h3 {
+  margin: 0 0 12px;
+  font-size: 1.06rem;
+  letter-spacing: -0.02em;
+  color: var(--cyan-dark);
+}
+.section-body { margin: 0 0 14px; line-height: 1.85; }
+
+.formula-box {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0;
+  padding: 16px 18px;
+  border: 1px dashed #bae6fd;
+  border-radius: 16px;
+  background: #f7fdff;
+}
+.formula-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+.formula-row code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0c4a6e;
+  line-height: 1.6;
+}
+.formula-row span { color: var(--muted); font-size: 0.84rem; }
+
+.table-scroll { margin: 16px 0; overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; }
+.theory-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.theory-table th,
+.theory-table td { padding: 11px 14px; text-align: left; border-bottom: 1px solid var(--line); line-height: 1.6; }
+.theory-table thead th { background: #f1f5f9; font-weight: 800; white-space: nowrap; }
+.theory-table tbody tr:last-child td { border-bottom: 0; }
+.theory-table tbody tr:nth-child(even) { background: #fafcfe; }
+
+.tip-box {
+  margin: 16px 0 0;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #78350f;
+  line-height: 1.75;
+}
+.tip-box strong { display: block; margin-bottom: 5px; font-size: 0.8rem; letter-spacing: 0.04em; }
+
+.exam-box {
+  margin-top: 24px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+.exam-box strong { display: block; margin-bottom: 10px; color: #67e8f9; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.exam-box ul { margin: 0; padding-left: 20px; display: grid; gap: 8px; line-height: 1.7; }
+
+.point-list { display: grid; gap: 10px; margin: 14px 0; padding: 0; list-style: none; }
 .point-list li {
   position: relative;
   padding: 14px 15px 14px 42px;
@@ -190,6 +286,7 @@ input:focus, select:focus, textarea:focus { outline: 3px solid rgba(8,145,178,0.
   color: var(--cyan-dark);
   font-weight: 900;
 }
+.problem-empty { margin: 0; padding: 16px; border: 1px dashed var(--line); border-radius: 14px; color: var(--muted); line-height: 1.7; }
 .connected-problems { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 18px; }
 .connected-problems summary { cursor: pointer; font-weight: 800; }
 .problem-list { display: grid; gap: 10px; margin-top: 14px; }
@@ -222,4 +319,8 @@ footer { padding: 0 24px 34px; color: var(--muted); font-size: 0.82rem; }
   .hero h1 { font-size: clamp(2.8rem, 15vw, 4.4rem); }
   .theory-card { padding: 20px; border-radius: 22px; }
   .card-head { flex-direction: column; }
+  .chapter-nav { padding: 18px; border-radius: 22px; }
+  .theory-table { font-size: 0.84rem; }
+  .theory-table th, .theory-table td { padding: 9px 11px; }
+  .point-list li { padding: 12px 13px 12px 38px; }
 }
