@@ -3,6 +3,7 @@
 // 해설이 없는 문항은 questions.js 가 정답 보기 내용을 담은 안내문으로 대체합니다.
 const hvacExplanationBase = new URL("./", document.currentScript.src);
 [
+  "20220305.js",
   "20220424.js"
 ].forEach((filename) => {
   const src = new URL(filename, hvacExplanationBase).href;
