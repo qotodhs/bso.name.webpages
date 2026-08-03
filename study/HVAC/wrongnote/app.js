@@ -27,6 +27,29 @@
       .replaceAll("'", "&#039;");
   }
 
+  function renderMath(expr, displayMode) {
+    const source = String(expr);
+    if (typeof window.katex === "undefined") {
+      return `<code class="math-fallback">${escapeHtml(source)}</code>`;
+    }
+    try {
+      return window.katex.renderToString(source, {
+        displayMode: Boolean(displayMode),
+        throwOnError: false,
+        strict: false
+      });
+    } catch (error) {
+      return `<code class="math-fallback">${escapeHtml(source)}</code>`;
+    }
+  }
+
+  function withInlineMath(text) {
+    return String(text ?? "")
+      .split(/\$([^$]+)\$/g)
+      .map((part, index) => (index % 2 ? renderMath(part, false) : escapeHtml(part)))
+      .join("");
+  }
+
   function safeParse(key, fallback) {
     try {
       const value = JSON.parse(localStorage.getItem(key));
@@ -92,7 +115,7 @@
     const choicesHtml = question.choices.map((choice, index) => `
       <button class="choice" type="button" data-choice="${index}">
         <span>${choiceMarks[index]}</span>
-        <span>${escapeHtml(choice)}</span>
+        <span>${withInlineMath(choice)}</span>
       </button>
     `).join("");
 
@@ -103,7 +126,7 @@
             <span class="badge">${escapeHtml(SUBJECTS[question.subject]?.short || question.subject)}</span>
             <span class="badge neutral">${escapeHtml(question.topic)}</span>
           </div>
-          <h2>${escapeHtml(question.question)}</h2>
+          <h2>${withInlineMath(question.question)}</h2>
         </div>
         <button class="button secondary small master-button" type="button">정복 처리</button>
       </div>
@@ -112,8 +135,8 @@
       <details class="explanation">
         <summary>정답과 해설 확인</summary>
         <div class="explanation-body">
-          <p><strong>정답:</strong> ${choiceMarks[question.answer]} ${escapeHtml(question.choices[question.answer])}</p>
-          <p>${escapeHtml(question.explanation)}</p>
+          <p><strong>정답:</strong> ${choiceMarks[question.answer]} ${withInlineMath(question.choices[question.answer])}</p>
+          <p>${withInlineMath(question.explanation)}</p>
           <a class="button secondary small" href="${escapeHtml(question.theory)}">관련 이론 보기 ↗</a>
         </div>
       </details>
@@ -149,8 +172,8 @@
           ? `${choiceMarks[question.answer]}번`
           : `${choiceMarks[question.answer]} ${answerText}`;
         feedback.innerHTML = correct
-          ? `<strong>정답입니다. — ${escapeHtml(answerLabel)}</strong><span>${escapeHtml(question.explanation)}</span>`
-          : `<strong>오답입니다. 정답은 ${escapeHtml(answerLabel)} 입니다.</strong><span>${escapeHtml(question.explanation)}</span>`;
+          ? `<strong>정답입니다. — ${withInlineMath(answerLabel)}</strong><span>${withInlineMath(question.explanation)}</span>`
+          : `<strong>오답입니다. 정답은 ${withInlineMath(answerLabel)} 입니다.</strong><span>${withInlineMath(question.explanation)}</span>`;
       }, { once: true });
     });
 

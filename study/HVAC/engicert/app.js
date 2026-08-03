@@ -431,7 +431,7 @@
     elements.progressBar.style.width = `${((state.currentIndex + 1) / state.questions.length) * 100}%`;
     elements.questionSubject.textContent = SUBJECTS[question.subject]?.short ?? question.subject;
     elements.questionTopic.textContent = question.topic;
-    elements.questionText.textContent = question.question;
+    elements.questionText.innerHTML = withInlineMath(question.question);
     renderQuestionImages(question);
     elements.choiceList.innerHTML = "";
 
@@ -439,7 +439,7 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "choice";
-      button.innerHTML = `<span class="choice-number">${choiceMarks[index]}</span><span>${escapeHtml(choice)}</span>`;
+      button.innerHTML = `<span class="choice-number">${choiceMarks[index]}</span><span>${withInlineMath(choice)}</span>`;
 
       if (answered && selectedAnswer === index) button.classList.add("selected");
       if (isFlashcard && answered) {
@@ -501,6 +501,29 @@
       .replaceAll("'", "&#039;");
   }
 
+  function renderMath(expr, displayMode) {
+    const source = String(expr);
+    if (typeof window.katex === "undefined") {
+      return `<code class="math-fallback">${escapeHtml(source)}</code>`;
+    }
+    try {
+      return window.katex.renderToString(source, {
+        displayMode: Boolean(displayMode),
+        throwOnError: false,
+        strict: false
+      });
+    } catch (error) {
+      return `<code class="math-fallback">${escapeHtml(source)}</code>`;
+    }
+  }
+
+  function withInlineMath(text) {
+    return String(text ?? "")
+      .split(/\$([^$]+)\$/g)
+      .map((part, index) => (index % 2 ? renderMath(part, false) : escapeHtml(part)))
+      .join("");
+  }
+
   function selectAnswer(index) {
     const question = state.questions[state.currentIndex];
     if (state.sessionType === "flashcard" && Number.isInteger(state.answers[question.id])) return;
@@ -516,10 +539,10 @@
     const answerLabel = /원문 이미지의 보기/.test(answerText) || !answerText
       ? `${choiceMarks[question.answer]}번`
       : `${choiceMarks[question.answer]} ${answerText}`;
-    elements.feedbackTitle.textContent = correct
-      ? `정답입니다. — ${answerLabel}`
-      : `오답입니다. 정답은 ${answerLabel} 입니다.`;
-    elements.feedbackText.textContent = question.explanation;
+    elements.feedbackTitle.innerHTML = correct
+      ? `정답입니다. — ${withInlineMath(answerLabel)}`
+      : `오답입니다. 정답은 ${withInlineMath(answerLabel)} 입니다.`;
+    elements.feedbackText.innerHTML = withInlineMath(question.explanation);
     elements.theoryLink.href = question.theory;
     elements.theoryLink.title = "관련 이론 노트로 이동합니다.";
   }
@@ -676,14 +699,14 @@
       details.innerHTML = `
         <summary>
           <span class="review-status ${result.correct ? "correct" : "wrong"}">${result.correct ? "정답" : "오답"}</span>
-          <strong>${index + 1}. ${escapeHtml(result.question.question)}</strong>
+          <strong>${index + 1}. ${withInlineMath(result.question.question)}</strong>
           <span>${escapeHtml(SUBJECTS[result.question.subject]?.short ?? "")}</span>
         </summary>
         <div class="review-body">
           ${reviewImages ? `<div class="review-images">${reviewImages}</div>` : ""}
-          <p><strong>선택:</strong> ${escapeHtml(selectedText)}</p>
-          <p><strong>정답:</strong> ${escapeHtml(correctText)}</p>
-          <p>${escapeHtml(result.question.explanation)}</p>
+          <p><strong>선택:</strong> ${withInlineMath(selectedText)}</p>
+          <p><strong>정답:</strong> ${withInlineMath(correctText)}</p>
+          <p>${withInlineMath(result.question.explanation)}</p>
           <a class="theory-link" href="${escapeHtml(result.question.theory)}" title="이론 페이지는 아직 준비 중입니다.">관련 이론 보기 ↗</a>
         </div>
       `;
