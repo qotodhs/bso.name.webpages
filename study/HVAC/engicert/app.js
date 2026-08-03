@@ -56,6 +56,7 @@
     questionSubject: $("questionSubject"),
     questionTopic: $("questionTopic"),
     questionText: $("questionText"),
+    sourceNote: $("sourceNote"),
     questionImages: $("questionImages"),
     choiceList: $("choiceList"),
     instantFeedback: $("instantFeedback"),
@@ -432,6 +433,8 @@
     elements.questionSubject.textContent = SUBJECTS[question.subject]?.short ?? question.subject;
     elements.questionTopic.textContent = question.topic;
     elements.questionText.innerHTML = withInlineMath(question.question);
+    elements.sourceNote.textContent = question.sourceNote || "";
+    elements.sourceNote.classList.toggle("hidden", !question.sourceNote);
     renderQuestionImages(question);
     elements.choiceList.innerHTML = "";
 

@@ -526,6 +526,22 @@ select {
   letter-spacing: -0.025em;
 }
 
+.source-note {
+  margin: 0 0 20px;
+  padding: 12px 15px;
+  border: 1px solid #fcd34d;
+  border-left-width: 4px;
+  border-radius: 12px;
+  background: #fffbeb;
+  color: #78350f;
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+.source-note::before {
+  content: "원문 자료 유실 · ";
+  font-weight: 800;
+}
+
 .question-images,
 .review-images {
   display: grid;

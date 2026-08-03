@@ -24,6 +24,12 @@ window.addHVACExplanations = (rows) => {
   Object.assign(window.HVAC_EXPLANATIONS, rows);
 };
 
+// 원문 그림·표·수식이 유실된 문항에 붙일 안내문.
+window.HVAC_SOURCE_NOTES = {};
+window.addHVACSourceNotes = (rows) => {
+  Object.assign(window.HVAC_SOURCE_NOTES, rows);
+};
+
 window.addHVACQuestions = (subject, rows) => {
   rows.forEach(([id, topic, question, choices, answer, explanation]) => {
     const theoryUrl = new URL(theoryBase);
@@ -70,6 +76,7 @@ window.addHVACExamQuestions = (exam, rows) => {
       answer,
       explanation: authored || fallback,
       hasAuthoredExplanation: Boolean(authored),
+      sourceNote: window.HVAC_SOURCE_NOTES[id] || "",
       images,
       sourceType: "exam",
       exam: exam.id,
