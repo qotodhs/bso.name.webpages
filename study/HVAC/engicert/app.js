@@ -512,12 +512,16 @@
     const correct = selectedAnswer === question.answer;
     elements.instantFeedback.classList.remove("hidden", "correct-feedback", "wrong-feedback");
     elements.instantFeedback.classList.add(correct ? "correct-feedback" : "wrong-feedback");
+    const answerText = String(question.choices[question.answer] || "").trim();
+    const answerLabel = /원문 이미지의 보기/.test(answerText) || !answerText
+      ? `${choiceMarks[question.answer]}번`
+      : `${choiceMarks[question.answer]} ${answerText}`;
     elements.feedbackTitle.textContent = correct
-      ? "정답입니다."
-      : `오답입니다. 정답은 ${choiceMarks[question.answer]}입니다.`;
+      ? `정답입니다. — ${answerLabel}`
+      : `오답입니다. 정답은 ${answerLabel} 입니다.`;
     elements.feedbackText.textContent = question.explanation;
     elements.theoryLink.href = question.theory;
-    elements.theoryLink.title = "이론 페이지는 아직 준비 중입니다.";
+    elements.theoryLink.title = "관련 이론 노트로 이동합니다.";
   }
 
   function renderPalette() {
