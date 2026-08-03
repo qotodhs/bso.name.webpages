@@ -144,9 +144,13 @@
         const correct = selected === question.answer;
         feedback.classList.remove("hidden", "correct", "wrong");
         feedback.classList.add(correct ? "correct" : "wrong");
+        const answerText = String(question.choices[question.answer] || "").trim();
+        const answerLabel = /원문 이미지의 보기/.test(answerText) || !answerText
+          ? `${choiceMarks[question.answer]}번`
+          : `${choiceMarks[question.answer]} ${answerText}`;
         feedback.innerHTML = correct
-          ? `<strong>정답입니다.</strong><span>${escapeHtml(question.explanation)}</span>`
-          : `<strong>오답입니다. 정답은 ${choiceMarks[question.answer]}입니다.</strong><span>${escapeHtml(question.explanation)}</span>`;
+          ? `<strong>정답입니다. — ${escapeHtml(answerLabel)}</strong><span>${escapeHtml(question.explanation)}</span>`
+          : `<strong>오답입니다. 정답은 ${escapeHtml(answerLabel)} 입니다.</strong><span>${escapeHtml(question.explanation)}</span>`;
       }, { once: true });
     });
 

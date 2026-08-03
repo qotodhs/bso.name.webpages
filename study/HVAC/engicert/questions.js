@@ -14,7 +14,15 @@ window.HVAC_SUBJECTS = {
 
 const questionLoaderScript = document.currentScript;
 const questionDataBase = new URL("./question-data/", questionLoaderScript.src);
+const explanationBase = new URL("./explanations/", questionLoaderScript.src);
 const theoryBase = new URL("../theory/", questionLoaderScript.src);
+
+// 기출문제 해설 저장소. 해설 파일이 문제 파일보다 먼저 실행되므로
+// addHVACExamQuestions 시점에는 이미 채워져 있다.
+window.HVAC_EXPLANATIONS = {};
+window.addHVACExplanations = (rows) => {
+  Object.assign(window.HVAC_EXPLANATIONS, rows);
+};
 
 window.addHVACQuestions = (subject, rows) => {
   rows.forEach(([id, topic, question, choices, answer, explanation]) => {
@@ -46,6 +54,13 @@ window.addHVACExamQuestions = (exam, rows) => {
     theoryUrl.searchParams.set("subject", subject);
     theoryUrl.searchParams.set("topic", subjectLabel);
 
+    const authored = window.HVAC_EXPLANATIONS[id];
+    const answerText = String(choices[answer] || "").trim();
+    // 해설을 아직 쓰지 않은 문항은 최소한 정답 '내용'과 찾아볼 곳을 알려준다.
+    const fallback = /원문 이미지의 보기/.test(answerText) || !answerText
+      ? `정답은 ${choiceMarks[answer]}번입니다. 이 문항은 보기가 이미지로만 제공되어 해설을 준비하지 못했습니다. ${subjectLabel} 이론에서 관련 개념을 확인하세요.`
+      : `정답은 ${choiceMarks[answer]} ${answerText} 입니다. 상세 해설은 아직 준비 중이며, ${subjectLabel} 이론 노트에서 근거를 확인할 수 있습니다.`;
+
     window.HVAC_QUESTION_BANK.push({
       id,
       subject,
@@ -53,7 +68,8 @@ window.addHVACExamQuestions = (exam, rows) => {
       question,
       choices,
       answer,
-      explanation: `${exam.label} 기출문제의 정답은 ${choiceMarks[answer]}입니다.`,
+      explanation: authored || fallback,
+      hasAuthoredExplanation: Boolean(authored),
       images,
       sourceType: "exam",
       exam: exam.id,
@@ -63,6 +79,14 @@ window.addHVACExamQuestions = (exam, rows) => {
     });
   });
 };
+
+// 해설 파일을 문제 파일보다 먼저 실행시킨다.
+[
+  "index.js"
+].forEach((filename) => {
+  const src = new URL(filename, explanationBase).href;
+  document.write(`<script src="${src}"><\/script>`);
+});
 
 [
   "01-energy.js",
