@@ -6,6 +6,7 @@ const hvacExplanationBase = new URL("./", document.currentScript.src);
 [
   "source-notes.js",
   "source-incomplete.js",
+  "20040808.js",
   "20060305.js",
   "20090510.js",
   "20100307.js",
