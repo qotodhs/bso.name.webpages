@@ -14,6 +14,7 @@ const hvacExplanationBase = new URL("./", document.currentScript.src);
   "20120304.js",
   "20140525.js",
   "20160306.js",
+  "20170507.js",
   "20190804.js",
   "20200606.js",
   "20200822.js",
