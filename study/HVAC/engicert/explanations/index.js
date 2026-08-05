@@ -8,6 +8,7 @@ const hvacExplanationBase = new URL("./", document.currentScript.src);
   "source-incomplete.js",
   "20100307.js",
   "20160306.js",
+  "20200822.js",
   "20220305.js",
   "20220424.js"
 ].forEach((filename) => {
