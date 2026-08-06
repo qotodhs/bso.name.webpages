@@ -54,7 +54,7 @@ window.addHVACExamQuestions = (exam, rows) => {
   window.HVAC_EXAMS.push(exam);
   const choiceMarks = ["①", "②", "③", "④"];
 
-  rows.forEach(([id, subject, subjectLabel, question, choices, answer, images]) => {
+  rows.forEach(([id, subject, subjectLabel, question, choices, answer, images, choiceImages]) => {
     const topic = `${exam.label} · ${subjectLabel}`;
     const theoryUrl = new URL(theoryBase);
     theoryUrl.searchParams.set("subject", subject);
@@ -78,6 +78,8 @@ window.addHVACExamQuestions = (exam, rows) => {
       hasAuthoredExplanation: Boolean(authored),
       sourceNote: window.HVAC_SOURCE_NOTES[id] || "",
       images,
+      // 보기가 그림인 문항. 없으면 undefined 라 기존 문항은 그대로 텍스트로 렌더링된다.
+      choiceImages: Array.isArray(choiceImages) ? choiceImages : null,
       sourceType: "exam",
       exam: exam.id,
       examLabel: exam.label,

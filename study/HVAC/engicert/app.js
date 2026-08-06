@@ -442,7 +442,12 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "choice";
-      button.innerHTML = `<span class="choice-number">${choiceMarks[index]}</span><span>${withInlineMath(choice)}</span>`;
+      const choiceImage = question.choiceImages?.[index];
+      // 보기가 그림인 문항은 그림을 보여주고, 보기 문구는 대체 텍스트로 남겨 둔다.
+      const choiceBody = choiceImage
+        ? `<img class="choice-image" src="${escapeHtml(choiceImage)}" alt="${escapeHtml(choice)}" loading="lazy">`
+        : withInlineMath(choice);
+      button.innerHTML = `<span class="choice-number">${choiceMarks[index]}</span><span>${choiceBody}</span>`;
 
       if (answered && selectedAnswer === index) button.classList.add("selected");
       if (isFlashcard && answered) {

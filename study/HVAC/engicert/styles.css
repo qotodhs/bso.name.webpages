@@ -596,6 +596,14 @@ select {
   background: #f0fbfa;
 }
 
+/* 보기가 그림인 문항. 스캔 원본의 흰 바탕을 곱연산으로 없애 선택·정답 배경색 위에 얹는다. */
+.choice-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  mix-blend-mode: multiply;
+}
+
 .choice.correct {
   color: var(--correct);
   border-color: #80c9a2;
