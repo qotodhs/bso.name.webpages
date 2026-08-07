@@ -8,7 +8,6 @@ window.HVAC_SUBJECTS = {
   design: { label: "2과목 공조냉동설계", short: "공조냉동설계" },
   safety: { label: "3과목 시운전 및 안전관리", short: "시운전·안전" },
   maintenance: { label: "4과목 유지보수 공사관리", short: "유지보수·공사" },
-  law: { label: "5과목 관련법령 (심화)", short: "관련법령" },
   ncs: { label: "6과목 NCS 학습모듈 (심화)", short: "NCS 모듈" }
 };
 
