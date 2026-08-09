@@ -25,6 +25,15 @@ const cards = [
   {id:"countif-average",subject:"spreadsheet",term:"COUNTIF + AVERAGE",definition:"평균 이상인 값의 개수는 COUNTIF의 조건 문자열과 AVERAGE 결과를 &로 연결해 구합니다.",point:"예: =COUNTIF(C2:C8,\">=\"&AVERAGE(C2:C8))"}
 ];
 
+cards.push(...(window.BWR_PAST_QUESTIONS || []).map((item) => ({
+  id: `card-${item.id}`,
+  subject: item.subject,
+  kind: "past",
+  term: item.q,
+  definition: `정답 ${item.a + 1}번 · ${item.c[item.a]}`,
+  point: `${item.sourceLabel} · ${item.number}번 문제`
+})));
+
 const knownKey = "bwr-computer-known-v1";
 let known = new Set(JSON.parse(localStorage.getItem(knownKey) || "[]"));
 let subject = "all";
@@ -33,7 +42,12 @@ let position = 0;
 let flipped = false;
 
 const el = (id) => document.getElementById(id);
-const filtered = () => cards.filter((card) => (subject === "all" || card.subject === subject) && (view === "all" || !known.has(card.id)));
+const filtered = () => cards.filter((card) => {
+  const subjectMatches = subject === "all" || card.subject === subject;
+  const kind = card.kind || "concept";
+  const viewMatches = view === "all" || (view === "unknown" ? !known.has(card.id) : kind === view);
+  return subjectMatches && viewMatches;
+});
 
 function render() {
   const list = filtered();
@@ -50,7 +64,7 @@ function render() {
   el("cardDefinition").hidden = !flipped;
   el("cardPoint").hidden = !flipped;
   el("knownCard").textContent = known.has(card.id) ? "알고 있어요 ✓" : "알아요 ✓";
-  el("knownStat").textContent = `${known.size} / ${cards.length} 알아요`;
+  el("knownStat").textContent = `${cards.filter((item) => known.has(item.id)).length} / ${cards.length} 알아요`;
 }
 
 function flip() { flipped = !flipped; render(); }

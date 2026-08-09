@@ -3,26 +3,26 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="2026년 컴활 2급 기출 경향 기반 객관식 연습문제" />
-    <title>컴활 기출형 문제 | BWR Study</title>
+    <meta name="description" content="컴활 2급 실제 필기 기출문제와 객관식 연습문제" />
+    <title>컴활 기출문제 | BWR Study</title>
     <link rel="stylesheet" href="../../styles.css" />
   </head>
   <body class="tool-page">
     <a class="skip-link" href="#main">본문으로 건너뛰기</a>
     <header class="topbar">
       <a class="wordmark" href="../../"><span>BWR</span><strong>STUDY</strong></a>
-      <nav class="breadcrumbs" aria-label="현재 위치"><a href="../../">Study</a><span>/</span><a href="../">컴활</a><span>/</span><strong>기출형 문제</strong></nav>
+      <nav class="breadcrumbs" aria-label="현재 위치"><a href="../../">Study</a><span>/</span><a href="../">컴활</a><span>/</span><strong>기출문제</strong></nav>
     </header>
     <main class="tool-shell" id="main">
       <div class="tool-heading">
-        <div><p class="page-kicker">PAST-EXAM STYLE · PRACTICE</p><h1>기출의 흐름으로.</h1></div>
-        <p>2026 상시 02·03에 등장한 핵심 주제를 바탕으로 새로 만든 문제입니다. 원문 기출은 재배포하지 않습니다.</p>
+        <div><p class="page-kicker">PAST EXAMS · 61 SESSIONS</p><h1>실제 기출을 풀어보세요.</h1></div>
+        <p>62개 교사용 HWP에서 중복과 이미지 의존 문항을 제외해 실제 기출 1,808개를 추출했습니다. 기존 기출형 연습 24개도 함께 제공합니다.</p>
       </div>
 
       <section class="quiz-setup" aria-label="문제 세트 설정">
-        <label>문제 구분<select id="sourceSelect"><option value="all">2026 통합 경향</option><option value="set02">상시 02 경향</option><option value="set03">상시 03 경향</option><option value="wrong">저장된 오답만</option></select></label>
+        <label>문제 구분<select id="sourceSelect"><option value="all">전체 문제 · 1,832개</option><option value="past">폴더 실제 기출 · 1,808개</option><option value="practice">2026 기출형 연습 · 24개</option><option value="wrong">저장된 오답만</option><optgroup id="pastSourceGroup" label="회차별 실제 기출"></optgroup></select></label>
         <label>과목<select id="subjectSelect"><option value="all">전체 과목</option><option value="computer">1과목 컴퓨터 일반</option><option value="spreadsheet">2과목 스프레드시트 일반</option></select></label>
-        <label>문항 수<select id="countSelect"><option value="10">무작위 10문제</option><option value="20">무작위 20문제</option><option value="all">선택 범위 전체</option></select></label>
+        <label>문항 수<select id="countSelect"><option value="10">무작위 10문제</option><option value="20">무작위 20문제</option><option value="40">무작위 40문제</option><option value="100">무작위 100문제</option><option value="all">선택 범위 전체</option></select></label>
         <button class="primary-action" id="startQuiz" type="button">학습 시작</button>
       </section>
 
@@ -44,7 +44,8 @@
         <p>RESULT</p><div class="result-score" id="resultScore">0 / 10</div><p id="resultMessage"></p><button id="restartQuiz" type="button">다시 풀기</button>
       </section>
     </main>
-    <footer class="site-footer"><p>기출 주제 기반 창작 연습문제 · 24문항</p><a href="../">컴활 학습실로 돌아가기</a></footer>
+    <footer class="site-footer"><p>실제 기출 1,808문항 · 기출형 연습 24문항</p><a href="../">컴활 학습실로 돌아가기</a></footer>
+    <script src="../past-questions.js" defer></script>
     <script src="./app.js" defer></script>
   </body>
 </html>

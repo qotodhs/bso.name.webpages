@@ -6,6 +6,7 @@ let wrongSubject = "all";
 
 const wrongList = document.getElementById("wrongList");
 const emptyWrong = document.getElementById("emptyWrong");
+const escapeHTML = (value) => String(value).replace(/[&<>"']/g, (character) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"})[character]);
 
 function saveNote(questionId, value, status) {
   const clean = value.trim();
@@ -30,11 +31,12 @@ function renderWrongNotes() {
   items.forEach((item, index) => {
     const article = document.createElement("article");
     article.className = "wrong-card";
+    const sourceLabel = item.sourceLabel || (item.source === "set02" ? "2026 상시 02 기출형" : "2026 상시 03 기출형");
     article.innerHTML = `
-      <div class="wrong-card-head"><span>${String(index + 1).padStart(2, "0")}</span><p>${item.source === "set02" ? "2026 상시 02" : "2026 상시 03"} · ${item.subject === "computer" ? "컴퓨터 일반" : "스프레드시트 일반"}</p></div>
-      <h2>${item.q}</h2>
-      <p class="correct-line"><strong>정답</strong> ${item.a + 1}. ${item.c[item.a]}</p>
-      <p class="base-explanation"><strong>기본 해설</strong> ${item.e}</p>
+      <div class="wrong-card-head"><span>${String(index + 1).padStart(2, "0")}</span><p>${escapeHTML(sourceLabel)} · ${item.subject === "computer" ? "컴퓨터 일반" : "스프레드시트 일반"}</p></div>
+      <h2>${escapeHTML(item.q)}</h2>
+      <p class="correct-line"><strong>정답</strong> ${item.a + 1}. ${escapeHTML(item.c[item.a])}</p>
+      <p class="base-explanation"><strong>기본 해설</strong> ${escapeHTML(item.e)}</p>
       <label class="wrong-note-label">내 해설 · 오답 원인<textarea rows="4" placeholder="이 문제를 틀린 이유와 다시 볼 포인트를 적으세요."></textarea></label>
       <div class="wrong-actions"><button class="save-wrong-note" type="button">내 해설 저장</button><button class="master-button" type="button">정복 처리</button><span aria-live="polite"></span></div>`;
     const textarea = article.querySelector("textarea");

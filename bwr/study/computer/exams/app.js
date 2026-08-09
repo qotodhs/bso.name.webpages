@@ -25,6 +25,8 @@ window.BWR_QUESTIONS = [
   {id:"q24",source:"set03",subject:"spreadsheet",q:"C2:C8에서 평균 이상인 값의 개수를 구하는 수식으로 옳은 것은?",c:["=COUNTIF(C2:C8,\">=\"&AVERAGE(C2:C8))","=COUNTIF(C2:C8,AVERAGE(C2:C8))","=AVERAGEIF(C2:C8,\">=\")","=COUNT(C2:C8>=AVERAGE(C2:C8))"],a:0,e:"비교 연산자 문자열과 AVERAGE 결과를 &로 연결합니다."}
 ];
 
+window.BWR_QUESTIONS = [...window.BWR_QUESTIONS, ...(window.BWR_PAST_QUESTIONS || [])];
+
 if (document.getElementById("startQuiz")) {
 const questions = window.BWR_QUESTIONS;
 
@@ -39,7 +41,25 @@ const shuffle = (items) => [...items].sort(() => Math.random() - .5);
 function buildPool() {
   const source = $("sourceSelect").value;
   const subject = $("subjectSelect").value;
-  return questions.filter((item) => (source === "all" || (source === "wrong" ? wrong.has(item.id) : item.source === source)) && (subject === "all" || item.subject === subject));
+  return questions.filter((item) => {
+    const sourceMatches = source === "all"
+      || (source === "wrong" && wrong.has(item.id))
+      || (source === "past" && item.source.startsWith("past-"))
+      || (source === "practice" && !item.source.startsWith("past-"))
+      || item.source === source;
+    return sourceMatches && (subject === "all" || item.subject === subject);
+  });
+}
+
+function populatePastSources() {
+  const sources = new Map();
+  questions.filter((item) => item.source.startsWith("past-")).forEach((item) => sources.set(item.source, item.sourceLabel));
+  [...sources.entries()].sort((a, b) => b[0].localeCompare(a[0])).forEach(([value, label]) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = label;
+    $("pastSourceGroup").append(option);
+  });
 }
 
 function start() {
@@ -58,7 +78,8 @@ function paintTimer() { const m = Math.max(0,Math.floor(seconds/60)).toString().
 function renderQuestion() {
   answered = false; const item = queue[index];
   $("questionPosition").textContent = `${index+1} / ${queue.length}`;
-  $("questionSource").textContent = `${item.source === "set02" ? "2026 상시 02" : "2026 상시 03"} 출제 주제 · ${item.subject === "computer" ? "컴퓨터 일반" : "스프레드시트 일반"}`;
+  const sourceLabel = item.sourceLabel || (item.source === "set02" ? "2026 상시 02 기출형" : "2026 상시 03 기출형");
+  $("questionSource").textContent = `${sourceLabel} · ${item.subject === "computer" ? "컴퓨터 일반" : "스프레드시트 일반"}`;
   $("questionTitle").textContent = item.q; $("answers").replaceChildren(); $("explanation").hidden = true; $("noteEditor").hidden = true; $("userExplanation").value = userNotes[item.id] || ""; $("noteStatus").textContent = ""; $("nextQuestion").disabled = true;
   item.c.forEach((choice, choiceIndex) => { const button=document.createElement("button"); button.className="answer-option"; button.innerHTML=`<span class="answer-number">${choiceIndex+1}</span><span>${choice}</span>`; button.addEventListener("click",()=>answer(choiceIndex,button)); $("answers").append(button); });
 }
@@ -83,6 +104,7 @@ function saveUserExplanation() {
 function next() { if (index >= queue.length-1) finish(); else { index += 1; renderQuestion(); } }
 function finish() { clearInterval(timerId); timerId=null; $("quizStage").hidden=true; $("resultPanel").hidden=false; $("resultScore").textContent=`${score} / ${queue.length}`; const pct=Math.round(score/queue.length*100); $("resultMessage").textContent=pct>=60?`정답률 ${pct}% · 합격선 흐름입니다. 오답을 한 번 더 확인하세요.`:`정답률 ${pct}% · 저장된 오답부터 다시 풀어 보세요.`; }
 
+populatePastSources();
 $("startQuiz").addEventListener("click",start); $("nextQuestion").addEventListener("click",next); $("quitQuiz").addEventListener("click",finish); $("restartQuiz").addEventListener("click",start); $("saveExplanation").addEventListener("click",saveUserExplanation);
 if (new URLSearchParams(window.location.search).get("mode") === "wrong") $("sourceSelect").value = "wrong";
 }

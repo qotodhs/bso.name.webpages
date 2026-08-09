@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="컴퓨터활용능력 2급 필기 핵심 개념 플래시카드" />
+    <meta name="description" content="컴퓨터활용능력 2급 핵심 개념과 실제 기출문제 플래시카드" />
     <title>컴활 플래시카드 | BWR Study</title>
     <link rel="stylesheet" href="../../styles.css" />
   </head>
@@ -15,8 +15,8 @@
     </header>
     <main class="tool-shell" id="main">
       <div class="tool-heading">
-        <div><p class="page-kicker">FLASHCARDS · 24 CONCEPTS</p><h1>개념을 한 장씩.</h1></div>
-        <p>카드를 눌러 정의와 시험 포인트를 확인하세요. ‘알아요’로 표시한 카드는 이 기기에 저장됩니다.</p>
+        <div><p class="page-kicker">FLASHCARDS · 1,832 CARDS</p><h1>개념과 기출을 한 장씩.</h1></div>
+        <p>핵심 개념 24개와 실제 기출 1,808개를 카드로 확인하세요. ‘알아요’로 표시한 카드는 이 기기에 저장됩니다.</p>
       </div>
 
       <section class="tool-panel" aria-label="컴활 플래시카드 학습 도구">
@@ -31,8 +31,10 @@
           </div>
           <div class="view-controls" aria-label="카드 보기 설정">
             <button class="view-filter active" data-view="all" type="button">전체 카드</button>
+            <button class="view-filter" data-view="concept" type="button">개념 카드</button>
+            <button class="view-filter" data-view="past" type="button">기출 카드</button>
             <button class="view-filter" data-view="unknown" type="button">아직 모르는 카드</button>
-            <span class="stat-pill" id="knownStat">0 / 24 알아요</span>
+            <span class="stat-pill" id="knownStat">0 / 1,832 알아요</span>
           </div>
         </div>
 
@@ -48,7 +50,8 @@
         </div>
       </section>
     </main>
-    <footer class="site-footer"><p>2026 기출 경향 기반 핵심 개념</p><a href="../">컴활 학습실로 돌아가기</a></footer>
+    <footer class="site-footer"><p>핵심 개념 24개 · 실제 기출 카드 1,808개</p><a href="../">컴활 학습실로 돌아가기</a></footer>
+    <script src="../past-questions.js" defer></script>
     <script src="./app.js" defer></script>
   </body>
 </html>
