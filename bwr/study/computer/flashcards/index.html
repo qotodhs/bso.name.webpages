@@ -3,54 +3,73 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="컴퓨터활용능력 2급 핵심 개념과 실제 기출문제 플래시카드" />
-    <title>컴활 플래시카드 | BWR Study</title>
+    <meta name="description" content="컴퓨터활용능력 2급 실제 기출문제를 한 문제씩 풀고 바로 해설을 확인하는 학습 도구" />
+    <title>컴활 기출 한 문제씩 | BWR Study</title>
     <link rel="stylesheet" href="../../styles.css" />
   </head>
-  <body class="tool-page">
+  <body class="tool-page practice-page">
     <a class="skip-link" href="#main">본문으로 건너뛰기</a>
     <header class="topbar">
       <a class="wordmark" href="../../"><span>BWR</span><strong>STUDY</strong></a>
-      <nav class="breadcrumbs" aria-label="현재 위치"><a href="../../">Study</a><span>/</span><a href="../">컴활</a><span>/</span><strong>플래시카드</strong></nav>
+      <nav class="breadcrumbs" aria-label="현재 위치"><a href="../../">Study</a><span>/</span><a href="../">컴활</a><span>/</span><strong>기출 한 문제씩</strong></nav>
     </header>
+
     <main class="tool-shell" id="main">
       <div class="tool-heading">
-        <div><p class="page-kicker">FLASHCARDS · 1,832 CARDS</p><h1>개념과 기출을 한 장씩.</h1></div>
-        <p>핵심 개념 24개와 실제 기출 1,808개를 카드로 확인하세요. ‘알아요’로 표시한 카드는 이 기기에 저장됩니다.</p>
+        <div><p class="page-kicker">PAST QUESTION PRACTICE · 1,808</p><h1>한 문제씩, 바로 이해하기.</h1></div>
+        <p>HVAC 기출풀이처럼 답을 고르면 즉시 채점하고 정답과 해설을 보여줍니다. 내 해설과 틀린 문제는 이 기기에 저장됩니다.</p>
       </div>
 
-      <section class="tool-panel" aria-label="컴활 플래시카드 학습 도구">
-        <div class="control-row flashcard-controls">
-          <div class="subject-selector">
-            <p>과목 선택</p>
-            <div class="subject-tabs" role="group" aria-label="플래시카드 과목 선택">
-              <button class="subject-tab active" data-subject="all" type="button" aria-pressed="true"><span>ALL</span><strong>전체 과목</strong></button>
-              <button class="subject-tab" data-subject="computer" type="button" aria-pressed="false"><span>01</span><strong>컴퓨터 일반</strong></button>
-              <button class="subject-tab" data-subject="spreadsheet" type="button" aria-pressed="false"><span>02</span><strong>스프레드시트 일반</strong></button>
-            </div>
-          </div>
-          <div class="view-controls" aria-label="카드 보기 설정">
-            <button class="view-filter active" data-view="all" type="button">전체 카드</button>
-            <button class="view-filter" data-view="concept" type="button">개념 카드</button>
-            <button class="view-filter" data-view="past" type="button">기출 카드</button>
-            <button class="view-filter" data-view="unknown" type="button">아직 모르는 카드</button>
-            <span class="stat-pill" id="knownStat">0 / 1,832 알아요</span>
-          </div>
+      <section class="practice-setup" id="practiceSetup" aria-label="기출 학습 설정">
+        <div class="setup-heading">
+          <div><span>QUICK SETUP</span><h2>오늘 풀 범위를 선택하세요.</h2></div>
+          <p>회차를 고르거나 전체 기출에서 무작위로 시작할 수 있습니다.</p>
         </div>
-
-        <article class="flashcard" id="flashcard" tabindex="0" role="button" aria-label="카드 뒤집기">
-          <div class="card-meta"><span id="cardSubject"></span><span id="cardPosition"></span></div>
-          <div class="card-body"><h2 class="term" id="cardTerm"></h2><p class="hint" id="cardHint">카드를 눌러 뜻 보기</p><p class="definition" id="cardDefinition" hidden></p><p class="exam-point" id="cardPoint" hidden></p></div>
-        </article>
-        <div class="flash-actions">
-          <button id="prevCard" type="button" aria-label="이전 카드">← 이전</button>
-          <button class="again" id="againCard" type="button">다시 볼래요</button>
-          <button class="known" id="knownCard" type="button">알아요 ✓</button>
-          <button id="nextCard" type="button" aria-label="다음 카드">다음 →</button>
+        <div class="practice-controls">
+          <label>기출 범위<select id="sourceSelect"><option value="past">전체 실제 기출 · 1,808개</option><option value="wrong">저장된 오답만</option><optgroup id="pastSourceGroup" label="회차별 실제 기출"></optgroup></select></label>
+          <label>과목<select id="subjectSelect"><option value="all">전체 과목</option><option value="computer">1과목 · 컴퓨터 일반</option><option value="spreadsheet">2과목 · 스프레드시트 일반</option></select></label>
+          <label>학습 분량<select id="countSelect"><option value="10">10문제</option><option value="20">20문제</option><option value="40">40문제</option><option value="all">선택 범위 전체</option></select></label>
+          <button class="primary-action" id="startPractice" type="button">한 문제씩 시작</button>
         </div>
       </section>
+
+      <section class="single-question-stage" id="questionStage" hidden aria-live="polite">
+        <div class="practice-toolbar">
+          <div><span class="practice-badge">기출 한 문제씩</span><strong id="practiceSubject">전체 과목</strong></div>
+          <div class="practice-stats"><span id="questionPosition">1 / 10</span><span id="scorePosition">정답 0</span></div>
+        </div>
+        <div class="question-progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+        <article class="practice-question-card">
+          <div class="question-meta-line"><span id="questionSubject"></span><span id="questionSource"></span></div>
+          <h2 id="questionTitle"></h2>
+          <div class="answers" id="answers"></div>
+          <div class="instant-result" id="instantResult" hidden>
+            <strong id="resultTitle"></strong>
+            <p id="explanation"></p>
+          </div>
+          <div class="note-editor" id="noteEditor" hidden>
+            <label for="userExplanation">내 해설 · 학습 메모</label>
+            <textarea id="userExplanation" rows="4" placeholder="왜 이 답이 맞는지, 틀린 이유나 외울 포인트를 적어보세요."></textarea>
+            <div><button id="saveExplanation" type="button">내 해설 저장</button><span id="noteStatus" aria-live="polite"></span></div>
+          </div>
+        </article>
+
+        <div class="practice-navigation">
+          <button class="quiet-action" id="quitPractice" type="button">학습 종료</button>
+          <button class="primary-action" id="nextQuestion" type="button" disabled>다음 문제 →</button>
+        </div>
+      </section>
+
+      <section class="practice-result" id="resultPanel" hidden aria-live="polite">
+        <p>SESSION COMPLETE</p>
+        <div class="result-score" id="resultScore">0 / 10</div>
+        <h2 id="resultMessage"></h2>
+        <div><button class="primary-action" id="restartPractice" type="button">같은 조건으로 다시 풀기</button><a class="quiet-action link-action" href="../wrongnote/">오답노트 보기</a></div>
+      </section>
     </main>
-    <footer class="site-footer"><p>핵심 개념 24개 · 실제 기출 카드 1,808개</p><a href="../">컴활 학습실로 돌아가기</a></footer>
+
+    <footer class="site-footer"><p>실제 기출 1,808문항 · 즉시 채점 · 내 해설 저장</p><a href="../">컴활 학습실로 돌아가기</a></footer>
     <script src="../past-questions.js" defer></script>
     <script src="./app.js" defer></script>
   </body>

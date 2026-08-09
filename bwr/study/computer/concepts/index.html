@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="컴퓨터활용능력 2급 핵심 개념 플래시카드" />
+    <title>컴활 개념카드 | BWR Study</title>
+    <link rel="stylesheet" href="../../styles.css" />
+  </head>
+  <body class="tool-page">
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+    <header class="topbar">
+      <a class="wordmark" href="../../"><span>BWR</span><strong>STUDY</strong></a>
+      <nav class="breadcrumbs" aria-label="현재 위치"><a href="../../">Study</a><span>/</span><a href="../">컴활</a><span>/</span><strong>개념카드</strong></nav>
+    </header>
+    <main class="tool-shell" id="main">
+      <div class="tool-heading">
+        <div><p class="page-kicker">CONCEPT CARDS · 24 CARDS</p><h1>시험에 나오는 개념부터.</h1></div>
+        <p>두 과목의 핵심 개념 24개를 짧은 정의와 시험 포인트로 확인하세요. ‘알아요’로 표시한 카드는 이 기기에 저장됩니다.</p>
+      </div>
+
+      <section class="tool-panel" aria-label="컴활 플래시카드 학습 도구">
+        <div class="control-row flashcard-controls">
+          <div class="subject-selector">
+            <p>과목 선택</p>
+            <div class="subject-tabs" role="group" aria-label="플래시카드 과목 선택">
+              <button class="subject-tab active" data-subject="all" type="button" aria-pressed="true"><span>ALL</span><strong>전체 과목</strong></button>
+              <button class="subject-tab" data-subject="computer" type="button" aria-pressed="false"><span>01</span><strong>컴퓨터 일반</strong></button>
+              <button class="subject-tab" data-subject="spreadsheet" type="button" aria-pressed="false"><span>02</span><strong>스프레드시트 일반</strong></button>
+            </div>
+          </div>
+          <div class="view-controls" aria-label="카드 보기 설정">
+            <button class="view-filter active" data-view="all" type="button">전체 개념</button>
+            <button class="view-filter" data-view="unknown" type="button">아직 모르는 개념</button>
+            <span class="stat-pill" id="knownStat">0 / 24 알아요</span>
+          </div>
+        </div>
+
+        <article class="flashcard" id="flashcard" tabindex="0" role="button" aria-label="카드 뒤집기">
+          <div class="card-meta"><span id="cardSubject"></span><span id="cardPosition"></span></div>
+          <div class="card-body"><h2 class="term" id="cardTerm"></h2><p class="hint" id="cardHint">카드를 눌러 뜻 보기</p><p class="definition" id="cardDefinition" hidden></p><p class="exam-point" id="cardPoint" hidden></p></div>
+        </article>
+        <div class="flash-actions">
+          <button id="prevCard" type="button" aria-label="이전 카드">← 이전</button>
+          <button class="again" id="againCard" type="button">다시 볼래요</button>
+          <button class="known" id="knownCard" type="button">알아요 ✓</button>
+          <button id="nextCard" type="button" aria-label="다음 카드">다음 →</button>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer"><p>핵심 개념 24개 · 두 과목</p><a href="../">컴활 학습실로 돌아가기</a></footer>
+    <script src="./app.js" defer></script>
+  </body>
+</html>

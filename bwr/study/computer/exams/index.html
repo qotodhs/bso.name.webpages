@@ -3,48 +3,64 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="컴활 2급 실제 필기 기출문제와 객관식 연습문제" />
-    <title>컴활 기출문제 | BWR Study</title>
+    <meta name="description" content="컴퓨터활용능력 2급 실제 기출문제로 구성한 40분 모의고사" />
+    <title>컴활 2급 모의고사 | BWR Study</title>
     <link rel="stylesheet" href="../../styles.css" />
   </head>
-  <body class="tool-page">
+  <body class="tool-page mock-page">
     <a class="skip-link" href="#main">본문으로 건너뛰기</a>
     <header class="topbar">
       <a class="wordmark" href="../../"><span>BWR</span><strong>STUDY</strong></a>
-      <nav class="breadcrumbs" aria-label="현재 위치"><a href="../../">Study</a><span>/</span><a href="../">컴활</a><span>/</span><strong>기출문제</strong></nav>
+      <nav class="breadcrumbs" aria-label="현재 위치"><a href="../../">Study</a><span>/</span><a href="../">컴활</a><span>/</span><strong>모의고사</strong></nav>
     </header>
+
     <main class="tool-shell" id="main">
       <div class="tool-heading">
-        <div><p class="page-kicker">PAST EXAMS · 61 SESSIONS</p><h1>실제 기출을 풀어보세요.</h1></div>
-        <p>62개 교사용 HWP에서 중복과 이미지 의존 문항을 제외해 실제 기출 1,808개를 추출했습니다. 기존 기출형 연습 24개도 함께 제공합니다.</p>
+        <div><p class="page-kicker">MOCK EXAM · 40 MINUTES</p><h1>실전처럼 끝까지.</h1></div>
+        <p>실제 기출에서 무작위로 출제합니다. 문제를 푸는 동안 정답은 보이지 않고, 시험을 마치면 한 번에 채점합니다.</p>
       </div>
 
-      <section class="quiz-setup" aria-label="문제 세트 설정">
-        <label>문제 구분<select id="sourceSelect"><option value="all">전체 문제 · 1,832개</option><option value="past">폴더 실제 기출 · 1,808개</option><option value="practice">2026 기출형 연습 · 24개</option><option value="wrong">저장된 오답만</option><optgroup id="pastSourceGroup" label="회차별 실제 기출"></optgroup></select></label>
-        <label>과목<select id="subjectSelect"><option value="all">전체 과목</option><option value="computer">1과목 컴퓨터 일반</option><option value="spreadsheet">2과목 스프레드시트 일반</option></select></label>
-        <label>문항 수<select id="countSelect"><option value="10">무작위 10문제</option><option value="20">무작위 20문제</option><option value="40">무작위 40문제</option><option value="100">무작위 100문제</option><option value="all">선택 범위 전체</option></select></label>
-        <button class="primary-action" id="startQuiz" type="button">학습 시작</button>
-      </section>
-
-      <section class="quiz-stage" id="quizStage" hidden aria-live="polite">
-        <div class="quiz-status"><span id="questionPosition">1 / 10</span><strong id="timer">10:00</strong></div>
-        <p class="question-source" id="questionSource"></p>
-        <h2 class="question-title" id="questionTitle"></h2>
-        <div class="answers" id="answers"></div>
-        <div class="explanation" id="explanation" hidden></div>
-        <div class="note-editor" id="noteEditor" hidden>
-          <label for="userExplanation">내 해설 · 학습 메모</label>
-          <textarea id="userExplanation" rows="4" placeholder="왜 이 답이 맞는지, 내가 틀린 이유나 외울 포인트를 적어보세요."></textarea>
-          <div><button id="saveExplanation" type="button">내 해설 저장</button><span id="noteStatus" aria-live="polite"></span></div>
+      <section class="mock-setup" id="mockSetup" aria-label="모의고사 설정">
+        <div class="mock-format-list">
+          <label class="mock-format active"><input type="radio" name="mockMode" value="full" checked /><span><b>실전 모의고사</b><small>1과목 20 + 2과목 20 · 40분</small></span><strong>40</strong></label>
+          <label class="mock-format"><input type="radio" name="mockMode" value="computer" /><span><b>1과목 집중</b><small>컴퓨터 일반 · 20분</small></span><strong>20</strong></label>
+          <label class="mock-format"><input type="radio" name="mockMode" value="spreadsheet" /><span><b>2과목 집중</b><small>스프레드시트 일반 · 20분</small></span><strong>20</strong></label>
         </div>
-        <div class="quiz-nav"><button id="quitQuiz" type="button">학습 종료</button><button id="nextQuestion" type="button" disabled>다음 문제 →</button></div>
+        <div class="mock-start-row"><p><strong>채점 기준</strong> 평균 60점 이상, 각 과목 40점 이상</p><button class="primary-action" id="startMock" type="button">모의고사 시작</button></div>
       </section>
 
-      <section class="result-panel" id="resultPanel" hidden>
-        <p>RESULT</p><div class="result-score" id="resultScore">0 / 10</div><p id="resultMessage"></p><button id="restartQuiz" type="button">다시 풀기</button>
+      <section class="single-question-stage" id="questionStage" hidden aria-live="polite">
+        <div class="practice-toolbar mock-toolbar">
+          <div><span class="practice-badge">모의고사</span><strong id="mockModeLabel">실전 40문항</strong></div>
+          <div class="practice-stats"><span id="questionPosition">1 / 40</span><strong id="timer">40:00</strong></div>
+        </div>
+        <div class="question-progress" aria-hidden="true"><span id="progressBar"></span></div>
+
+        <article class="practice-question-card mock-question-card">
+          <div class="question-meta-line"><span id="questionSubject"></span><span id="questionSource"></span></div>
+          <h2 id="questionTitle"></h2>
+          <div class="answers" id="answers"></div>
+          <p class="mock-notice">선택한 답은 시험 종료 전까지 바꿀 수 있습니다. 정답과 해설은 채점 후 오답노트에서 확인하세요.</p>
+        </article>
+
+        <div class="practice-navigation mock-navigation">
+          <button class="quiet-action" id="previousQuestion" type="button">← 이전 문제</button>
+          <button class="quiet-action finish-action" id="finishMock" type="button">시험 종료·채점</button>
+          <button class="primary-action" id="nextQuestion" type="button">다음 문제 →</button>
+        </div>
+      </section>
+
+      <section class="practice-result mock-result" id="resultPanel" hidden aria-live="polite">
+        <p>MOCK EXAM RESULT</p>
+        <div class="result-score" id="resultScore">0 / 40</div>
+        <h2 id="resultTitle">채점 결과</h2>
+        <p id="resultMessage"></p>
+        <div class="subject-result-grid" id="subjectResults"></div>
+        <div class="result-actions"><button class="primary-action" id="restartMock" type="button">새 문제로 다시 풀기</button><a class="quiet-action link-action" href="../wrongnote/">오답·해설 확인</a></div>
       </section>
     </main>
-    <footer class="site-footer"><p>실제 기출 1,808문항 · 기출형 연습 24문항</p><a href="../">컴활 학습실로 돌아가기</a></footer>
+
+    <footer class="site-footer"><p>실제 기출 기반 · 40문항 · 40분</p><a href="../">컴활 학습실로 돌아가기</a></footer>
     <script src="../past-questions.js" defer></script>
     <script src="./app.js" defer></script>
   </body>
