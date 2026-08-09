@@ -33,11 +33,17 @@ function renderWrongNotes() {
     const article = document.createElement("article");
     article.className = "wrong-card";
     const sourceLabel = item.sourceLabel || (item.source === "set02" ? "2026 상시 02 기출형" : "2026 상시 03 기출형");
+    const detailed = (window.BWR_EXPLANATIONS || {})[item.id];
+    const explanation = detailed?.explanation || item.e;
+    const explanationGuide = detailed && (detailed.criterion || detailed.trap)
+      ? `<p class="base-explanation"><strong>판별 기준·함정</strong> ${escapeHTML([detailed.criterion, detailed.trap].filter(Boolean).join(" · "))}</p>`
+      : "";
     article.innerHTML = `
       <div class="wrong-card-head"><span>${String(index + 1).padStart(2, "0")}</span><p>${escapeHTML(sourceLabel)} · ${item.subject === "computer" ? "컴퓨터 일반" : "스프레드시트 일반"}</p></div>
       <h2>${escapeHTML(item.q)}</h2>
       <p class="correct-line"><strong>정답</strong> ${item.a + 1}. ${escapeHTML(item.c[item.a])}</p>
-      <p class="base-explanation"><strong>기본 해설</strong> ${escapeHTML(item.e)}</p>
+      <p class="base-explanation"><strong>${detailed ? "상세 해설" : "기본 해설"}</strong> ${escapeHTML(explanation)}</p>
+      ${explanationGuide}
       <label class="wrong-note-label">내 해설 · 오답 원인<textarea rows="4" placeholder="이 문제를 틀린 이유와 다시 볼 포인트를 적으세요."></textarea></label>
       <div class="wrong-actions"><button class="save-wrong-note" type="button">내 해설 저장</button><button class="master-button" type="button">정복 처리</button><span aria-live="polite"></span></div>`;
     const textarea = article.querySelector("textarea");
@@ -49,5 +55,7 @@ function renderWrongNotes() {
   });
 }
 
-document.getElementById("wrongSubject").addEventListener("change", (event) => { wrongSubject = event.target.value; renderWrongNotes(); });
-renderWrongNotes();
+Promise.resolve(window.BWR_EXPLANATION_READY).then(() => {
+  document.getElementById("wrongSubject").addEventListener("change", (event) => { wrongSubject = event.target.value; renderWrongNotes(); });
+  renderWrongNotes();
+});

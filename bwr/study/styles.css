@@ -452,6 +452,18 @@ body, .english-page, .tool-page { background: var(--cream); }
 .subject-result-grid span, .subject-result-grid small { color: rgba(255,255,255,.72); }
 .subject-result-grid strong { font-family: Georgia, serif; font-size: 2rem; }
 
+.concept-details { width: min(820px, 100%); max-height: 430px; margin: 22px auto 0; padding-right: 8px; display: grid; gap: 10px; overflow-y: auto; text-align: left; }
+.concept-details[hidden] { display: none; }
+.concept-details > .definition { margin: 0 0 4px; color: white; font-size: 1.03rem; font-weight: 750; line-height: 1.65; }
+.concept-details section { padding: 13px 15px; border-left: 3px solid rgba(223,243,216,.75); background: rgba(255,255,255,.07); }
+.concept-details section strong { display: block; margin-bottom: 4px; color: #dff3d8; font-size: .7rem; letter-spacing: .05em; }
+.concept-details section p { margin: 0; color: rgba(255,255,255,.82); font-size: .84rem; line-height: 1.6; }
+.concept-practice-link { margin-top: 14px; min-height: 46px; padding: 0 18px; display: flex; align-items: center; justify-content: center; color: var(--computer-deep); border: 1px solid #aebcb2; background: #f7f8f4; font-size: .8rem; font-weight: 900; text-decoration: none; }
+.concept-practice-link:hover { border-color: var(--computer-deep); background: white; }
+.concept-practice-link[hidden] { display: none; }
+.tool-panel:has(.concept-details) .flashcard { min-height: 590px; }
+.tool-panel:has(.concept-details) .card-body { width: 100%; }
+
 @media (max-width: 900px) {
   .practice-controls { grid-template-columns: 1fr 1fr; }
   .mock-source-picker { grid-template-columns: 1fr; }
@@ -469,4 +481,7 @@ body, .english-page, .tool-page { background: var(--cream); }
   .mock-navigation .finish-action { margin-left: 0; }
   .subject-result-grid { grid-template-columns: 1fr; }
   .subject-result-grid article { border-right: 0; }
+  .tool-panel:has(.concept-details) .flashcard { min-height: 640px; padding: 76px 18px 26px; }
+  .concept-details { max-height: 470px; }
+  .concept-details section { padding: 11px 12px; }
 }

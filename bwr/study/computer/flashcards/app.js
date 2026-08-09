@@ -4,6 +4,9 @@
   const pastQuestions = Array.isArray(window.BWR_PAST_QUESTIONS) ? window.BWR_PAST_QUESTIONS : [];
   const predictedQuestions = Array.isArray(window.BWR_PREDICTED_QUESTIONS) ? window.BWR_PREDICTED_QUESTIONS : [];
   const questions = [...predictedQuestions, ...pastQuestions];
+  const conceptId = new URLSearchParams(window.location.search).get("concept");
+  const selectedConcept = (window.BWR_CONCEPTS || []).find((concept) => concept.id === conceptId);
+  const matchConcept = typeof window.BWR_CONCEPT_MATCH === "function" ? window.BWR_CONCEPT_MATCH : () => true;
   const wrongKey = "bwr-computer-wrong-v1";
   const noteKey = "bwr-computer-explanations-v1";
   const $ = (id) => document.getElementById(id);
@@ -49,7 +52,8 @@
         || (source === "predicted" && item.source === "predicted")
         || (source === "wrong" && wrong.has(item.id))
         || item.source === source;
-      return sourceMatches && (subject === "all" || item.subject === subject);
+      const conceptMatches = !selectedConcept || matchConcept(selectedConcept, item);
+      return sourceMatches && (subject === "all" || item.subject === subject) && conceptMatches;
     });
   }
 
@@ -126,7 +130,8 @@
 
     localStorage.setItem(wrongKey, JSON.stringify([...wrong]));
     $("scorePosition").textContent = `정답 ${score}`;
-    $("explanation").textContent = item.e;
+    const detailed = (window.BWR_EXPLANATIONS || {})[item.id];
+    $("explanation").textContent = detailed?.explanation || item.e;
     $("instantResult").hidden = false;
     $("noteEditor").hidden = false;
     $("nextQuestion").disabled = false;
@@ -156,11 +161,20 @@
     $("resultMessage").textContent = `정답률 ${percent}% · ${queue.length - score}문제가 오답노트에 연결되었습니다.`;
   }
 
-  fillSources();
-  $("startPractice").addEventListener("click", start);
-  $("nextQuestion").addEventListener("click", next);
-  $("quitPractice").addEventListener("click", finish);
-  $("restartPractice").addEventListener("click", start);
-  $("saveExplanation").addEventListener("click", saveNote);
-  if (new URLSearchParams(window.location.search).get("mode") === "wrong") $("sourceSelect").value = "wrong";
+  function initialize() {
+    fillSources();
+    $("startPractice").addEventListener("click", start);
+    $("nextQuestion").addEventListener("click", next);
+    $("quitPractice").addEventListener("click", finish);
+    $("restartPractice").addEventListener("click", start);
+    $("saveExplanation").addEventListener("click", saveNote);
+    if (new URLSearchParams(window.location.search).get("mode") === "wrong") $("sourceSelect").value = "wrong";
+    if (selectedConcept) {
+      $("sourceSelect").value = "past";
+      $("subjectSelect").value = selectedConcept.subject;
+      document.querySelector(".setup-heading p").textContent = `${selectedConcept.term}과 연결된 실제 기출만 골라 풉니다.`;
+    }
+  }
+
+  Promise.resolve(window.BWR_EXPLANATION_READY).then(initialize);
 })();

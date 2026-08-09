@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="컴퓨터활용능력 2급 핵심 개념 플래시카드" />
+    <meta name="description" content="컴퓨터활용능력 2급 지식, 실제 기출 근거와 오답 해설을 연결한 개념카드" />
     <title>컴활 개념카드 | BWR Study</title>
     <link rel="stylesheet" href="../../styles.css" />
   </head>
@@ -15,8 +15,8 @@
     </header>
     <main class="tool-shell" id="main">
       <div class="tool-heading">
-        <div><p class="page-kicker">CONCEPT CARDS · 24 CARDS</p><h1>시험에 나오는 개념부터.</h1></div>
-        <p>두 과목의 핵심 개념 24개를 짧은 정의와 시험 포인트로 확인하세요. ‘알아요’로 표시한 카드는 이 기기에 저장됩니다.</p>
+        <div><p class="page-kicker">CONCEPT CARDS · KNOWLEDGE + EVIDENCE</p><h1>기출에서 개념으로.</h1></div>
+        <p>핵심 지식에 실제 기출의 반복 표현과 오답 판별 기준을 연결했습니다. 앞으로 추가되는 상세 해설도 관련 개념에 자동으로 모입니다.</p>
       </div>
 
       <section class="tool-panel" aria-label="컴활 플래시카드 학습 도구">
@@ -31,14 +31,25 @@
           </div>
           <div class="view-controls" aria-label="카드 보기 설정">
             <button class="view-filter active" data-view="all" type="button">전체 개념</button>
+            <button class="view-filter" data-view="evidence" type="button">기출 연결 개념</button>
+            <button class="view-filter" id="explanationFilter" data-view="explanation" type="button" hidden>상세 해설 연결</button>
             <button class="view-filter" data-view="unknown" type="button">아직 모르는 개념</button>
             <span class="stat-pill" id="knownStat">0 / 24 알아요</span>
           </div>
         </div>
 
         <article class="flashcard" id="flashcard" tabindex="0" role="button" aria-label="카드 뒤집기">
-          <div class="card-meta"><span id="cardSubject"></span><span id="cardPosition"></span></div>
-          <div class="card-body"><h2 class="term" id="cardTerm"></h2><p class="hint" id="cardHint">카드를 눌러 뜻 보기</p><p class="definition" id="cardDefinition" hidden></p><p class="exam-point" id="cardPoint" hidden></p></div>
+          <div class="card-meta"><span id="cardSubject"></span><span id="cardPastCount"></span><span id="cardExplanationCount" hidden></span><span id="cardPosition"></span></div>
+          <div class="card-body">
+            <h2 class="term" id="cardTerm"></h2><p class="hint" id="cardHint">카드를 눌러 개념과 기출 근거 보기</p>
+            <div class="concept-details" id="conceptDetails" hidden>
+              <p class="definition" id="cardDefinition"></p>
+              <section><strong>판별 기준</strong><p id="cardCriterion"></p></section>
+              <section><strong>기출 근거</strong><p id="cardEvidence"></p></section>
+              <section><strong>자주 틀리는 이유</strong><p id="cardMistake"></p></section>
+              <section id="cardExplanationSection" hidden><strong>연결된 상세 해설</strong><p id="cardExplanationPreview"></p></section>
+            </div>
+          </div>
         </article>
         <div class="flash-actions">
           <button id="prevCard" type="button" aria-label="이전 카드">← 이전</button>
@@ -46,9 +57,14 @@
           <button class="known" id="knownCard" type="button">알아요 ✓</button>
           <button id="nextCard" type="button" aria-label="다음 카드">다음 →</button>
         </div>
+        <a class="concept-practice-link" id="conceptPracticeLink" href="../flashcards/">이 개념의 관련 기출 한 문제씩 풀기 →</a>
       </section>
     </main>
-    <footer class="site-footer"><p>핵심 개념 24개 · 두 과목</p><a href="../">컴활 학습실로 돌아가기</a></footer>
+    <footer class="site-footer"><p>핵심 개념 24개 · 실제 기출 자동 연결 · 상세 해설 확장 구조</p><a href="../">컴활 학습실로 돌아가기</a></footer>
+    <script src="../past-questions.js" defer></script>
+    <script src="../predicted-questions.js" defer></script>
+    <script src="../explanations/index.js" defer></script>
+    <script src="./concept-data.js" defer></script>
     <script src="./app.js" defer></script>
   </body>
 </html>
