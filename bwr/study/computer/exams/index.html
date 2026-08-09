@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="컴퓨터활용능력 2급 실제 기출문제로 구성한 40분 모의고사" />
+    <meta name="description" content="컴퓨터활용능력 2급 예상문제와 실제 기출문제로 구성한 모의고사" />
     <title>컴활 2급 모의고사 | BWR Study</title>
     <link rel="stylesheet" href="../../styles.css" />
   </head>
@@ -16,15 +16,20 @@
 
     <main class="tool-shell" id="main">
       <div class="tool-heading">
-        <div><p class="page-kicker">MOCK EXAM · 40 MINUTES</p><h1>실전처럼 끝까지.</h1></div>
-        <p>실제 기출에서 무작위로 출제합니다. 문제를 푸는 동안 정답은 보이지 않고, 시험을 마치면 한 번에 채점합니다.</p>
+        <div><p class="page-kicker">MOCK EXAM · 1,832 QUESTIONS</p><h1>실전처럼 끝까지.</h1></div>
+        <p>예상문제와 기출문제를 함께 또는 따로 선택하세요. 풀이 중에는 정답을 숨기고 시험을 마치면 한 번에 채점합니다.</p>
       </div>
 
       <section class="mock-setup" id="mockSetup" aria-label="모의고사 설정">
+        <div class="mock-source-picker">
+          <label for="mockSource">문제 출처</label>
+          <select id="mockSource"><option value="all">예상문제 + 기출문제 · 1,832개</option><option value="past">기출문제 · 1,808개</option><option value="predicted">예상문제 · 24개</option><optgroup id="mockPastSourceGroup" label="기출문제 회차 선택"></optgroup></select>
+          <p id="mockSourceSummary">선택한 범위에서 과목별 최대 20문항을 출제합니다.</p>
+        </div>
         <div class="mock-format-list">
-          <label class="mock-format active"><input type="radio" name="mockMode" value="full" checked /><span><b>실전 모의고사</b><small>1과목 20 + 2과목 20 · 40분</small></span><strong>40</strong></label>
-          <label class="mock-format"><input type="radio" name="mockMode" value="computer" /><span><b>1과목 집중</b><small>컴퓨터 일반 · 20분</small></span><strong>20</strong></label>
-          <label class="mock-format"><input type="radio" name="mockMode" value="spreadsheet" /><span><b>2과목 집중</b><small>스프레드시트 일반 · 20분</small></span><strong>20</strong></label>
+          <label class="mock-format active"><input type="radio" name="mockMode" value="full" checked /><span><b>실전 모의고사</b><small id="fullFormatDetail">1과목 20 + 2과목 20 · 40분</small></span><strong id="fullFormatCount">40</strong></label>
+          <label class="mock-format"><input type="radio" name="mockMode" value="computer" /><span><b>1과목 집중</b><small id="computerFormatDetail">컴퓨터 일반 · 20분</small></span><strong id="computerFormatCount">20</strong></label>
+          <label class="mock-format"><input type="radio" name="mockMode" value="spreadsheet" /><span><b>2과목 집중</b><small id="spreadsheetFormatDetail">스프레드시트 일반 · 20분</small></span><strong id="spreadsheetFormatCount">20</strong></label>
         </div>
         <div class="mock-start-row"><p><strong>채점 기준</strong> 평균 60점 이상, 각 과목 40점 이상</p><button class="primary-action" id="startMock" type="button">모의고사 시작</button></div>
       </section>
@@ -60,8 +65,9 @@
       </section>
     </main>
 
-    <footer class="site-footer"><p>실제 기출 기반 · 40문항 · 40분</p><a href="../">컴활 학습실로 돌아가기</a></footer>
+    <footer class="site-footer"><p>예상문제 + 실제 기출 · 선택 범위에 맞춘 문항 수와 시간</p><a href="../">컴활 학습실로 돌아가기</a></footer>
     <script src="../past-questions.js" defer></script>
+    <script src="../predicted-questions.js" defer></script>
     <script src="./app.js" defer></script>
   </body>
 </html>

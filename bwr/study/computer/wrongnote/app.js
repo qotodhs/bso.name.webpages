@@ -23,7 +23,8 @@ function markMastered(questionId) {
 }
 
 function renderWrongNotes() {
-  const items = (window.BWR_PAST_QUESTIONS || []).filter((item) => wrongIds.has(item.id) && (wrongSubject === "all" || item.subject === wrongSubject));
+  const questionBank = [...(window.BWR_PREDICTED_QUESTIONS || []), ...(window.BWR_PAST_QUESTIONS || [])];
+  const items = questionBank.filter((item) => wrongIds.has(item.id) && (wrongSubject === "all" || item.subject === wrongSubject));
   wrongList.replaceChildren();
   document.getElementById("wrongCount").textContent = wrongIds.size;
   emptyWrong.hidden = items.length !== 0;

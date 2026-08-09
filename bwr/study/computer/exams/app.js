@@ -1,7 +1,9 @@
 (() => {
   "use strict";
 
-  const questions = Array.isArray(window.BWR_PAST_QUESTIONS) ? window.BWR_PAST_QUESTIONS : [];
+  const pastQuestions = Array.isArray(window.BWR_PAST_QUESTIONS) ? window.BWR_PAST_QUESTIONS : [];
+  const predictedQuestions = Array.isArray(window.BWR_PREDICTED_QUESTIONS) ? window.BWR_PREDICTED_QUESTIONS : [];
+  const questions = [...predictedQuestions, ...pastQuestions];
   const wrongKey = "bwr-computer-wrong-v1";
   const $ = (id) => document.getElementById(id);
   const shuffle = (items) => {
@@ -29,9 +31,51 @@
     return document.querySelector('input[name="mockMode"]:checked')?.value || "full";
   }
 
+  function fillSources() {
+    const sources = new Map();
+    pastQuestions.forEach((item) => sources.set(item.source, item.sourceLabel));
+    [...sources.entries()].sort((a, b) => b[0].localeCompare(a[0])).forEach(([value, label]) => {
+      const option = document.createElement("option");
+      const count = pastQuestions.filter((item) => item.source === value).length;
+      option.value = value;
+      option.textContent = `기출문제 (${label.replace(" 기출", "")} 회차) · ${count}문제`;
+      $("mockPastSourceGroup").append(option);
+    });
+  }
+
+  function sourcePool() {
+    const source = $("mockSource").value;
+    if (source === "all") return questions;
+    if (source === "past") return pastQuestions;
+    if (source === "predicted") return predictedQuestions;
+    return pastQuestions.filter((item) => item.source === source);
+  }
+
+  function availableCounts() {
+    const pool = sourcePool();
+    const computer = Math.min(20, pool.filter((item) => item.subject === "computer").length);
+    const spreadsheet = Math.min(20, pool.filter((item) => item.subject === "spreadsheet").length);
+    return { computer, spreadsheet, full: computer + spreadsheet };
+  }
+
+  function updateFormatCounts() {
+    const counts = availableCounts();
+    $("fullFormatCount").textContent = counts.full;
+    $("computerFormatCount").textContent = counts.computer;
+    $("spreadsheetFormatCount").textContent = counts.spreadsheet;
+    $("fullFormatDetail").textContent = `1과목 ${counts.computer} + 2과목 ${counts.spreadsheet} · ${counts.full}분`;
+    $("computerFormatDetail").textContent = `컴퓨터 일반 · ${counts.computer}분`;
+    $("spreadsheetFormatDetail").textContent = `스프레드시트 일반 · ${counts.spreadsheet}분`;
+    $("mockSourceSummary").textContent = `${$("mockSource").selectedOptions[0].textContent}에서 최대 ${counts.full}문항을 출제합니다.`;
+    document.querySelector('input[name="mockMode"][value="full"]').disabled = counts.full === 0;
+    document.querySelector('input[name="mockMode"][value="computer"]').disabled = counts.computer === 0;
+    document.querySelector('input[name="mockMode"][value="spreadsheet"]').disabled = counts.spreadsheet === 0;
+  }
+
   function createQueue(mode) {
-    const computer = shuffle(questions.filter((item) => item.subject === "computer"));
-    const spreadsheet = shuffle(questions.filter((item) => item.subject === "spreadsheet"));
+    const pool = sourcePool();
+    const computer = shuffle(pool.filter((item) => item.subject === "computer"));
+    const spreadsheet = shuffle(pool.filter((item) => item.subject === "spreadsheet"));
     if (mode === "computer") return computer.slice(0, 20);
     if (mode === "spreadsheet") return spreadsheet.slice(0, 20);
     return shuffle([...computer.slice(0, 20), ...spreadsheet.slice(0, 20)]);
@@ -50,7 +94,8 @@
     $("mockSetup").hidden = true;
     $("resultPanel").hidden = true;
     $("questionStage").hidden = false;
-    $("mockModeLabel").textContent = currentMode === "full" ? "실전 40문항" : currentMode === "computer" ? "1과목 집중 20문항" : "2과목 집중 20문항";
+    const modeLabel = currentMode === "full" ? "실전형" : currentMode === "computer" ? "1과목 집중" : "2과목 집중";
+    $("mockModeLabel").textContent = `${$("mockSource").selectedOptions[0].textContent.split(" · ")[0]} · ${modeLabel} ${queue.length}문항`;
     clearInterval(timerId);
     timerId = setInterval(() => {
       seconds -= 1;
@@ -165,6 +210,9 @@
   document.querySelectorAll('input[name="mockMode"]').forEach((input) => input.addEventListener("change", () => {
     document.querySelectorAll(".mock-format").forEach((label) => label.classList.toggle("active", label.contains(input) && input.checked));
   }));
+  fillSources();
+  updateFormatCounts();
+  $("mockSource").addEventListener("change", updateFormatCounts);
   $("startMock").addEventListener("click", start);
   $("previousQuestion").addEventListener("click", () => move(-1));
   $("nextQuestion").addEventListener("click", () => move(1));

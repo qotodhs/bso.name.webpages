@@ -1,7 +1,9 @@
 (() => {
   "use strict";
 
-  const questions = Array.isArray(window.BWR_PAST_QUESTIONS) ? window.BWR_PAST_QUESTIONS : [];
+  const pastQuestions = Array.isArray(window.BWR_PAST_QUESTIONS) ? window.BWR_PAST_QUESTIONS : [];
+  const predictedQuestions = Array.isArray(window.BWR_PREDICTED_QUESTIONS) ? window.BWR_PREDICTED_QUESTIONS : [];
+  const questions = [...predictedQuestions, ...pastQuestions];
   const wrongKey = "bwr-computer-wrong-v1";
   const noteKey = "bwr-computer-explanations-v1";
   const $ = (id) => document.getElementById(id);
@@ -28,11 +30,12 @@
 
   function fillSources() {
     const sources = new Map();
-    questions.forEach((item) => sources.set(item.source, item.sourceLabel));
+    pastQuestions.forEach((item) => sources.set(item.source, item.sourceLabel));
     [...sources.entries()].sort((a, b) => b[0].localeCompare(a[0])).forEach(([value, label]) => {
       const option = document.createElement("option");
       option.value = value;
-      option.textContent = label;
+      const count = pastQuestions.filter((item) => item.source === value).length;
+      option.textContent = `기출문제 (${label.replace(" 기출", "")} 회차) · ${count}문제`;
       $("pastSourceGroup").append(option);
     });
   }
@@ -41,7 +44,11 @@
     const source = $("sourceSelect").value;
     const subject = $("subjectSelect").value;
     return questions.filter((item) => {
-      const sourceMatches = source === "past" || (source === "wrong" && wrong.has(item.id)) || item.source === source;
+      const sourceMatches = source === "all"
+        || (source === "past" && item.source.startsWith("past-"))
+        || (source === "predicted" && item.source === "predicted")
+        || (source === "wrong" && wrong.has(item.id))
+        || item.source === source;
       return sourceMatches && (subject === "all" || item.subject === subject);
     });
   }

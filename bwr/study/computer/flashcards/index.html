@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="컴퓨터활용능력 2급 실제 기출문제를 한 문제씩 풀고 바로 해설을 확인하는 학습 도구" />
+    <meta name="description" content="컴퓨터활용능력 2급 예상문제와 실제 기출문제를 한 문제씩 풀고 바로 해설을 확인하는 학습 도구" />
     <title>컴활 기출 한 문제씩 | BWR Study</title>
     <link rel="stylesheet" href="../../styles.css" />
   </head>
@@ -16,17 +16,17 @@
 
     <main class="tool-shell" id="main">
       <div class="tool-heading">
-        <div><p class="page-kicker">PAST QUESTION PRACTICE · 1,808</p><h1>한 문제씩, 바로 이해하기.</h1></div>
-        <p>HVAC 기출풀이처럼 답을 고르면 즉시 채점하고 정답과 해설을 보여줍니다. 내 해설과 틀린 문제는 이 기기에 저장됩니다.</p>
+        <div><p class="page-kicker">QUESTION PRACTICE · 1,832</p><h1>한 문제씩, 바로 이해하기.</h1></div>
+        <p>예상문제와 실제 기출을 함께 또는 따로 고르세요. HVAC 기출풀이처럼 답을 고르면 즉시 채점하고 해설을 보여줍니다.</p>
       </div>
 
       <section class="practice-setup" id="practiceSetup" aria-label="기출 학습 설정">
         <div class="setup-heading">
           <div><span>QUICK SETUP</span><h2>오늘 풀 범위를 선택하세요.</h2></div>
-          <p>회차를 고르거나 전체 기출에서 무작위로 시작할 수 있습니다.</p>
+          <p>예상·기출 전체, 실제 기출, 예상문제 또는 원하는 기출 회차를 선택할 수 있습니다.</p>
         </div>
         <div class="practice-controls">
-          <label>기출 범위<select id="sourceSelect"><option value="past">전체 실제 기출 · 1,808개</option><option value="wrong">저장된 오답만</option><optgroup id="pastSourceGroup" label="회차별 실제 기출"></optgroup></select></label>
+          <label>문제 출처<select id="sourceSelect"><option value="all">예상문제 + 기출문제 · 1,832개</option><option value="past">기출문제 · 1,808개</option><option value="predicted">예상문제 · 24개</option><option value="wrong">저장된 오답만</option><optgroup id="pastSourceGroup" label="기출문제 회차 선택"></optgroup></select></label>
           <label>과목<select id="subjectSelect"><option value="all">전체 과목</option><option value="computer">1과목 · 컴퓨터 일반</option><option value="spreadsheet">2과목 · 스프레드시트 일반</option></select></label>
           <label>학습 분량<select id="countSelect"><option value="10">10문제</option><option value="20">20문제</option><option value="40">40문제</option><option value="all">선택 범위 전체</option></select></label>
           <button class="primary-action" id="startPractice" type="button">한 문제씩 시작</button>
@@ -69,8 +69,9 @@
       </section>
     </main>
 
-    <footer class="site-footer"><p>실제 기출 1,808문항 · 즉시 채점 · 내 해설 저장</p><a href="../">컴활 학습실로 돌아가기</a></footer>
+    <footer class="site-footer"><p>예상 24문항 + 실제 기출 1,808문항 · 즉시 채점</p><a href="../">컴활 학습실로 돌아가기</a></footer>
     <script src="../past-questions.js" defer></script>
+    <script src="../predicted-questions.js" defer></script>
     <script src="./app.js" defer></script>
   </body>
 </html>

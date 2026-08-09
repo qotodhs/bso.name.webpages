@@ -426,6 +426,10 @@ body, .english-page, .tool-page { background: var(--cream); }
 .practice-result .primary-action { color: var(--computer-deep); border-color: var(--computer); background: var(--computer); }
 .practice-result .quiet-action { color: white; border-color: rgba(255,255,255,.35); background: transparent; }
 .mock-format-list { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ink); }
+.mock-source-picker { padding: 0 0 24px; display: grid; grid-template-columns: 130px minmax(240px, 1fr) 1.2fr; align-items: center; gap: 14px; }
+.mock-source-picker label { color: var(--muted); font-size: .72rem; font-weight: 900; letter-spacing: .05em; }
+.mock-source-picker select { min-height: 46px; padding: 0 12px; border: 1px solid var(--line); background: white; color: var(--ink); font-weight: 800; }
+.mock-source-picker p { margin: 0; color: var(--muted); font-size: .8rem; }
 .mock-format { min-height: 150px; padding: 24px; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 16px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); cursor: pointer; }
 .mock-format:last-child { border-right: 0; }
 .mock-format input { position: absolute; opacity: 0; pointer-events: none; }
@@ -450,6 +454,7 @@ body, .english-page, .tool-page { background: var(--cream); }
 
 @media (max-width: 900px) {
   .practice-controls { grid-template-columns: 1fr 1fr; }
+  .mock-source-picker { grid-template-columns: 1fr; }
   .mock-format-list { grid-template-columns: 1fr; }
   .mock-format { min-height: 110px; border-right: 0; }
 }
