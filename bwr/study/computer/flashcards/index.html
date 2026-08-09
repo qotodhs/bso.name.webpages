@@ -20,11 +20,20 @@
       </div>
 
       <section class="tool-panel" aria-label="컴활 플래시카드 학습 도구">
-        <div class="control-row">
-          <label><span class="sr-only">과목</span><select id="subjectFilter"><option value="all">전체 과목</option><option value="computer">1과목 컴퓨터 일반</option><option value="spreadsheet">2과목 스프레드시트 일반</option></select></label>
-          <button class="view-filter active" data-view="all" type="button">전체 카드</button>
-          <button class="view-filter" data-view="unknown" type="button">아직 모르는 카드</button>
-          <span class="stat-pill" id="knownStat">0 / 24 알아요</span>
+        <div class="control-row flashcard-controls">
+          <div class="subject-selector">
+            <p>과목 선택</p>
+            <div class="subject-tabs" role="group" aria-label="플래시카드 과목 선택">
+              <button class="subject-tab active" data-subject="all" type="button" aria-pressed="true"><span>ALL</span><strong>전체 과목</strong></button>
+              <button class="subject-tab" data-subject="computer" type="button" aria-pressed="false"><span>01</span><strong>컴퓨터 일반</strong></button>
+              <button class="subject-tab" data-subject="spreadsheet" type="button" aria-pressed="false"><span>02</span><strong>스프레드시트 일반</strong></button>
+            </div>
+          </div>
+          <div class="view-controls" aria-label="카드 보기 설정">
+            <button class="view-filter active" data-view="all" type="button">전체 카드</button>
+            <button class="view-filter" data-view="unknown" type="button">아직 모르는 카드</button>
+            <span class="stat-pill" id="knownStat">0 / 24 알아요</span>
+          </div>
         </div>
 
         <article class="flashcard" id="flashcard" tabindex="0" role="button" aria-label="카드 뒤집기">

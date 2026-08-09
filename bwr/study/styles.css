@@ -285,6 +285,21 @@ body, .english-page, .tool-page { background: var(--cream); }
 .flashcard { background: var(--computer-deep); }
 .progress-ring::before { background: var(--computer-deep); }
 .stat-pill { border-radius: 2px; }
+.flashcard-controls { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+.subject-selector > p { margin: 0 0 8px; color: var(--muted); font-size: .68rem; font-weight: 900; letter-spacing: .08em; }
+.subject-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.control-row .subject-tab { min-height: 68px; padding: 12px 15px; display: flex; align-items: center; gap: 12px; border: 1px solid #b9c2bb; color: var(--ink); background: white; text-align: left; transition: border-color .16s ease, background .16s ease, color .16s ease, transform .16s ease; }
+.control-row .subject-tab span { flex: 0 0 auto; min-width: 34px; color: var(--computer-deep); font-family: Georgia, serif; font-size: 1.22rem; font-weight: 900; line-height: 1; }
+.control-row .subject-tab strong { font-size: .84rem; line-height: 1.3; word-break: keep-all; }
+.control-row .subject-tab:hover { border-color: var(--computer-deep); background: #f2f5f0; transform: translateY(-1px); }
+.control-row .subject-tab.active { color: white; border-color: var(--computer-deep); background: var(--computer-deep); }
+.control-row .subject-tab.active span { color: #dff3d8; }
+.control-row .subject-tab:focus-visible { outline: 3px solid #9cc892; outline-offset: 2px; }
+.view-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.view-controls .stat-pill { margin-left: auto; }
+.card-meta span { padding: 7px 10px; border-radius: 2px; color: white; border-color: rgba(255,255,255,.42); background: rgba(255,255,255,.08); font-size: .7rem; letter-spacing: .02em; }
+.card-meta #cardSubject { color: #173427; border-color: transparent; background: #dff3d8; font-size: .75rem; font-weight: 900; }
+.card-meta #cardSubject[data-subject="spreadsheet"] { color: #1e3346; background: #dce8f1; }
 .note-editor { margin-top: 14px; padding: 18px; border: 1px solid var(--line); background: #f5f3ed; }
 .note-editor label { display: block; margin-bottom: 8px; color: var(--ink); font-size: .76rem; font-weight: 900; }
 .note-editor textarea { width: 100%; padding: 12px; resize: vertical; border: 1px solid var(--line); background: white; color: var(--ink); line-height: 1.6; }
@@ -351,4 +366,10 @@ body, .english-page, .tool-page { background: var(--cream); }
   .word-card:nth-child(2n) { border-right: 0; }
   .wrong-card { padding: 20px; }
   .wrong-actions { align-items: stretch; flex-direction: column; }
+  .subject-tabs { grid-template-columns: 1fr; }
+  .control-row .subject-tab { min-height: 56px; }
+  .view-controls { align-items: stretch; }
+  .view-controls .view-filter { flex: 1 1 140px; }
+  .view-controls .stat-pill { width: 100%; margin-left: 0; text-align: center; }
+  .card-meta { left: 16px; right: 16px; top: 16px; flex-wrap: wrap; }
 }

@@ -40,7 +40,8 @@ function render() {
   if (!list.length) { view = "all"; position = 0; return render(); }
   position = (position + list.length) % list.length;
   const card = list[position];
-  el("cardSubject").textContent = card.subject === "computer" ? "1과목 컴퓨터 일반" : "2과목 스프레드시트 일반";
+  el("cardSubject").textContent = card.subject === "computer" ? "1과목 · 컴퓨터 일반" : "2과목 · 스프레드시트 일반";
+  el("cardSubject").dataset.subject = card.subject;
   el("cardPosition").textContent = `${position + 1} / ${list.length}`;
   el("cardTerm").textContent = card.term;
   el("cardDefinition").textContent = card.definition;
@@ -62,6 +63,16 @@ el("prevCard").addEventListener("click", () => move(-1));
 el("nextCard").addEventListener("click", () => move(1));
 el("againCard").addEventListener("click", () => { known.delete(currentCard().id); localStorage.setItem(knownKey, JSON.stringify([...known])); move(1); });
 el("knownCard").addEventListener("click", () => { known.add(currentCard().id); localStorage.setItem(knownKey, JSON.stringify([...known])); move(1); });
-el("subjectFilter").addEventListener("change", (event) => { subject = event.target.value; position = 0; flipped = false; render(); });
+document.querySelectorAll(".subject-tab").forEach((button) => button.addEventListener("click", () => {
+  subject = button.dataset.subject;
+  position = 0;
+  flipped = false;
+  document.querySelectorAll(".subject-tab").forEach((item) => {
+    const active = item === button;
+    item.classList.toggle("active", active);
+    item.setAttribute("aria-pressed", String(active));
+  });
+  render();
+}));
 document.querySelectorAll(".view-filter").forEach((button) => button.addEventListener("click", () => { view = button.dataset.view; position = 0; flipped = false; document.querySelectorAll(".view-filter").forEach((item) => item.classList.toggle("active", item === button)); render(); }));
 render();
