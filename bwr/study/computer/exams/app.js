@@ -1,0 +1,88 @@
+window.BWR_QUESTIONS = [
+  {id:"q01",source:"set03",subject:"computer",q:"지리적으로 분산된 여러 컴퓨터의 자원을 연결해 하나의 고성능 컴퓨터처럼 활용하는 기술은?",c:["클라우드 컴퓨팅","그리드 컴퓨팅","사물 인터넷","빅데이터"],a:1,e:"그리드 컴퓨팅은 분산된 컴퓨팅 자원을 묶어 대규모 계산에 활용합니다."},
+  {id:"q02",source:"set03",subject:"computer",q:"시스템 날짜, 부팅 순서, 전원 관리와 PnP 설정을 확인하거나 수정하는 데 관련된 메모리는?",c:["HDMI","POST","CMOS","RAID"],a:2,e:"CMOS에는 시스템 시간과 기본 하드웨어 설정 정보가 저장됩니다."},
+  {id:"q03",source:"set03",subject:"computer",q:"IPv6 주소 체계에 대한 설명으로 옳은 것은?",c:["32비트 주소를 사용한다","10진수와 점으로 표현한다","연속된 0은 ::로 한 번 줄일 수 있다","IPv4와 호환성이 전혀 없다"],a:2,e:"IPv6는 128비트이며 16진수와 콜론을 사용하고, 연속된 0은 ::로 한 번 생략할 수 있습니다."},
+  {id:"q04",source:"set03",subject:"computer",q:"다음 중 정보 보안 기술에 해당하지 않는 것은?",c:["인증","암호화","방화벽","브리지"],a:3,e:"브리지는 같은 프로토콜의 LAN을 연결하는 네트워크 장비입니다."},
+  {id:"q05",source:"set03",subject:"computer",q:"한 이미지가 다른 이미지로 부드럽게 변해 가는 과정을 보여 주는 애니메이션 기법은?",c:["셀 애니메이션","모핑","키 프레임","클레이메이션"],a:1,e:"모핑은 두 이미지나 모델 사이의 중간 변형을 자연스럽게 생성합니다."},
+  {id:"q06",source:"set03",subject:"computer",q:"기능이나 사용 기간을 제한해 먼저 공개하고, 사용 뒤 구매를 유도하는 소프트웨어는?",c:["알파 버전","패치 버전","프리웨어","셰어웨어"],a:3,e:"셰어웨어는 일정 기간이나 기능을 제한해 시험 사용하도록 제공됩니다."},
+  {id:"q07",source:"set03",subject:"computer",q:"Windows 시스템 복원에 대한 설명으로 옳지 않은 것은?",c:["복원 지점을 이용한다","영향받는 프로그램을 확인할 수 있다","삭제한 개인 파일도 복구한다","Windows Update 변경도 복원될 수 있다"],a:2,e:"시스템 복원은 개인 파일 백업·복구 기능이 아닙니다."},
+  {id:"q08",source:"set03",subject:"computer",q:"개인 파일을 암호화한 뒤 금전을 요구하는 악성 프로그램은?",c:["웜","랜섬웨어","스파이웨어","키로거"],a:1,e:"랜섬웨어는 파일 접근을 막고 복구 대가를 요구합니다."},
+  {id:"q09",source:"set03",subject:"computer",q:"원격 메일 서버에서 받은 메일을 사용자 컴퓨터로 가져오는 프로토콜은?",c:["SMTP","POP3","MIME","FTP"],a:1,e:"POP3는 수신, SMTP는 발신에 주로 사용됩니다."},
+  {id:"q10",source:"set03",subject:"computer",q:"통신 선로에서 약해진 디지털 신호를 증폭·재생해 전달하는 장비는?",c:["게이트웨이","모뎀","리피터","라우터"],a:2,e:"리피터는 신호를 재생해 전송 거리를 늘립니다."},
+  {id:"q11",source:"set02",subject:"computer",q:"표준 ASCII 코드에 대한 설명으로 옳은 것은?",c:["16비트를 사용한다","7비트로 영문과 숫자 등을 표현한다","한글 표현 전용 코드다","오류 교정 코드다"],a:1,e:"표준 ASCII는 7비트 문자 코드입니다."},
+  {id:"q12",source:"set02",subject:"computer",q:"벡터 그래픽 방식의 특징으로 가장 알맞은 것은?",c:["점·선·곡선의 수학 정보로 표현한다","확대하면 계단 현상이 심해진다","항상 래스터보다 파일이 크다","픽셀 수가 고정된다"],a:0,e:"벡터 이미지는 수학적 도형 정보로 표현해 확대에 유리합니다."},
+  {id:"q13",source:"set03",subject:"spreadsheet",q:"Excel 셀에 값을 입력하는 중 같은 셀 안에서 줄을 바꾸는 바로 가기 키는?",c:["Ctrl+Enter","Shift+Enter","Alt+Enter","Tab"],a:2,e:"Alt+Enter는 한 셀 안에서 줄 바꿈을 입력합니다."},
+  {id:"q14",source:"set03",subject:"spreadsheet",q:"VLOOKUP 함수에서 정확히 일치하는 값만 찾으려면 네 번째 인수에 무엇을 지정해야 하는가?",c:["TRUE 또는 1","FALSE 또는 0","열 번호","찾을 범위"],a:1,e:"정확히 일치 옵션은 FALSE 또는 0입니다."},
+  {id:"q15",source:"set03",subject:"spreadsheet",q:"여러 범위의 값을 위치나 항목 이름을 기준으로 모아 합계·평균 등을 구하는 기능은?",c:["데이터 통합","목표값 찾기","부분합","시나리오"],a:0,e:"데이터 통합은 여러 원본 범위를 하나로 요약합니다."},
+  {id:"q16",source:"set02",subject:"spreadsheet",q:"시트 보호 상태에서도 특정 셀만 입력할 수 있게 하는 올바른 순서는?",c:["셀 잠금 후 시트 보호","해당 셀 잠금 해제 후 시트 보호","시트 보호 후 셀 잠금 해제","통합 문서 보호만 설정"],a:1,e:"입력할 셀의 잠금을 먼저 해제하고 시트 보호를 적용합니다."},
+  {id:"q17",source:"set02",subject:"spreadsheet",q:"사용자 지정 표시 형식에서 임의 숫자 한 자리의 공간을 맞춰 표시하는 기호는?",c:["0","#","?","@"],a:2,e:"?는 숫자가 없어도 한 자리만큼 공간을 남겨 정렬에 도움을 줍니다."},
+  {id:"q18",source:"set03",subject:"spreadsheet",q:"찾기 기능에서 임의의 문자 정확히 한 글자를 대신하는 와일드카드는?",c:["*","?","#","@"],a:1,e:"?는 한 글자, *는 길이에 관계없는 여러 문자를 대신합니다."},
+  {id:"q19",source:"set03",subject:"spreadsheet",q:"Excel의 날짜와 시간 데이터에 대한 설명으로 옳은 것은?",c:["항상 텍스트로 저장된다","기본적으로 왼쪽 정렬된다","숫자 일련번호로 저장된다","표시 형식을 바꾸면 원본 값이 삭제된다"],a:2,e:"날짜와 시간은 숫자 일련번호이며 기본적으로 오른쪽 정렬됩니다."},
+  {id:"q20",source:"set02",subject:"spreadsheet",q:"수식 결과가 원하는 목표값이 되도록 하나의 입력 셀 값을 역으로 계산하는 기능은?",c:["데이터 표","고급 필터","목표값 찾기","시나리오 관리자"],a:2,e:"목표값 찾기는 결과 셀, 목표값, 변경 셀을 지정합니다."},
+  {id:"q21",source:"set03",subject:"spreadsheet",q:"고급 필터 조건 범위에서 두 조건을 AND로 연결하려면 어떻게 배치해야 하는가?",c:["서로 다른 행","같은 행","필드명 없이 입력","한 셀에 쉼표로 연결"],a:1,e:"같은 행은 AND, 서로 다른 행은 OR 조건입니다."},
+  {id:"q22",source:"set02",subject:"spreadsheet",q:"값 B2의 순위를 B2:B5 범위에서 큰 값이 1위가 되도록 구하는 수식은?",c:["=RANK.EQ(B2,$B$2:$B$5,0)","=RANK.EQ(B2,$B$2:$B$5,1)","=RANK.EQ(B1,$B$2:$B$5)","=RANK(B2,B2:B5,-1)"],a:0,e:"RANK.EQ의 세 번째 인수 0은 내림차순이며, 범위는 절대 참조로 고정합니다."},
+  {id:"q23",source:"set02",subject:"spreadsheet",q:"원본 데이터가 변경된 뒤 피벗 테이블에 새 값을 반영하려면 가장 먼저 할 작업은?",c:["피벗 테이블 삭제","새로 고침","통합 문서 보호","차트로 변환"],a:1,e:"피벗 테이블은 새로 고침을 실행해야 원본 변경이 반영됩니다."},
+  {id:"q24",source:"set03",subject:"spreadsheet",q:"C2:C8에서 평균 이상인 값의 개수를 구하는 수식으로 옳은 것은?",c:["=COUNTIF(C2:C8,\">=\"&AVERAGE(C2:C8))","=COUNTIF(C2:C8,AVERAGE(C2:C8))","=AVERAGEIF(C2:C8,\">=\")","=COUNT(C2:C8>=AVERAGE(C2:C8))"],a:0,e:"비교 연산자 문자열과 AVERAGE 결과를 &로 연결합니다."}
+];
+
+if (document.getElementById("startQuiz")) {
+const questions = window.BWR_QUESTIONS;
+
+const wrongKey = "bwr-computer-wrong-v1";
+const noteKey = "bwr-computer-explanations-v1";
+let wrong = new Set(JSON.parse(localStorage.getItem(wrongKey) || "[]"));
+let userNotes = JSON.parse(localStorage.getItem(noteKey) || "{}");
+let queue = [], index = 0, score = 0, answered = false, seconds = 0, timerId = null;
+const $ = (id) => document.getElementById(id);
+const shuffle = (items) => [...items].sort(() => Math.random() - .5);
+
+function buildPool() {
+  const source = $("sourceSelect").value;
+  const subject = $("subjectSelect").value;
+  return questions.filter((item) => (source === "all" || (source === "wrong" ? wrong.has(item.id) : item.source === source)) && (subject === "all" || item.subject === subject));
+}
+
+function start() {
+  let pool = buildPool();
+  if (!pool.length) { window.alert("선택한 범위에 저장된 문제가 없습니다."); return; }
+  const requested = $("countSelect").value;
+  const count = requested === "all" ? pool.length : Math.min(Number(requested), pool.length);
+  queue = shuffle(pool).slice(0, count); index = 0; score = 0; answered = false; seconds = count * 60;
+  $("resultPanel").hidden = true; $("quizStage").hidden = false;
+  clearInterval(timerId); timerId = setInterval(() => { seconds -= 1; paintTimer(); if (seconds <= 0) finish(); }, 1000);
+  paintTimer(); renderQuestion();
+}
+
+function paintTimer() { const m = Math.max(0,Math.floor(seconds/60)).toString().padStart(2,"0"); const s = Math.max(0,seconds%60).toString().padStart(2,"0"); $("timer").textContent = `${m}:${s}`; }
+
+function renderQuestion() {
+  answered = false; const item = queue[index];
+  $("questionPosition").textContent = `${index+1} / ${queue.length}`;
+  $("questionSource").textContent = `${item.source === "set02" ? "2026 상시 02" : "2026 상시 03"} 출제 주제 · ${item.subject === "computer" ? "컴퓨터 일반" : "스프레드시트 일반"}`;
+  $("questionTitle").textContent = item.q; $("answers").replaceChildren(); $("explanation").hidden = true; $("noteEditor").hidden = true; $("userExplanation").value = userNotes[item.id] || ""; $("noteStatus").textContent = ""; $("nextQuestion").disabled = true;
+  item.c.forEach((choice, choiceIndex) => { const button=document.createElement("button"); button.className="answer-option"; button.innerHTML=`<span class="answer-number">${choiceIndex+1}</span><span>${choice}</span>`; button.addEventListener("click",()=>answer(choiceIndex,button)); $("answers").append(button); });
+}
+
+function answer(choice, button) {
+  if (answered) return; answered = true; const item=queue[index]; const buttons=[...document.querySelectorAll(".answer-option")];
+  buttons[item.a].classList.add("correct");
+  if (choice === item.a) { score += 1; wrong.delete(item.id); } else { button.classList.add("wrong"); wrong.add(item.id); }
+  localStorage.setItem(wrongKey,JSON.stringify([...wrong]));
+  $("explanation").textContent = `기본 해설 · ${item.e}`; $("explanation").hidden = false; $("noteEditor").hidden = false; $("nextQuestion").disabled = false; $("nextQuestion").textContent = index === queue.length-1 ? "결과 보기" : "다음 문제 →";
+}
+
+function saveUserExplanation() {
+  const item = queue[index];
+  const value = $("userExplanation").value.trim();
+  if (value) userNotes[item.id] = value;
+  else delete userNotes[item.id];
+  localStorage.setItem(noteKey, JSON.stringify(userNotes));
+  $("noteStatus").textContent = value ? "저장되었습니다." : "저장된 메모를 삭제했습니다.";
+}
+
+function next() { if (index >= queue.length-1) finish(); else { index += 1; renderQuestion(); } }
+function finish() { clearInterval(timerId); timerId=null; $("quizStage").hidden=true; $("resultPanel").hidden=false; $("resultScore").textContent=`${score} / ${queue.length}`; const pct=Math.round(score/queue.length*100); $("resultMessage").textContent=pct>=60?`정답률 ${pct}% · 합격선 흐름입니다. 오답을 한 번 더 확인하세요.`:`정답률 ${pct}% · 저장된 오답부터 다시 풀어 보세요.`; }
+
+$("startQuiz").addEventListener("click",start); $("nextQuestion").addEventListener("click",next); $("quitQuiz").addEventListener("click",finish); $("restartQuiz").addEventListener("click",start); $("saveExplanation").addEventListener("click",saveUserExplanation);
+if (new URLSearchParams(window.location.search).get("mode") === "wrong") $("sourceSelect").value = "wrong";
+}
