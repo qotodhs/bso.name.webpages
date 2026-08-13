@@ -449,7 +449,8 @@ window.addHVACTheory("maintenance", [
         },
         formulas: [
           ["P = P_1 + P_2 + P_3", "필요 급수압 = 기구 최저압 + 마찰손실 + 위치수두"],
-          ["1\\ \\mathrm{mAq} \\approx 9.8\\ \\mathrm{kPa}", "수두 ↔ 압력 환산"]
+          ["H \\ \\ge\\ H_1 + H_2", "고가수조 설치높이 · $H_1$ 최상층 기구 최저압 상당높이, $H_2$ 거기까지의 마찰손실수두"],
+          ["1\\ \\mathrm{mAq} \\approx 9.8\\ \\mathrm{kPa} \\approx 0.1\\ \\mathrm{kgf/cm^2}", "수두 ↔ 압력 환산"]
         ],
         list: [
           "급수관 유속은 2 m/s 이하(권장 0.9 ~ 2.0 m/s)로 제한한다",
