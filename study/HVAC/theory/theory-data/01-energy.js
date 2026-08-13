@@ -344,7 +344,9 @@ window.addHVACTheory("energy", [
           ["\\Delta P_t = \\Delta P_s + \\Delta P_v", "전압 = 정압 + 동압"],
           ["P_v = \\frac{\\rho v^{2}}{2} \\approx \\frac{v^{2}}{1.6}", "동압 [Pa] · $\\rho \\approx 1.2$ kg/m³"],
           ["\\Delta P = \\lambda \\frac{L}{d} \\cdot \\frac{\\rho v^{2}}{2}", "직관 마찰손실(달시-바이스바흐) · 강판덕트 $\\lambda \\approx 0.02$"],
-          ["\\Delta P_{\\text{국부}} = \\zeta \\cdot \\frac{\\rho v^{2}}{2}", "곡관·분기 국부저항 · 상당길이로 환산해 더하기도 한다"]
+          ["\\Delta P_{\\text{국부}} = \\zeta \\cdot \\frac{\\rho v^{2}}{2}", "곡관·분기 국부저항 · 상당길이로 환산해 더하기도 한다"],
+          ["R = \\lambda \\frac{\\rho v^{2}}{2d}", "단위길이당 마찰손실 [Pa/m] · 등마찰법이 일정하게 잡는 값"],
+          ["l' = \\frac{\\zeta d}{\\lambda}, \\quad \\Delta P_{\\text{전}} = R\\,(l + l')", "국부저항을 직관 상당길이 $l'$ 로 환산해 합산"]
         ],
         list: [
           "마찰손실은 길이 L에 정비례하고 풍속 v의 제곱에 비례한다 — 그래서 덕트 경로는 최단거리로 잡는다",
