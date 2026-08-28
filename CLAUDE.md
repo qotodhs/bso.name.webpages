@@ -206,3 +206,69 @@ git archive $(git write-tree) study/HVAC | tar -x -C /tmp/idx
 작업을 시작하기 전에 대상 문항의 해설·이미지가 이미 처리되었는지
 확인한다. 다른 세션이 먼저 끝내 둔 것을 다시 작업한 적이 있고,
 사용자가 보낸 문항이 이미 완료된 회차의 것이었던 적도 있다.
+
+---
+
+# CKA · CKAD 연습실 — `study/IT/k8s`
+
+공조냉동과는 별개의 학습 공간이다. 실기 시험이라 객관식이 아니라
+**과제를 주고 명령·매니페스트를 입력받아 채점**하는 구조로 만들었다.
+
+```
+study/IT/k8s/
+  index.html        허브 (진도 · 영역 배점)
+  hub.js            허브 스크립트
+  styles.css        세 화면 공통 스타일
+  tasks.js          로더 + 시험·영역 정의(K8S_EXAMS) + 과제 형식 주석
+  task-data/        과제 데이터 8개 파일 (72과제)
+  vendor/js-yaml.min.js   매니페스트 채점용 (MIT, 번들)
+  practice/
+    index.html  app.js   드릴(즉시 채점) · 모의 세션(타이머·일괄 채점)
+    grader.js           kubectl 명령 / YAML 매니페스트 채점기
+  notes/
+    index.html  app.js  notes.js
+    note-data/  노트 4개 파일 (10주제 35절)
+```
+
+## 과제 형식
+
+`tasks.js` 상단 주석이 정본이다. 요점만:
+
+- 한 과제가 CKA·CKAD 양쪽에 속하되 영역 이름이 다르므로
+  `areas: { cka:"workloads", ckad:"deploy" }` 로 시험별 영역을 따로 적는다.
+  한쪽을 빼면 그 시험에서 제외된다.
+- `type: "command"` 는 `match` 로 채점한다. `argv`(순서만 맞으면 되는
+  토큰 열) + `flags`(값·`true`·`{oneOf}`·`{matches}`·`{all}`) +
+  `command`(`--` 뒤) + `redirect`(`>` 대상) + `forbid`.
+  `match` 를 배열로 주면 그중 점수가 높은 쪽으로 채점한다.
+- `type: "manifest"` 는 `checks: [{label, path, equals|matches|contains|oneOf|exists|absent, kind}]`.
+  `path` 는 `spec.containers[0].image`, `spec.containers[name=logger].image` 형식.
+- 채점 결과는 `{pass, score, checks[]}` 이고 `score` 는 조건 충족 비율이라
+  모의 세션의 부분점수로 그대로 쓴다.
+
+채점기는 `k`→`kubectl`, `po/pod/pods` 같은 축약, `-n`/`--namespace=`/`-nweb`,
+`deploy/web` 분해, `-it` 묶음, 파이프·리다이렉션을 정규화한다.
+같은 플래그를 여러 번 준 경우(`--from-literal`)는 배열로 모은다.
+
+## 검증 (필수)
+
+**모든 과제의 모범답안이 자기 채점 기준을 통과해야 한다.** 과제를 추가하면
+반드시 이 검사를 돌린다 — HVAC 의 정답 불일치 검사에 해당한다.
+
+```bash
+node scripts/validate_k8s_task_bank.mjs
+```
+
+검사 내용: 로더 재현 → ID 중복·필수 필드·`areas` 키·`docs` 링크 확인 →
+`type: command` 는 `answer` 를 `match` 로 채점, `type: manifest` 는 `answer` 를
+`checks` 로 채점해 **전부 pass 인지** 확인 → 영역마다 과제가 1개 이상인지
+(모의 세션 표본 조건) → `app.js` 가 찾는 엘리먼트 ID 가 HTML 에 있는지 →
+영역별 분포 출력. `failures` 가 비어 있어야 하고 종료 코드가 0 이어야 한다.
+
+## 남은 일
+
+- 과제 72개(명령 48 · 매니페스트 24)에서 시작했다. 영역별 편차가 있으므로
+  CKA 서비스·네트워킹(7)과 스토리지(6), CKAD 배포(7)를 먼저 늘린다
+- 노트 10주제. 과제를 늘리다 노트에 없는 개념이 나오면 절을 먼저 추가한다
+- 실제 클러스터 실습은 이 페이지가 대신하지 못한다. 각 화면에
+  `kind` 로 클러스터를 띄우는 안내를 함께 두었다
