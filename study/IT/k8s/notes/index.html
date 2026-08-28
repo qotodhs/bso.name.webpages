@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CKA·CKAD 실기 시험을 위한 판별 기준 중심 노트 — 시험장 세팅, 워크로드, 네트워킹, 스토리지, 운영과 디버깅" />
+  <title>CKA · CKAD 노트 | bso.name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <nav class="topbar" aria-label="상단 메뉴">
+      <a class="brand" href="../">bso.name/study/IT/k8s</a>
+      <div class="top-links">
+        <a href="../practice/">연습실</a>
+        <a href="../">허브</a>
+      </div>
+    </nav>
+
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">CKA · CKAD NOTES</p>
+        <h1>외울 것을 줄이는<br />판별 기준 노트</h1>
+        <p class="hero-copy">
+          네 가지를 따로 외우는 대신, 하나의 기준에서 갈리는 것으로 묶었습니다.
+          연습실에서 막힌 과제의 개념을 여기서 확인하세요.
+        </p>
+      </div>
+      <aside class="hero-card">
+        <p class="mini-label">노트 분량</p>
+        <strong id="chapterCount">0개 주제</strong>
+        <p class="hero-note" id="sectionCount">0개 절</p>
+      </aside>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="panel" aria-label="노트 검색">
+      <div class="control-grid">
+        <label>
+          <span>시험</span>
+          <select id="examFilter"></select>
+        </label>
+        <label style="grid-column: span 2">
+          <span>내용 검색</span>
+          <input id="searchInput" type="search" placeholder="예: 프로브, 테인트, PVC, 컨텍스트" />
+        </label>
+        <button id="resetFilter" class="button ghost control-button" type="button">전체 보기</button>
+      </div>
+    </section>
+
+    <nav id="chapterNav" class="chapter-nav hidden" aria-label="노트 목차"></nav>
+    <section id="noteList" class="note-list" aria-live="polite"></section>
+    <section id="emptyState" class="panel hidden">
+      <h2 style="margin:0 0 8px">일치하는 노트가 없습니다.</h2>
+      <p style="margin:0;color:var(--muted)">검색어를 줄이거나 전체 보기로 돌아가세요.</p>
+    </section>
+  </main>
+
+  <footer><p>CKA · CKAD notes · bso.name/study/IT/k8s/notes</p></footer>
+
+  <script src="../tasks.js"></script>
+  <script src="./notes.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

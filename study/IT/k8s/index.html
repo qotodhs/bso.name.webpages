@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CKA·CKAD 실기 시험을 위한 과제 연습실과 판별 기준 노트" />
+  <title>CKA · CKAD 학습실 | bso.name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <nav class="topbar" aria-label="상단 메뉴">
+      <a class="brand" href="../">bso.name/study/IT</a>
+      <span class="status-pill">Kubernetes 실기 자격</span>
+    </nav>
+
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">CKA · CKAD</p>
+        <h1>읽어서 못 붙는<br />시험을 준비하는 곳</h1>
+        <p class="hero-copy">
+          두 시험 모두 살아 있는 클러스터를 조작하는 실기입니다.
+          여기서는 과제를 읽고 <strong>명령과 매니페스트를 직접 입력</strong>해
+          플래그 단위로 채점받고, 막힌 개념은 판별 기준 한 줄로 정리된 노트에서 확인합니다.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="./practice/">연습실 열기</a>
+          <a class="button secondary" href="./notes/">노트 보기</a>
+        </div>
+      </div>
+
+      <aside class="hero-card">
+        <p class="mini-label">진행 상황</p>
+        <strong id="hubSolved">0 / 0</strong>
+        <p class="hero-note">맞힌 과제 / 전체 과제</p>
+        <p class="hero-note" id="hubMissed">막힌 과제 0개</p>
+      </aside>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="track-grid">
+      <a class="track-card" href="./practice/">
+        <p class="section-label">PRACTICE</p>
+        <h3>연습실</h3>
+        <p>
+          과제를 읽고 kubectl 명령이나 YAML 을 직접 입력합니다.
+          채점은 플래그·필드 단위라 무엇이 빠졌는지 바로 보입니다.
+          시간을 재는 모의 세션은 영역 배점대로 출제합니다.
+        </p>
+        <div class="tag-row">
+          <span>명령 드릴</span><span>매니페스트</span><span>모의 세션</span><span>부분점수</span>
+        </div>
+        <span class="card-path">/study/IT/k8s/practice</span>
+      </a>
+
+      <a class="track-card" href="./notes/">
+        <p class="section-label">NOTES</p>
+        <h3>노트</h3>
+        <p>
+          네 가지를 따로 외우는 대신 하나의 기준에서 갈리는 것으로 묶었습니다.
+          시험장 세팅, 명령형 치트시트, 워크로드·스케줄링·네트워킹·스토리지,
+          디버깅 순서, CKA 운영 작업을 담았습니다.
+        </p>
+        <div class="tag-row">
+          <span>판별 기준</span><span>치트시트</span><span>디버깅 순서</span>
+        </div>
+        <span class="card-path">/study/IT/k8s/notes</span>
+      </a>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="section-label">CURRICULUM</p>
+          <h2>영역 배점과 과제 분포</h2>
+        </div>
+        <p>배점이 곧 공부 시간 배분입니다. 괄호 안은 현재 과제 수입니다.</p>
+      </div>
+      <div id="hubWeights"></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="section-label">HOW TO USE</p>
+          <h2>드릴 → 노트 → 실제 클러스터</h2>
+        </div>
+      </div>
+      <ol style="line-height:2;margin:0;padding-left:20px">
+        <li><strong>드릴</strong>에서 한 과제씩 즉시 채점받으며 명령 형태를 손에 붙입니다.</li>
+        <li>틀린 과제의 개념은 <strong>노트</strong>에서 판별 기준으로 정리합니다.</li>
+        <li>같은 과제를 <strong>실제 클러스터</strong>에 적용해 확인합니다. 이 페이지는 클러스터를 대신하지 못합니다.</li>
+        <li>마지막 주에는 <strong>모의 세션</strong>으로 시간 압박과 배점 배분을 익힙니다.</li>
+      </ol>
+      <pre style="margin:18px 0 0;padding:16px;border-radius:14px;background:var(--navy);color:#e2e8f0;overflow-x:auto">kind create cluster --name cka --image kindest/node:v1.32.0
+kubectl config use-context kind-cka</pre>
+    </section>
+  </main>
+
+  <footer><p>CKA · CKAD study space · bso.name/study/IT/k8s</p></footer>
+
+  <script src="./tasks.js"></script>
+  <script src="./hub.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="bso.name IT 공부 공간 준비 안내" />
+  <meta name="description" content="bso.name IT 공부 공간 — Kubernetes 자격시험(CKA·CKAD) 연습실을 중심으로 인프라 학습을 정리합니다" />
   <title>IT Study | bso.name</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,29 +18,97 @@
     </nav>
   </header>
 
-  <main class="placeholder-main">
-    <section class="placeholder-panel">
-      <div class="placeholder-copy">
-        <p class="eyebrow">IT STUDY SPACE</p>
-        <h1>IT 공부 공간을<br />준비하고 있습니다.</h1>
+  <main>
+    <section class="hero" aria-labelledby="pageTitle">
+      <div class="hero-copy">
+        <p class="eyebrow">INFRASTRUCTURE STUDY</p>
+        <h1 id="pageTitle">치면서 익히는<br />인프라 공부</h1>
         <p>
-          클라우드 인프라 학습 내용을 분야별로 정리할 예정입니다.
-          현재는 학습 허브에서 경로만 먼저 연결해 두었습니다.
+          읽기만 해서는 붙지 않는 실기 자격시험을 중심으로 정리합니다.
+          지금은 Kubernetes 자격(CKA · CKAD) 연습실이 열려 있습니다.
         </p>
-        <div class="placeholder-actions">
-          <a class="button primary" href="/study/">학습 허브로 돌아가기</a>
-          <a class="button secondary" href="/">bso.name 홈</a>
+      </div>
+      <div class="hero-mark" aria-hidden="true">
+        <span>IT</span>
+        <strong>01</strong>
+        <small>OPEN TRACK</small>
+      </div>
+    </section>
+
+    <section class="track-section" aria-labelledby="trackTitle">
+      <div class="section-heading">
+        <div>
+          <p class="section-label">SELECT A TRACK</p>
+          <h2 id="trackTitle">학습 주제 선택</h2>
         </div>
+        <p>카드를 누르면 해당 학습 공간으로 이동합니다.</p>
       </div>
 
-      <ul class="placeholder-list" aria-label="향후 IT 공부 구성">
-        <li>Linux · 운영체제</li>
-        <li>Network · Database</li>
-        <li>AWS · Cloud Infrastructure</li>
-        <li>Docker · Kubernetes</li>
-        <li>Terraform · IaC</li>
-        <li>CI/CD · GitHub Actions</li>
-      </ul>
+      <div class="track-grid">
+        <a class="track-card it" href="./k8s/" style="--card-accent:#326ce5;--card-soft:#eaf1ff">
+          <div class="card-top">
+            <span class="track-number">01</span>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </div>
+          <div class="track-icon terminal" aria-hidden="true">k8s</div>
+          <p class="card-kicker">CERTIFICATION</p>
+          <h3>CKA · CKAD</h3>
+          <p class="card-description">
+            과제를 읽고 kubectl 명령과 매니페스트를 직접 입력하면 플래그 단위로 채점합니다.
+            판별 기준 중심 노트와 시간을 재는 모의 세션까지.
+          </p>
+          <div class="tag-row" aria-label="CKA·CKAD 구성">
+            <span>명령 드릴</span><span>매니페스트</span><span>모의 세션</span><span>노트</span>
+          </div>
+          <span class="card-path">bso.name/study/IT/k8s</span>
+        </a>
+
+        <div class="track-card it" style="--card-accent:#7c3aed;--card-soft:#f2eafe">
+          <div class="card-top">
+            <span class="track-number">02</span>
+            <span class="arrow" aria-hidden="true">·</span>
+          </div>
+          <div class="track-icon terminal" aria-hidden="true">&gt;_</div>
+          <p class="card-kicker">FOUNDATION</p>
+          <h3>Linux · 네트워크</h3>
+          <p class="card-description">
+            systemd, 파일시스템, 프로세스, TCP/IP 와 DNS 등 컨테이너 아래층을 정리할 자리입니다.
+          </p>
+          <div class="tag-row" aria-label="예정 주제">
+            <span>준비 중</span><span>Linux</span><span>Network</span>
+          </div>
+          <span class="card-path">bso.name/study/IT/linux</span>
+        </div>
+
+        <div class="track-card it" style="--card-accent:#0891b2;--card-soft:#e6f8fb">
+          <div class="card-top">
+            <span class="track-number">03</span>
+            <span class="arrow" aria-hidden="true">·</span>
+          </div>
+          <div class="track-icon terminal" aria-hidden="true">{ }</div>
+          <p class="card-kicker">AUTOMATION</p>
+          <h3>IaC · CI/CD</h3>
+          <p class="card-description">
+            Terraform, GitHub Actions, Helm 등 배포 자동화를 같은 방식(과제 + 채점)으로 확장할 자리입니다.
+          </p>
+          <div class="tag-row" aria-label="예정 주제">
+            <span>준비 중</span><span>Terraform</span><span>Actions</span>
+          </div>
+          <span class="card-path">bso.name/study/IT/iac</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="note-panel" aria-label="IT 학습 공간 안내">
+      <div>
+        <p class="section-label">STRUCTURE</p>
+        <h2>과제를 입력하고 채점받는 구조로 통일합니다.</h2>
+      </div>
+      <p>
+        주제마다 <strong>과제은행 · 연습실 · 노트</strong> 세 부분으로 나눕니다.
+        과제 데이터는 주제별 파일에 쌓이고, 채점기는 명령의 플래그와 매니페스트의 필드를 각각 비교합니다.
+        새 주제를 추가할 때도 같은 뼈대를 재사용합니다.
+      </p>
     </section>
   </main>
 

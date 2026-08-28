@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CKA·CKAD 실기 과제를 kubectl 명령과 매니페스트로 직접 입력하고 즉시 채점받는 연습실" />
+  <title>CKA · CKAD 연습실 | bso.name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <nav class="topbar" aria-label="상단 메뉴">
+      <a class="brand" href="../">bso.name/study/IT/k8s</a>
+      <div class="top-links">
+        <a href="../notes/">노트</a>
+        <a href="../">허브</a>
+      </div>
+    </nav>
+
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">HANDS-ON PRACTICE</p>
+        <h1>치면서 익히는<br />CKA · CKAD</h1>
+        <p class="hero-copy">
+          과제를 읽고 <strong>kubectl 명령</strong>이나 <strong>매니페스트</strong>를 직접 입력하면
+          플래그 단위로 무엇이 맞고 무엇이 빠졌는지 짚어 줍니다.
+          모의 세션은 시간을 재고 영역 배점대로 출제합니다.
+        </p>
+        <div class="hero-actions">
+          <button class="button primary" type="button" data-mode-target="drill">드릴 시작</button>
+          <button class="button secondary" type="button" data-mode-target="session">모의 세션</button>
+          <a class="button secondary" href="../notes/">속도 세팅 보기</a>
+        </div>
+      </div>
+
+      <aside class="hero-card">
+        <p class="mini-label">과제은행</p>
+        <strong id="totalTaskCount">0개</strong>
+        <p class="hero-note" id="bankBreakdown">명령 0 · 매니페스트 0</p>
+      </aside>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="summary-grid" aria-label="학습 현황">
+      <article class="summary-card">
+        <span>맞힌 과제</span>
+        <strong id="solvedCount">0개</strong>
+      </article>
+      <article class="summary-card">
+        <span>막힌 과제</span>
+        <strong id="missedCount">0개</strong>
+      </article>
+      <article class="summary-card">
+        <span>최근 세션</span>
+        <strong id="recentScore">기록 없음</strong>
+      </article>
+    </section>
+
+    <section class="panel" aria-label="연습 방식 선택">
+      <div class="mode-tabs" role="tablist" aria-label="연습 방식">
+        <button id="drillTab" class="mode-tab active" type="button" role="tab" aria-selected="true" data-mode="drill">
+          드릴
+          <small>한 과제씩 즉시 채점</small>
+        </button>
+        <button id="sessionTab" class="mode-tab" type="button" role="tab" aria-selected="false" data-mode="session">
+          모의 세션
+          <small>시간 재고 끝나서 일괄 채점</small>
+        </button>
+      </div>
+
+      <div id="drillSetup">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">DRILL</p>
+            <h2>손에 붙을 때까지 반복</h2>
+          </div>
+          <p>채점은 플래그 단위입니다. 형태가 달라도 뜻이 같으면 통과합니다.</p>
+        </div>
+        <div class="control-grid">
+          <label>
+            <span>시험</span>
+            <select id="drillExam"></select>
+          </label>
+          <label>
+            <span>영역</span>
+            <select id="drillArea"></select>
+          </label>
+          <label>
+            <span>유형</span>
+            <select id="drillType">
+              <option value="all">명령 + 매니페스트</option>
+              <option value="command">kubectl 명령만</option>
+              <option value="manifest">매니페스트만</option>
+            </select>
+          </label>
+          <label>
+            <span>난이도</span>
+            <select id="drillLevel">
+              <option value="all">전체</option>
+              <option value="1">기초</option>
+              <option value="2">표준</option>
+              <option value="3">심화</option>
+            </select>
+          </label>
+          <label>
+            <span>범위</span>
+            <select id="drillRange">
+              <option value="10">무작위 10개</option>
+              <option value="20">무작위 20개</option>
+              <option value="all">조건에 맞는 전체</option>
+              <option value="missed">막힌 과제만</option>
+            </select>
+          </label>
+          <button id="startDrill" class="button primary control-button" type="button">드릴 시작</button>
+        </div>
+      </div>
+
+      <div id="sessionSetup" class="hidden">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">MOCK SESSION</p>
+            <h2>배점대로 뽑아 시간 안에</h2>
+          </div>
+          <p>영역별 문항 수를 실제 배점 비율대로 배분합니다. 부분점수로 채점합니다.</p>
+        </div>
+        <div class="control-grid">
+          <label>
+            <span>시험</span>
+            <select id="sessionExam"></select>
+          </label>
+          <label>
+            <span>문항 수</span>
+            <select id="sessionCount">
+              <option value="6">6문항 (42분)</option>
+              <option value="10" selected>10문항 (70분)</option>
+              <option value="16">16문항 (112분)</option>
+            </select>
+          </label>
+          <label>
+            <span>난이도</span>
+            <select id="sessionLevel">
+              <option value="all">전체</option>
+              <option value="min2">표준 이상</option>
+              <option value="3">심화만</option>
+            </select>
+          </label>
+          <button id="startSession" class="button primary control-button" type="button">세션 시작</button>
+        </div>
+        <div id="weightPreview" class="weight-bar" style="margin-top:20px"></div>
+      </div>
+    </section>
+
+    <section id="practiceArea" class="panel hidden" aria-live="polite">
+      <div class="task-toolbar">
+        <div class="task-meta" id="taskBadges"></div>
+        <div class="toolbar-stats">
+          <span id="taskProgress">1 / 10</span>
+          <span id="scoreProgress"></span>
+          <span id="timerDisplay" class="timer hidden">70:00</span>
+        </div>
+      </div>
+      <div class="progress-track" aria-hidden="true"><div id="progressBar" class="progress-value"></div></div>
+
+      <h2 class="task-title" id="taskTitle"></h2>
+      <p class="task-prompt" id="taskPrompt"></p>
+      <p class="task-context hidden" id="taskContext"></p>
+
+      <div class="answer-shell">
+        <label id="answerLabel" for="commandInput">명령 입력</label>
+        <div class="terminal" id="commandShell">
+          <span class="prompt-mark">$</span>
+          <input id="commandInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="kubectl ..." />
+        </div>
+        <textarea id="manifestInput" class="editor hidden" spellcheck="false"></textarea>
+        <p class="editor-hint hidden" id="editorHint">YAML 들여쓰기는 공백 2칸. Tab 키는 공백 2칸으로 들어갑니다.</p>
+      </div>
+
+      <div class="action-row">
+        <button id="gradeButton" class="button primary" type="button">채점</button>
+        <button id="hintButton" class="button ghost" type="button">힌트</button>
+        <button id="revealButton" class="button ghost" type="button">정답 보기</button>
+        <button id="prevTask" class="button ghost" type="button">이전</button>
+        <button id="nextTask" class="button ghost" type="button">다음</button>
+        <button id="finishSession" class="button danger hidden" type="button">세션 종료</button>
+      </div>
+
+      <div id="hintBox" class="hint-box hidden"></div>
+      <div id="verdict" class="verdict hidden"></div>
+      <div id="reveal" class="reveal hidden"></div>
+    </section>
+
+    <section id="resultArea" class="panel hidden" aria-live="polite">
+      <div class="result-header">
+        <div>
+          <p class="section-label">RESULT</p>
+          <h2 id="resultTitle">세션 결과</h2>
+          <p id="resultMessage"></p>
+        </div>
+        <div id="resultScore" class="score-ring">0%</div>
+      </div>
+      <div id="areaScores" class="area-score-grid"></div>
+      <div class="action-row" style="margin-top:22px">
+        <button id="retryMissed" class="button primary" type="button">막힌 과제만 다시</button>
+        <button id="restartPractice" class="button ghost" type="button">새로 시작</button>
+      </div>
+      <div class="section-heading" style="margin-top:26px">
+        <h2 style="font-size:1.15rem">과제별 검토</h2>
+      </div>
+      <div id="reviewList" class="review-list"></div>
+    </section>
+
+    <section class="panel" aria-label="실습 환경 안내">
+      <div class="section-heading">
+        <div>
+          <p class="section-label">REAL CLUSTER</p>
+          <h2>이 페이지가 대신하지 못하는 것</h2>
+        </div>
+      </div>
+      <p style="line-height:1.85;margin-top:0">
+        여기서 훈련하는 것은 <strong>무엇을 칠지 떠올리는 속도</strong>입니다.
+        실제 시험은 살아 있는 클러스터를 고치는 시험이므로,
+        아래 한 줄로 로컬 클러스터를 띄워 같은 과제를 직접 적용해 보는 과정이 반드시 필요합니다.
+      </p>
+      <pre style="margin:0;padding:16px;border-radius:14px;background:var(--navy);color:#e2e8f0;overflow-x:auto">kind create cluster --name cka --image kindest/node:v1.32.0
+kubectl config use-context kind-cka</pre>
+    </section>
+  </main>
+
+  <footer><p>CKA · CKAD practice · bso.name/study/IT/k8s/practice</p></footer>
+
+  <script src="../tasks.js"></script>
+  <script src="../vendor/js-yaml.min.js"></script>
+  <script src="./grader.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
