@@ -16,6 +16,8 @@
   document.getElementById("hubSolved").textContent = `${solved.length} / ${TASKS.length}`;
   document.getElementById("hubMissed").textContent = `막힌 과제 ${missed.length}개`;
 
+  if (window.renderK8sDocs) window.renderK8sDocs("docsLinks", { open: true });
+
   document.getElementById("hubWeights").innerHTML = Object.values(EXAMS).map((exam) => `
     <div style="margin-bottom:22px">
       <p class="section-label" style="margin-bottom:10px">${exam.label} — ${exam.full}</p>

@@ -147,5 +147,118 @@ window.addK8sTasks("network", [
     explain:
       "같은 네임스페이스면 `web-svc`, 다른 네임스페이스면 `web-svc.prod`(또는 전체 이름 `web-svc.prod.svc.cluster.local`)다. 접속이 안 될 때 확인 순서는 DNS(이름이 풀리는가) → 엔드포인트(파드가 붙었는가) → 네트워크폴리시(막혔는가)다.",
     docs: "https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/"
+  },
+  {
+    id: "nw-externalname",
+    areas: { cka: "network", ckad: "network" },
+    level: 2,
+    title: "클러스터 밖 주소를 서비스 이름으로",
+    prompt: "`prod` 네임스페이스의 파드가 외부 DB `db.example.com` 을 서비스 이름 `db` 로 부를 수 있게 하라.",
+    type: "manifest",
+    starter: "apiVersion: v1\nkind: Service\nmetadata:\n  name: db\n  namespace: prod\nspec:\n",
+    checks: [
+      { label: "타입 ExternalName", path: "spec.type", equals: "ExternalName" },
+      { label: "가리키는 주소", path: "spec.externalName", equals: "db.example.com" },
+      { label: "selector 는 두지 않는다", path: "spec.selector", absent: true }
+    ],
+    answer:
+      "apiVersion: v1\nkind: Service\nmetadata:\n  name: db\n  namespace: prod\nspec:\n  type: ExternalName\n  externalName: db.example.com\n",
+    hint: "파드를 고르는 서비스가 아니다. DNS 만 바꿔 준다.",
+    explain:
+      "ExternalName 은 프록시도 IP 도 만들지 않고 CNAME 만 돌려준다. 그래서 selector·endpoints·포트가 필요 없고, 반대로 포트 변환이나 로드밸런싱도 못 한다. 외부 주소를 클러스터 내부 이름으로 감싸 두면 나중에 실제 서비스로 바꿔도 파드 설정을 안 고쳐도 된다 — 이것이 쓰는 이유다.",
+    docs: "https://kubernetes.io/docs/concepts/services-networking/service/"
+  },
+  {
+    id: "nw-nodeport-fixed",
+    areas: { cka: "network", ckad: "network" },
+    level: 3,
+    title: "노드포트 번호를 지정해서 열기",
+    prompt:
+      "라벨 `app=web` 인 파드를 노드의 `30080` 포트로 노출하는 서비스 `web-np` 를 `prod` 에 작성하라. 서비스 포트 80, 컨테이너 포트 8080.",
+    type: "manifest",
+    starter: "apiVersion: v1\nkind: Service\nmetadata:\n  name: web-np\n  namespace: prod\nspec:\n",
+    checks: [
+      { label: "타입 NodePort", path: "spec.type", equals: "NodePort" },
+      { label: "selector app=web", path: "spec.selector.app", equals: "web" },
+      { label: "서비스 포트 80", path: "spec.ports[0].port", equals: 80 },
+      { label: "타깃 포트 8080", path: "spec.ports[0].targetPort", equals: 8080 },
+      { label: "노드포트 30080", path: "spec.ports[0].nodePort", equals: 30080 }
+    ],
+    answer:
+      "apiVersion: v1\nkind: Service\nmetadata:\n  name: web-np\n  namespace: prod\nspec:\n  type: NodePort\n  selector:\n    app: web\n  ports:\n    - port: 80\n      targetPort: 8080\n      nodePort: 30080\n",
+    hint: "포트 세 개가 모두 한 항목 안에 들어간다.",
+    explain:
+      "노드포트 번호는 명령형(`kubectl expose`)으로 지정할 수 없다. 번호가 문제에 적혀 있으면 곧바로 YAML 로 간다 — 이것이 명령형과 선언형을 가르는 지점이다. 범위는 기본 30000~32767 이고 벗어나면 거부된다. `port`(서비스) → `targetPort`(파드) → `nodePort`(노드) 세 층을 구분해 적는다.",
+    docs: "https://kubernetes.io/docs/concepts/services-networking/service/"
+  },
+  {
+    id: "nw-netpol-egress",
+    areas: { cka: "network", ckad: "network" },
+    level: 3,
+    title: "나가는 방향 제한",
+    prompt:
+      "`prod` 의 `app=api` 파드가 `10.0.0.0/16` 대역의 TCP 5432 로만 나갈 수 있게 하라. 단 DNS(UDP 53)는 허용한다. 정책 이름은 `api-egress`.",
+    type: "manifest",
+    starter: "apiVersion: networking.k8s.io/v1\nkind: NetworkPolicy\nmetadata:\n  name: api-egress\n  namespace: prod\nspec:\n  podSelector:\n    matchLabels:\n      app: api\n",
+    checks: [
+      { label: "policyTypes 에 Egress", path: "spec.policyTypes", contains: "Egress" },
+      { label: "허용 대역", path: "spec.egress[0].to[0].ipBlock.cidr", equals: "10.0.0.0/16" },
+      { label: "TCP 5432", path: "spec.egress[0].ports[0].port", equals: 5432 },
+      { label: "DNS 규칙의 포트 53", path: "spec.egress[1].ports[0].port", equals: 53 },
+      { label: "DNS 는 UDP", path: "spec.egress[1].ports[0].protocol", equals: "UDP" }
+    ],
+    answer:
+      "apiVersion: networking.k8s.io/v1\nkind: NetworkPolicy\nmetadata:\n  name: api-egress\n  namespace: prod\nspec:\n  podSelector:\n    matchLabels:\n      app: api\n  policyTypes:\n    - Egress\n  egress:\n    - to:\n        - ipBlock:\n            cidr: 10.0.0.0/16\n      ports:\n        - protocol: TCP\n          port: 5432\n    - ports:\n        - protocol: UDP\n          port: 53\n",
+    hint: "DNS 규칙은 `to` 없이 포트만 열어 두면 어디로든 53 이 허용된다.",
+    explain:
+      "Egress 정책을 걸면서 DNS 를 빼먹는 것이 이 유형의 단골 함정이다. 이름이 안 풀리니 앱은 '네트워크가 죽었다'처럼 보이지만 실제로는 정책이 53 을 막은 것이다. 증상이 '접속 자체가 아니라 이름 해석에서 멈춘다'면 여기를 먼저 본다.",
+    docs: "https://kubernetes.io/docs/concepts/services-networking/network-policies/"
+  },
+  {
+    id: "nw-svc-patch-selector",
+    areas: { cka: "network", ckad: "network" },
+    level: 3,
+    title: "엔드포인트가 빈 서비스 고치기",
+    prompt:
+      "`prod` 의 서비스 `web` 에 엔드포인트가 하나도 붙지 않는다. 파드 라벨은 `app=web` 인데 서비스 selector 가 다르다. 서비스를 그 자리에서 고쳐라.",
+    type: "command",
+    answer: "kubectl patch svc web -n prod -p '{\"spec\":{\"selector\":{\"app\":\"web\"}}}'",
+    match: {
+      argv: ["kubectl", "patch", "service", "web"],
+      flags: { namespace: "prod", patch: { matches: "app.*web" } },
+      labels: { patch: "`-p` 로 selector 를 `app: web` 으로" }
+    },
+    hint: "`edit` 로 열어 고쳐도 되지만, 한 줄로 끝내려면 patch 다.",
+    explain:
+      "엔드포인트가 비었을 때 확인 순서는 ①`kubectl describe svc web -n prod` 의 Selector ②`kubectl get pods -n prod --show-labels` ③둘을 대조. selector 는 불변 필드가 아니라 patch 로 즉시 고쳐진다. 고친 뒤 `kubectl get endpoints web -n prod` 로 파드가 붙었는지 반드시 확인한다.",
+    docs: "https://kubernetes.io/docs/tasks/debug/debug-application/debug-service/"
+  },
+  {
+    id: "nw-ingressclass",
+    areas: { cka: "network", ckad: "network" },
+    level: 1,
+    title: "쓸 수 있는 인그레스클래스 확인",
+    prompt: "클러스터에 설치된 인그레스클래스를 나열하라.",
+    type: "command",
+    answer: "kubectl get ingressclass",
+    match: { argv: ["kubectl", "get", "ingressclasses"] },
+    hint: "인그레스가 아니라 클래스 쪽 리소스다.",
+    explain:
+      "인그레스를 만들기 전에 이 목록부터 본다. 여기가 비어 있으면 컨트롤러가 없다는 뜻이고, 그때는 인그레스를 아무리 정확히 써도 주소가 붙지 않는다. 이름 옆에 `(default)` 가 붙은 클래스가 있으면 `ingressClassName` 을 생략해도 그쪽으로 간다.",
+    docs: "https://kubernetes.io/docs/concepts/services-networking/ingress/"
+  },
+  {
+    id: "nw-coredns-config",
+    areas: { cka: "network" },
+    level: 2,
+    title: "CoreDNS 설정 확인",
+    prompt: "클러스터 DNS 가 이상하다. CoreDNS 설정(Corefile)이 담긴 컨피그맵을 YAML 로 출력하라.",
+    type: "command",
+    answer: "kubectl get configmap coredns -n kube-system -o yaml",
+    match: { argv: ["kubectl", "get", "configmaps", "coredns"], flags: { namespace: "kube-system", output: "yaml" } },
+    hint: "CoreDNS 설정은 `kube-system` 의 컨피그맵에 들어 있다.",
+    explain:
+      "DNS 장애의 확인 순서는 ①CoreDNS 파드가 Running 인가(`kubectl get pods -n kube-system -l k8s-app=kube-dns`) ②서비스 `kube-dns` 의 ClusterIP 가 파드의 `/etc/resolv.conf` 와 같은가 ③Corefile 의 `forward` 대상이 살아 있는가. 이 명령은 ③을 본다.",
+    docs: "https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/"
   }
 ]);

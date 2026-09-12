@@ -186,6 +186,35 @@ code, kbd, samp, pre { font-family: var(--mono); }
 
 .action-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
 
+.task-clock { color: var(--muted); font-size: 0.92rem; }
+.task-clock.slow { color: var(--warn); }
+
+.hint-box .hint-text { margin: 0; }
+.hint-doc {
+  margin-top: 12px; padding-top: 12px; border-top: 1px dashed rgba(30, 58, 138, 0.28);
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px;
+}
+.hint-doc-label {
+  font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue-dark);
+}
+.hint-doc p { margin: 0; font-size: 0.9rem; }
+.hint-doc .kw {
+  display: inline-block; padding: 1px 8px; border-radius: 6px; background: var(--white);
+  border: 1px solid #bcd0fb; font-family: var(--mono); font-weight: 700; color: var(--blue-dark);
+}
+.hint-doc a { font-weight: 700; color: var(--blue-dark); text-decoration: underline; }
+
+.time-stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr)); gap: 12px; margin-top: 20px;
+}
+.time-stat {
+  border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; background: var(--paper);
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px;
+}
+.time-stat span { font-size: 0.8rem; color: var(--muted); font-weight: 700; }
+.time-stat strong { font-size: 1.25rem; letter-spacing: -0.02em; }
+.time-stat small { font-size: 0.78rem; color: var(--muted); }
+
 /* ---------- 채점 결과 ---------- */
 .verdict { margin-top: 18px; border-radius: 18px; padding: 18px 20px; border: 1px solid var(--line); background: var(--paper); }
 .verdict.pass { background: var(--ok-soft); border-color: #bfe6cd; }
@@ -272,6 +301,36 @@ code.inline {
 .chapter-nav { display: flex; flex-wrap: wrap; gap: 8px; }
 .chapter-nav a { padding: 7px 13px; border-radius: 999px; border: 1px solid var(--line); background: var(--white); font-size: 0.84rem; font-weight: 700; }
 .chapter-nav a:hover { border-color: #bcd0fb; background: var(--blue-soft); color: var(--blue-dark); }
+
+/* ---------- 공식 문서 고정 링크 ---------- */
+.docs-panel {
+  background: var(--white); border: 1px solid var(--line); border-radius: 22px;
+  padding: 18px 24px; box-shadow: var(--shadow);
+}
+.docs-panel > summary {
+  cursor: pointer; font-weight: 800; display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline;
+  list-style: none;
+}
+.docs-panel > summary::-webkit-details-marker { display: none; }
+/* summary 를 flex 로 두면 기본 삼각형이 사라져 접힌 상태가 눌러지는 줄 모른다 */
+.docs-panel > summary::after { content: "▾"; margin-left: auto; color: var(--blue); font-size: 0.9rem; }
+.docs-panel[open] > summary::after { content: "▴"; }
+.docs-panel > summary small { font-weight: 600; color: var(--muted); font-size: 0.82rem; }
+.docs-group { margin-top: 18px; }
+.docs-group-title {
+  margin: 0 0 4px; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--blue);
+}
+.docs-group-note { margin: 0 0 10px; font-size: 0.84rem; color: var(--muted); line-height: 1.7; }
+.docs-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.docs-chip {
+  display: inline-flex; flex-direction: column; gap: 2px; padding: 9px 13px; border-radius: 12px;
+  border: 1px solid var(--line); background: var(--paper); font-weight: 700; font-size: 0.86rem;
+  transition: border-color .12s ease, background .12s ease, color .12s ease;
+}
+.docs-chip small { font-weight: 600; font-size: 0.74rem; color: var(--muted); }
+.docs-chip:hover { border-color: #bcd0fb; background: var(--blue-soft); color: var(--blue-dark); }
+.docs-chip:hover small { color: var(--blue-dark); }
 
 /* ---------- 허브 카드 ---------- */
 .track-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 16px; }

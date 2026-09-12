@@ -51,6 +51,8 @@
     sc: "storageclasses", storageclass: "storageclasses", storageclasses: "storageclasses",
     sa: "serviceaccounts", serviceaccount: "serviceaccounts", serviceaccounts: "serviceaccounts",
     ing: "ingresses", ingress: "ingresses", ingresses: "ingresses",
+    ingressclass: "ingressclasses", ingressclasses: "ingressclasses",
+    endpointslice: "endpointslices", endpointslices: "endpointslices",
     netpol: "networkpolicies", networkpolicy: "networkpolicies", networkpolicies: "networkpolicies",
     cj: "cronjobs", cronjob: "cronjobs", cronjobs: "cronjobs",
     job: "jobs", jobs: "jobs",

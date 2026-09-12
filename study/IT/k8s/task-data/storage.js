@@ -119,5 +119,100 @@ window.addK8sTasks("storage", [
     explain:
       "`--sort-by` 값은 앞에 점이 붙은 JSONPath 이며 필드 경로가 틀리면 조용히 정렬되지 않는다. 경로가 헷갈리면 `kubectl get pv -o yaml` 로 필드 이름을 눈으로 확인한 뒤 옮겨 적는다. 용량은 문자열이라 사전순 정렬이 되는 점도 알아 둔다.",
     docs: "https://kubernetes.io/docs/reference/kubectl/quick-reference/"
+  },
+  {
+    id: "st-subpath",
+    areas: { cka: "storage", ckad: "config" },
+    level: 3,
+    title: "볼륨의 하위 디렉터리만 마운트",
+    prompt:
+      "파드 `web`(이미지 `nginx:1.25`)에 PVC `data-claim` 을 붙이되, 볼륨 안의 `html` 디렉터리만 `/usr/share/nginx/html` 에 마운트하라.",
+    type: "manifest",
+    starter: "apiVersion: v1\nkind: Pod\nmetadata:\n  name: web\n  namespace: dev\nspec:\n  containers:\n    - name: web\n      image: nginx:1.25\n",
+    checks: [
+      { label: "PVC 참조", path: "spec.volumes[0].persistentVolumeClaim.claimName", equals: "data-claim" },
+      { label: "마운트 경로", path: "spec.containers[0].volumeMounts[0].mountPath", equals: "/usr/share/nginx/html" },
+      { label: "subPath html", path: "spec.containers[0].volumeMounts[0].subPath", equals: "html" }
+    ],
+    answer:
+      "apiVersion: v1\nkind: Pod\nmetadata:\n  name: web\n  namespace: dev\nspec:\n  volumes:\n    - name: data\n      persistentVolumeClaim:\n        claimName: data-claim\n  containers:\n    - name: web\n      image: nginx:1.25\n      volumeMounts:\n        - name: data\n          mountPath: /usr/share/nginx/html\n          subPath: html\n",
+    hint: "볼륨 전체가 아니라 그 안의 한 경로만 쓰는 필드가 있다.",
+    explain:
+      "`subPath` 는 볼륨 하나를 여러 컨테이너가 서로 다른 디렉터리로 나눠 쓸 때, 또는 디렉터리가 아니라 파일 하나만 덮어쓸 때 쓴다. 대신 subPath 로 마운트한 컨피그맵·시크릿은 **원본을 고쳐도 자동 갱신되지 않는다** — 이 한 줄이 subPath 를 쓸지 말지 가르는 기준이다.",
+    docs: "https://kubernetes.io/docs/concepts/storage/volumes/"
+  },
+  {
+    id: "st-pvc-expand",
+    areas: { cka: "storage" },
+    level: 3,
+    title: "PVC 용량 늘리기",
+    prompt: "`dev` 의 PVC `data-claim` 요청 용량을 `5Gi` 로 늘려라.",
+    type: "command",
+    answer: "kubectl patch pvc data-claim -n dev -p '{\"spec\":{\"resources\":{\"requests\":{\"storage\":\"5Gi\"}}}}'",
+    match: {
+      argv: ["kubectl", "patch", "pvc", "data-claim"],
+      flags: { namespace: "dev", patch: { matches: "5Gi" } },
+      labels: { patch: "`-p` 로 `storage: 5Gi` 지정" }
+    },
+    hint: "용량은 늘리는 것만 되고, 줄이는 것은 거부된다.",
+    explain:
+      "확장은 스토리지클래스에 `allowVolumeExpansion: true` 가 있어야 동작한다. 없으면 patch 는 받아들여져도 실제 볼륨은 그대로다. 파일시스템까지 늘어나려면 대개 파드를 다시 띄워야 하고, 그 전까지 PVC 상태는 `FileSystemResizePending` 으로 남는다.",
+    docs: "https://kubernetes.io/docs/concepts/storage/persistent-volumes/"
+  },
+  {
+    id: "st-sc-default",
+    areas: { cka: "storage" },
+    level: 1,
+    title: "기본 스토리지클래스 확인",
+    prompt: "클러스터의 스토리지클래스를 나열해 어느 것이 기본인지 확인하라.",
+    type: "command",
+    answer: "kubectl get storageclass",
+    match: { argv: ["kubectl", "get", "storageclasses"] },
+    hint: "`sc` 로 줄여 써도 된다.",
+    explain:
+      "출력에서 이름 옆에 `(default)` 가 붙은 것이 기본값이다. PVC 에 `storageClassName` 을 안 적으면 그리로 간다. 기본 지정은 애너테이션 `storageclass.kubernetes.io/is-default-class: \"true\"` 이고, 정적 PV 를 쓰려고 기본 클래스를 피하려면 PVC 에 `storageClassName: \"\"` 를 명시한다 — 빈 문자열과 생략은 뜻이 다르다.",
+    docs: "https://kubernetes.io/docs/concepts/storage/storage-classes/"
+  },
+  {
+    id: "st-pv-reclaim-patch",
+    areas: { cka: "storage" },
+    level: 2,
+    title: "PV 회수 정책 바꾸기",
+    prompt: "PV `pv-data` 의 회수 정책을 `Retain` 으로 바꿔 PVC 를 지워도 데이터가 남게 하라.",
+    type: "command",
+    answer: "kubectl patch pv pv-data -p '{\"spec\":{\"persistentVolumeReclaimPolicy\":\"Retain\"}}'",
+    match: {
+      argv: ["kubectl", "patch", "pv", "pv-data"],
+      flags: { patch: { matches: "Retain" } },
+      labels: { patch: "`-p` 로 `persistentVolumeReclaimPolicy: Retain`" }
+    },
+    hint: "PV 는 클러스터 범위라 네임스페이스를 주지 않는다.",
+    explain:
+      "회수 정책은 PV 가 풀려난 뒤의 처리를 정한다 — `Delete` 는 실제 볼륨까지 지우고, `Retain` 은 데이터를 남긴 채 PV 를 `Released` 로 둔다. Released 상태의 PV 는 그대로는 다시 바인딩되지 않으므로, 재사용하려면 `spec.claimRef` 를 지워야 한다. 동적 프로비저닝 PV 의 기본값은 대개 Delete 이므로 중요한 데이터에는 이 작업이 따라온다.",
+    docs: "https://kubernetes.io/docs/concepts/storage/persistent-volumes/"
+  },
+  {
+    id: "st-statefulset",
+    areas: { cka: "storage" },
+    level: 3,
+    title: "파드마다 자기 볼륨을 갖는 스테이트풀셋",
+    prompt:
+      "레플리카 3인 스테이트풀셋 `db` 를 작성하라. 헤드리스 서비스 이름은 `db`, 이미지는 `nginx:1.25`, 파드마다 1Gi(ReadWriteOnce) 볼륨을 `/data` 에 갖는다.",
+    type: "manifest",
+    starter: "apiVersion: apps/v1\nkind: StatefulSet\nmetadata:\n  name: db\nspec:\n  serviceName: db\n  replicas: 3\n  selector:\n    matchLabels:\n      app: db\n  template:\n    metadata:\n      labels:\n        app: db\n    spec:\n      containers:\n        - name: db\n          image: nginx:1.25\n",
+    checks: [
+      { label: "헤드리스 서비스 이름", path: "spec.serviceName", equals: "db" },
+      { label: "레플리카 3", path: "spec.replicas", equals: 3 },
+      { label: "볼륨 클레임 템플릿 이름", path: "spec.volumeClaimTemplates[0].metadata.name", equals: "data" },
+      { label: "요청 용량 1Gi", path: "spec.volumeClaimTemplates[0].spec.resources.requests.storage", equals: "1Gi" },
+      { label: "접근 모드 RWO", path: "spec.volumeClaimTemplates[0].spec.accessModes", contains: "ReadWriteOnce" },
+      { label: "컨테이너가 같은 이름으로 마운트", path: "spec.template.spec.containers[0].volumeMounts[0].name", equals: "data" }
+    ],
+    answer:
+      "apiVersion: apps/v1\nkind: StatefulSet\nmetadata:\n  name: db\nspec:\n  serviceName: db\n  replicas: 3\n  selector:\n    matchLabels:\n      app: db\n  template:\n    metadata:\n      labels:\n        app: db\n    spec:\n      containers:\n        - name: db\n          image: nginx:1.25\n          volumeMounts:\n            - name: data\n              mountPath: /data\n  volumeClaimTemplates:\n    - metadata:\n        name: data\n      spec:\n        accessModes:\n          - ReadWriteOnce\n        resources:\n          requests:\n            storage: 1Gi\n",
+    hint: "`volumeClaimTemplates` 는 `template` 안이 아니라 `spec` 바로 아래, `template` 과 같은 높이에 온다.",
+    explain:
+      "디플로이먼트와 갈리는 지점은 '파드마다 자기 것이 필요한가'다. 스테이트풀셋은 파드 이름이 `db-0`, `db-1` 로 고정되고 PVC 도 `data-db-0` 처럼 파드마다 하나씩 자동 생성된다. 그래서 파드가 죽었다 살아나도 같은 볼륨을 다시 잡는다. 스테이트풀셋을 지워도 이 PVC 들은 남는다는 점을 기억한다.",
+    docs: "https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/"
   }
 ]);

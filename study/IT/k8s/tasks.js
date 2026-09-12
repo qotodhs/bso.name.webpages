@@ -55,6 +55,85 @@ window.K8S_LEVELS = {
   3: { label: "심화", hint: "조건이 겹치거나 진단이 필요한 문항" }
 };
 
+// 고정 모의고사 세트.
+// 모의 세션은 기본적으로 배점 비율대로 무작위 출제하지만, 아래 세트를 고르면
+// 정해진 과제를 정해진 순서로 낸다. 실제 시험처럼 "한 세트를 끝까지" 도는 용도다.
+// tasks 에는 K8S_TASKS 의 id 만 적는다(검증 스크립트가 존재 여부를 확인한다).
+window.K8S_MOCKS = [
+  {
+    id: "cka-1",
+    exam: "cka",
+    label: "CKA 모의고사 1 — 기본기 훑기",
+    tagline: "파드·서비스·디플로이먼트·정적 파드·PV 를 한 바퀴",
+    minutes: 60,
+    tasks: [
+      "cl-context", "cl-namespace", "ds-run-labels", "wl-deploy-create",
+      "nw-expose", "nw-nodeport", "cl-nodes-json", "ts-node-os-jsonpath",
+      "cl-static-pod", "ts-broken-pod", "st-pv", "cf-cm-literal"
+    ]
+  },
+  {
+    id: "cka-2",
+    exam: "cka",
+    label: "CKA 모의고사 2 — 운영과 복구",
+    tagline: "etcd 백업 · CSR 과 RBAC · 노드 관리 · 업그레이드",
+    minutes: 70,
+    tasks: [
+      "cl-etcd-backup", "st-emptydir", "cf-capabilities", "st-pod-pvc",
+      "wl-set-image", "cl-csr-approve", "cl-role-create", "cl-rolebinding",
+      "ts-dns-check", "cl-static-pod-path", "cl-drain", "cl-kubeadm-upgrade"
+    ]
+  },
+  {
+    id: "cka-3",
+    exam: "cka",
+    label: "CKA 모의고사 3 — 트러블슈팅 집중",
+    tagline: "배점이 가장 큰 영역만 몰아서. 증상별 첫 수를 손에 붙인다",
+    minutes: 70,
+    tasks: [
+      "ts-describe-pod", "ts-logs-previous", "ts-events-sort", "ts-endpoints",
+      "nw-svc-patch-selector", "ts-node-notready", "ts-kubelet-start",
+      "ts-controlplane-pods", "ts-crictl", "ts-pending-all", "ob-debug-node", "ts-answer-file"
+    ]
+  },
+  {
+    id: "cka-4",
+    exam: "cka",
+    label: "CKA 모의고사 4 — 스토리지와 네트워킹",
+    tagline: "얇게 나오는 두 영역을 한 세트로 몰아 연습",
+    minutes: 70,
+    tasks: [
+      "st-pvc", "st-storageclass", "st-subpath", "st-sc-default",
+      "st-pv-reclaim-patch", "st-statefulset", "st-pvc-expand",
+      "nw-ingress", "nw-netpol-deny", "nw-netpol-allow", "nw-externalname", "nw-nodeport-fixed"
+    ]
+  },
+  {
+    id: "ckad-1",
+    exam: "ckad",
+    label: "CKAD 모의고사 1 — 설계와 구성",
+    tagline: "멀티컨테이너 패턴 · 구성 주입 · 보안 컨텍스트 · 잡",
+    minutes: 60,
+    tasks: [
+      "ds-run-pod", "ds-dry-run", "ds-command-args", "ds-init-container",
+      "ds-sidecar", "st-emptydir", "cf-cm-literal", "cf-envfrom",
+      "cf-secret-volume", "cf-securitycontext", "cf-resources", "wl-job-manifest"
+    ]
+  },
+  {
+    id: "ckad-2",
+    exam: "ckad",
+    label: "CKAD 모의고사 2 — 배포·관측·네트워킹",
+    tagline: "롤아웃과 전략 · kustomize · Helm · 프로브 · 서비스",
+    minutes: 60,
+    tasks: [
+      "wl-deploy-create", "wl-set-image", "wl-rollout-undo", "wl-strategy",
+      "wl-kustomize", "wl-helm-install", "ob-liveness-http", "ob-readiness-exec",
+      "ob-logs-container", "ob-top", "nw-expose", "nw-netpol-allow"
+    ]
+  }
+];
+
 const taskLoaderScript = document.currentScript;
 const taskDataBase = new URL("./task-data/", taskLoaderScript.src);
 

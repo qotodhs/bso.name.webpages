@@ -203,5 +203,105 @@ window.addK8sTasks("workloads", [
     explain:
       "PDB 는 자발적 중단(drain·노드 업그레이드)만 막는다. 노드가 갑자기 죽는 비자발적 중단은 막지 못한다 — 이 구분이 출제 포인트다. drain 이 끝나지 않고 멈춰 있으면 대개 PDB 가 걸려 있는 것이므로 `kubectl get pdb -A` 를 본다.",
     docs: "https://kubernetes.io/docs/tasks/run-application/configure-pdb/"
+  },
+  {
+    id: "wl-rollout-restart",
+    areas: { cka: "workloads", ckad: "deploy" },
+    level: 1,
+    title: "설정만 바꾸고 파드를 새로 띄우기",
+    prompt: "컨피그맵을 고쳤다. `prod` 의 디플로이먼트 `web` 파드를 순차적으로 재시작하라.",
+    type: "command",
+    answer: "kubectl rollout restart deployment/web -n prod",
+    match: { argv: ["kubectl", "rollout", "restart", "deployments", "web"], flags: { namespace: "prod" } },
+    hint: "이미지를 바꾸지 않고도 롤아웃을 일으키는 하위 명령이 있다.",
+    explain:
+      "환경변수로 주입한 컨피그맵·시크릿 값은 원본을 고쳐도 갱신되지 않는다. 그래서 설정 변경 뒤에는 이 명령이 따라온다. 내부적으로는 파드 템플릿에 재시작 시각 애너테이션을 넣어 새 리비전을 만드는 방식이라, 무중단 롤링 업데이트로 진행되고 `rollout undo` 로 되돌릴 수도 있다.",
+    docs: "https://kubernetes.io/docs/reference/kubectl/quick-reference/"
+  },
+  {
+    id: "wl-rollout-history-rev",
+    areas: { cka: "workloads", ckad: "deploy" },
+    level: 2,
+    title: "특정 리비전의 내용 보기",
+    prompt: "`prod` 의 디플로이먼트 `web` 에서 리비전 3이 어떤 이미지였는지 확인하라.",
+    type: "command",
+    answer: "kubectl rollout history deployment/web --revision=3 -n prod",
+    match: { argv: ["kubectl", "rollout", "history", "deployments", "web"], flags: { revision: "3", namespace: "prod" } },
+    hint: "리비전 목록이 아니라 하나의 내용을 보려면 플래그가 하나 더 필요하다.",
+    explain:
+      "되돌리기 전에 무엇으로 돌아가는지 확인하는 단계다. `--revision` 없이 치면 번호와 변경 사유 목록만 나오고, 붙이면 그 리비전의 파드 템플릿 전체가 나온다. `undo` 의 `--to-revision` 과 짝으로 쓴다 — 확인은 history, 실행은 undo.",
+    docs: "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/"
+  },
+  {
+    id: "wl-set-resources",
+    areas: { cka: "workloads", ckad: "config" },
+    level: 2,
+    title: "이미 있는 디플로이먼트에 자원 지정",
+    prompt:
+      "`prod` 의 디플로이먼트 `web` 에 CPU 요청 200m·한계 500m, 메모리 요청 256Mi·한계 512Mi 를 명령 한 줄로 지정하라.",
+    type: "command",
+    answer: "kubectl set resources deployment web --requests=cpu=200m,memory=256Mi --limits=cpu=500m,memory=512Mi -n prod",
+    match: {
+      argv: ["kubectl", "set", "resources", "deployments", "web"],
+      flags: {
+        requests: { matches: "cpu=200m" },
+        limits: { matches: "cpu=500m" },
+        namespace: "prod"
+      }
+    },
+    hint: "`set` 하위에는 `image` 말고도 몇 가지가 더 있다.",
+    explain:
+      "파드는 자원 값을 나중에 못 바꾸지만(불변 필드), 디플로이먼트는 템플릿을 바꾸는 것이라 가능하고 그 결과 롤아웃이 일어난다. `kubectl set` 계열(`image`·`resources`·`env`·`serviceaccount`)을 알아 두면 YAML 을 열지 않고 끝나는 문항이 늘어난다.",
+    docs: "https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/"
+  },
+  {
+    id: "wl-strategy",
+    areas: { cka: "workloads", ckad: "deploy" },
+    level: 3,
+    title: "무중단 롤링 업데이트 조건",
+    prompt:
+      "디플로이먼트 `web`(이미지 `nginx:1.25`, 레플리카 4)이 업데이트 중에도 항상 4개를 유지하도록 전략을 지정하라. 라벨은 `app=web`.",
+    type: "manifest",
+    starter: "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: web\nspec:\n  replicas: 4\n  selector:\n    matchLabels:\n      app: web\n  template:\n    metadata:\n      labels:\n        app: web\n    spec:\n      containers:\n        - name: web\n          image: nginx:1.25\n",
+    checks: [
+      { label: "전략 RollingUpdate", path: "spec.strategy.type", equals: "RollingUpdate" },
+      { label: "maxUnavailable 0", path: "spec.strategy.rollingUpdate.maxUnavailable", equals: 0 },
+      { label: "maxSurge 는 1 이상", path: "spec.strategy.rollingUpdate.maxSurge", matches: "^[1-9]" },
+      { label: "레플리카 4", path: "spec.replicas", equals: 4 }
+    ],
+    answer:
+      "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: web\nspec:\n  replicas: 4\n  strategy:\n    type: RollingUpdate\n    rollingUpdate:\n      maxUnavailable: 0\n      maxSurge: 1\n  selector:\n    matchLabels:\n      app: web\n  template:\n    metadata:\n      labels:\n        app: web\n    spec:\n      containers:\n        - name: web\n          image: nginx:1.25\n",
+    hint: "'항상 4개 유지' 는 하나도 빠지면 안 된다는 뜻이다. 그 조건을 담는 필드가 무엇인지 생각한다.",
+    explain:
+      "`maxUnavailable` 은 동시에 빠질 수 있는 수, `maxSurge` 는 정원보다 더 띄울 수 있는 수다. 무중단이면 maxUnavailable 0, 자원이 빠듯해 초과 생성이 안 되면 maxSurge 0. **둘 다 0 으로 두면 롤아웃이 한 걸음도 못 나가고 멈춘다** — 이것이 이 문항의 함정이다. 기본값은 둘 다 25 % 다.",
+    docs: "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/"
+  },
+  {
+    id: "wl-kustomize",
+    areas: { ckad: "deploy", cka: "workloads" },
+    level: 2,
+    title: "kustomize 오버레이 적용",
+    prompt: "`./overlays/prod` 디렉터리의 kustomization 을 클러스터에 적용하라.",
+    type: "command",
+    answer: "kubectl apply -k ./overlays/prod",
+    match: { argv: ["kubectl", "apply"], flags: { kustomize: "./overlays/prod" }, labels: { kustomize: "`-k ./overlays/prod`" } },
+    hint: "파일이 아니라 kustomization 디렉터리를 준다. `-f` 가 아니다.",
+    explain:
+      "`-f` 는 매니페스트 파일, `-k` 는 kustomization 디렉터리다. 적용 전에 결과를 눈으로 보려면 `kubectl kustomize ./overlays/prod` 로 합쳐진 YAML 을 출력한다. kustomize 는 base 를 두고 오버레이에서 이미지 태그·레플리카·네임스페이스만 덮어쓰는 구조라, '운영에만 값이 다르다'는 지시가 보이면 이쪽이다.",
+    docs: "https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/"
+  },
+  {
+    id: "wl-helm-install",
+    areas: { ckad: "deploy" },
+    level: 2,
+    title: "Helm 차트 설치",
+    prompt: "`prod` 네임스페이스에 저장소 차트 `bitnami/nginx` 를 릴리스 이름 `web` 으로 설치하라.",
+    type: "command",
+    answer: "helm install web bitnami/nginx -n prod",
+    match: { argv: ["helm", "install", "web", "bitnami/nginx"], flags: { namespace: "prod" } },
+    hint: "릴리스 이름이 차트 이름보다 먼저 온다.",
+    explain:
+      "순서는 `helm install <릴리스> <차트>` 다. 값을 바꾸려면 `--set key=value` 또는 `-f values.yaml`, 설치 전에 결과를 보려면 `--dry-run --debug`. 설치된 것은 `helm list -n prod`, 값 확인은 `helm get values web -n prod`, 제거는 `helm uninstall web -n prod`. CKAD 는 차트를 만드는 것이 아니라 **있는 차트를 쓰는 수준**을 묻는다.",
+    docs: "https://helm.sh/docs/intro/using_helm/"
   }
 ]);

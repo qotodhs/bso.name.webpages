@@ -125,12 +125,16 @@
             <p class="section-label">MOCK SESSION</p>
             <h2>배점대로 뽑아 시간 안에</h2>
           </div>
-          <p>영역별 문항 수를 실제 배점 비율대로 배분합니다. 부분점수로 채점합니다.</p>
+          <p>배점 비율대로 무작위 출제하거나, 정해진 고정 세트를 순서대로 풉니다. 채점은 부분점수입니다.</p>
         </div>
         <div class="control-grid">
           <label>
             <span>시험</span>
             <select id="sessionExam"></select>
+          </label>
+          <label>
+            <span>출제 방식</span>
+            <select id="sessionSource"></select>
           </label>
           <label>
             <span>문항 수</span>
@@ -160,6 +164,7 @@
         <div class="toolbar-stats">
           <span id="taskProgress">1 / 10</span>
           <span id="scoreProgress"></span>
+          <span id="taskClock" class="timer task-clock" title="이 문항에 쓴 시간">00:00</span>
           <span id="timerDisplay" class="timer hidden">70:00</span>
         </div>
       </div>
@@ -193,6 +198,8 @@
       <div id="reveal" class="reveal hidden"></div>
     </section>
 
+    <div id="docsLinks"></div>
+
     <section id="resultArea" class="panel hidden" aria-live="polite">
       <div class="result-header">
         <div>
@@ -202,6 +209,7 @@
         </div>
         <div id="resultScore" class="score-ring">0%</div>
       </div>
+      <div id="timeStats" class="time-stats"></div>
       <div id="areaScores" class="area-score-grid"></div>
       <div class="action-row" style="margin-top:22px">
         <button id="retryMissed" class="button primary" type="button">막힌 과제만 다시</button>
@@ -233,6 +241,7 @@ kubectl config use-context kind-cka</pre>
   <footer><p>CKA · CKAD practice · bso.name/study/IT/k8s/practice</p></footer>
 
   <script src="../tasks.js"></script>
+  <script src="../docs.js"></script>
   <script src="../vendor/js-yaml.min.js"></script>
   <script src="./grader.js"></script>
   <script src="./app.js"></script>

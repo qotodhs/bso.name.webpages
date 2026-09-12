@@ -33,6 +33,7 @@ function loadScript(filename) {
 }
 
 loadScript(path.join(k8sRoot, "tasks.js"));
+loadScript(path.join(k8sRoot, "docs.js"));
 loadScript(path.join(k8sRoot, "notes", "notes.js"));
 
 const grader = require(path.join(k8sRoot, "practice", "grader.js"));
@@ -40,6 +41,7 @@ const yaml = require(path.join(k8sRoot, "vendor", "js-yaml.min.js"));
 
 const tasks = globalThis.K8S_TASKS;
 const exams = globalThis.K8S_EXAMS;
+const mocks = globalThis.K8S_MOCKS || [];
 const notes = globalThis.K8S_NOTES;
 const failures = [];
 const seen = new Set();
@@ -52,8 +54,13 @@ for (const task of tasks) {
   for (const field of ["title", "prompt", "answer", "explain", "docs", "hint"]) {
     if (!task[field]) failures.push(`${at}: ${field} 누락`);
   }
-  if (task.docs && !/^https:\/\/kubernetes\.io\//.test(task.docs)) {
-    failures.push(`${at}: docs 링크가 kubernetes.io 가 아님 — ${task.docs}`);
+  // 시험 중 열람이 허용되는 도메인만 근거 문서로 쓴다
+  if (task.docs && !/^https:\/\/(kubernetes\.io|helm\.sh)\//.test(task.docs)) {
+    failures.push(`${at}: docs 링크가 시험 허용 도메인이 아님 — ${task.docs}`);
+  }
+  // 힌트에 함께 보여 줄 문서 검색어가 등록돼 있어야 한다
+  if (task.docs && !globalThis.K8S_DOC_HINTS[task.docs]) {
+    failures.push(`${at}: docs.js 의 K8S_DOC_HINTS 에 검색어가 없음 — ${task.docs}`);
   }
   const areaKeys = Object.keys(task.areas || {});
   if (!areaKeys.length) failures.push(`${at}: areas 비어 있음`);
@@ -85,6 +92,26 @@ for (const task of tasks) {
   }
 }
 
+// 고정 모의고사 세트: 존재하지 않는 과제를 가리키면 세션이 비어 버린다
+const mockIds = new Set();
+for (const mock of mocks) {
+  const at = `mock ${mock.id}`;
+  if (mockIds.has(mock.id)) failures.push(`${at}: 세트 ID 중복`);
+  mockIds.add(mock.id);
+  if (!exams[mock.exam]) failures.push(`${at}: 알 수 없는 시험 ${mock.exam}`);
+  if (!(mock.minutes > 0)) failures.push(`${at}: minutes 값 오류`);
+  if (!mock.label) failures.push(`${at}: label 누락`);
+  if (!Array.isArray(mock.tasks) || !mock.tasks.length) { failures.push(`${at}: tasks 비어 있음`); continue; }
+  if (new Set(mock.tasks).size !== mock.tasks.length) failures.push(`${at}: 같은 과제가 두 번 들어 있음`);
+  for (const id of mock.tasks) {
+    const task = globalThis.K8S_TASK_INDEX.get(id);
+    if (!task) { failures.push(`${at}: 없는 과제 ${id}`); continue; }
+    if (exams[mock.exam] && !task.areas[mock.exam]) {
+      failures.push(`${at}: ${id} 는 ${mock.exam.toUpperCase()} 과제가 아님`);
+    }
+  }
+}
+
 // 세션 표본이 영역별로 뽑히려면 영역마다 최소 1과제가 있어야 한다
 for (const [examId, exam] of Object.entries(exams)) {
   for (const [key, area] of Object.entries(exam.areas)) {
@@ -109,10 +136,25 @@ for (const [examId, exam] of Object.entries(exams)) {
     .map((key) => [key, tasks.filter((task) => task.areas[examId] === key).length]));
 }
 
+const mockReport = mocks.map((mock) => ({
+  id: mock.id,
+  exam: mock.exam,
+  tasks: mock.tasks.length,
+  minutes: mock.minutes,
+  areas: mock.tasks.reduce((acc, id) => {
+    const task = globalThis.K8S_TASK_INDEX.get(id);
+    const key = task && task.areas[mock.exam];
+    if (key) acc[key] = (acc[key] || 0) + 1;
+    return acc;
+  }, {})
+}));
+
 console.log(JSON.stringify({
   tasks: tasks.length,
   command: tasks.filter((t) => t.type === "command").length,
   manifest: tasks.filter((t) => t.type === "manifest").length,
+  mocks: mockReport,
+  docKeywords: Object.keys(globalThis.K8S_DOC_HINTS).length,
   noteChapters: notes.length,
   noteSections: notes.reduce((sum, chapter) => sum + chapter.sections.length, 0),
   distribution,
