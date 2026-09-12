@@ -163,5 +163,75 @@ window.addK8sTasks("config", [
     explain:
       "지정하지 않으면 그 네임스페이스의 `default` 서비스어카운트가 붙는다. 토큰은 `/var/run/secrets/kubernetes.io/serviceaccount/` 에 마운트되며, 필요 없으면 `automountServiceAccountToken: false` 로 끈다. RBAC 문항은 대개 '서비스어카운트 생성 → Role → RoleBinding → 파드에 붙이기 → can-i 로 확인' 네 단계가 한 세트다.",
     docs: "https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/"
+  },
+  {
+    id: "cf-cm-envfile",
+    areas: { ckad: "config", cka: "workloads" },
+    level: 2,
+    title: "파일 한 장을 통째로 컨피그맵으로",
+    prompt: "`KEY=VALUE` 가 줄마다 적힌 `app.env` 파일의 내용을 그대로 컨피그맵 `app-env` 로 만들어라. 네임스페이스는 `dev`.",
+    type: "command",
+    answer: "kubectl create configmap app-env --from-env-file=app.env -n dev",
+    match: { argv: ["kubectl", "create", "configmap", "app-env"], flags: { "from-env-file": "app.env", namespace: "dev" } },
+    hint: "`--from-file` 과 결과가 다르다. 파일 안의 각 줄이 키가 되어야 한다.",
+    explain:
+      "세 플래그의 차이가 곧 출제 포인트다 — `--from-file=app.env` 는 **파일 이름이 키 하나**가 되고 파일 전체가 값이 된다. `--from-env-file=app.env` 는 **파일 안의 각 줄이 키·값**이 된다. `--from-literal` 은 값을 직접 적는다. '환경변수로 그대로 넣어라'는 지시면 env-file 쪽이다.",
+    docs: "https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/"
+  },
+  {
+    id: "cf-secret-tls",
+    areas: { ckad: "config", cka: "cluster" },
+    level: 2,
+    title: "TLS 시크릿 만들기",
+    prompt: "인그레스에 붙일 인증서를 `prod` 에 시크릿 `web-tls` 로 등록하라. 파일은 `tls.crt` 와 `tls.key` 다.",
+    type: "command",
+    answer: "kubectl create secret tls web-tls --cert=tls.crt --key=tls.key -n prod",
+    match: { argv: ["kubectl", "create", "secret", "tls", "web-tls"], flags: { cert: "tls.crt", key: "tls.key", namespace: "prod" } },
+    hint: "`generic` 이 아닌 전용 타입이 있다.",
+    explain:
+      "`tls` 타입으로 만들면 키 이름이 `tls.crt`·`tls.key` 로 고정된다. 인그레스에서는 `spec.tls[0].secretName` 으로 참조하고 호스트 이름이 인증서와 맞아야 한다. `generic` 으로 만들면 키 이름이 파일 이름을 따라가서 컨트롤러가 못 찾는다 — 타입을 고르는 이유가 여기 있다.",
+    docs: "https://kubernetes.io/docs/concepts/configuration/secret/"
+  },
+  {
+    id: "cf-limitrange",
+    areas: { ckad: "config", cka: "cluster" },
+    level: 3,
+    title: "자원 기본값 걸어 두기",
+    prompt:
+      "`dev` 네임스페이스에서 자원을 적지 않은 컨테이너에 CPU 요청 200m·한계 500m 가 자동으로 붙게 하는 LimitRange `defaults` 를 작성하라.",
+    type: "manifest",
+    starter: "apiVersion: v1\nkind: LimitRange\nmetadata:\n  name: defaults\n  namespace: dev\nspec:\n",
+    checks: [
+      { label: "kind 가 LimitRange", path: "kind", equals: "LimitRange" },
+      { label: "적용 대상 Container", path: "spec.limits[0].type", equals: "Container" },
+      { label: "기본 한계 CPU 500m", path: "spec.limits[0].default.cpu", equals: "500m" },
+      { label: "기본 요청 CPU 200m", path: "spec.limits[0].defaultRequest.cpu", equals: "200m" }
+    ],
+    answer:
+      "apiVersion: v1\nkind: LimitRange\nmetadata:\n  name: defaults\n  namespace: dev\nspec:\n  limits:\n    - type: Container\n      default:\n        cpu: 500m\n      defaultRequest:\n        cpu: 200m\n",
+    hint: "`default` 는 한계값, `defaultRequest` 는 요청값이다. 이름이 헷갈리는 쪽이 한계다.",
+    explain:
+      "ResourceQuota 는 네임스페이스 **총합**의 상한이고, LimitRange 는 컨테이너 **하나**의 기본값·최소·최대다. 쿼터만 걸면 자원을 안 적은 파드가 생성 거부되는데, LimitRange 로 기본값을 주면 그 문제가 사라진다 — 둘이 짝으로 나오는 이유다. `max`·`min` 을 함께 두면 범위를 벗어난 파드를 막을 수 있다.",
+    docs: "https://kubernetes.io/docs/concepts/policy/limit-range/"
+  },
+  {
+    id: "cf-capabilities",
+    areas: { ckad: "config", cka: "workloads" },
+    level: 3,
+    title: "커널 능력 하나만 더 주기",
+    prompt:
+      "파드 `clock`(이미지 `busybox:1.36`)의 컨테이너가 시스템 시각을 바꿀 수 있도록 `SYS_TIME` 능력을 추가하라. 특권 모드는 쓰지 않는다.",
+    type: "manifest",
+    starter: "apiVersion: v1\nkind: Pod\nmetadata:\n  name: clock\nspec:\n  containers:\n    - name: clock\n      image: busybox:1.36\n      command: [\"sleep\", \"3600\"]\n",
+    checks: [
+      { label: "capabilities 에 SYS_TIME", path: "spec.containers[0].securityContext.capabilities.add", contains: "SYS_TIME" },
+      { label: "privileged 는 쓰지 않는다", path: "spec.containers[0].securityContext.privileged", absent: true }
+    ],
+    answer:
+      "apiVersion: v1\nkind: Pod\nmetadata:\n  name: clock\nspec:\n  containers:\n    - name: clock\n      image: busybox:1.36\n      command: [\"sleep\", \"3600\"]\n      securityContext:\n        capabilities:\n          add: [\"SYS_TIME\"]\n",
+    hint: "능력 이름에는 `CAP_` 접두어를 붙이지 않는다.",
+    explain:
+      "`privileged: true` 는 모든 능력을 한꺼번에 주는 것이라 '필요한 것 하나만'이라는 지시에는 오답이다. capabilities 는 컨테이너 레벨 securityContext 에만 있고 파드 레벨에는 없다. 리눅스 표기 `CAP_SYS_TIME` 에서 접두어를 뗀 `SYS_TIME` 을 쓰는 것도 자주 틀린다.",
+    docs: "https://kubernetes.io/docs/tasks/configure-pod-container/security-context/"
   }
 ]);

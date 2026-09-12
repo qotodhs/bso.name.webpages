@@ -112,5 +112,27 @@ window.addK8sTasks("observe", [
     explain:
       "`kubectl debug node/...` 는 그 노드에 특권 파드를 띄우고 호스트 루트를 `/host` 에 마운트해 준다. SSH 가 막힌 환경에서 kubelet 설정이나 로그를 볼 때 쓴다. 파드를 대상으로 할 때는 `kubectl debug -it <파드> --image=busybox --target=<컨테이너>` 로 임시 컨테이너를 붙인다.",
     docs: "https://kubernetes.io/docs/tasks/debug/debug-cluster/kubectl-node-debug/"
+  },
+  {
+    id: "ob-startup-probe",
+    areas: { ckad: "observe", cka: "workloads" },
+    level: 3,
+    title: "느리게 뜨는 앱의 기동 프로브",
+    prompt:
+      "파드 `legacy`(이미지 `nginx:1.25`)는 기동에 최대 5분이 걸린다. 10초 간격으로 최대 30번까지 기다렸다가 실패로 보는 startupProbe 를 `/healthz` 8080 에 걸어라.",
+    type: "manifest",
+    starter: "apiVersion: v1\nkind: Pod\nmetadata:\n  name: legacy\nspec:\n  containers:\n    - name: legacy\n      image: nginx:1.25\n",
+    checks: [
+      { label: "startupProbe 의 경로", path: "spec.containers[0].startupProbe.httpGet.path", equals: "/healthz" },
+      { label: "포트 8080", path: "spec.containers[0].startupProbe.httpGet.port", equals: 8080 },
+      { label: "failureThreshold 30", path: "spec.containers[0].startupProbe.failureThreshold", equals: 30 },
+      { label: "periodSeconds 10", path: "spec.containers[0].startupProbe.periodSeconds", equals: 10 }
+    ],
+    answer:
+      "apiVersion: v1\nkind: Pod\nmetadata:\n  name: legacy\nspec:\n  containers:\n    - name: legacy\n      image: nginx:1.25\n      startupProbe:\n        httpGet:\n          path: /healthz\n          port: 8080\n        failureThreshold: 30\n        periodSeconds: 10\n",
+    hint: "허용 시간은 `failureThreshold × periodSeconds` 로 계산된다.",
+    explain:
+      "30 × 10초 = 300초까지 기동을 기다린다. startupProbe 가 성공하기 전까지 liveness·readiness 는 아예 돌지 않으므로, 느린 앱에 liveness 의 `initialDelaySeconds` 를 크게 잡는 것보다 이쪽이 정석이다. initialDelay 를 늘리면 기동 후에도 장애 감지가 그만큼 늦어지기 때문이다 — 이것이 두 방법을 가르는 기준이다.",
+    docs: "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/"
   }
 ]);

@@ -188,5 +188,114 @@ window.addK8sTasks("cluster", [
     explain:
       "정적 파드는 API 서버가 아니라 kubelet 이 디렉터리를 보고 띄운다. 그래서 apply 가 아니라 파일을 놓는 것이 배포이고, 지우려면 파일을 지워야 한다 — `kubectl delete pod` 로 지우면 kubelet 이 곧바로 되살린다. 클러스터에는 `web-static-node01` 처럼 노드 이름이 붙은 미러 파드로 보인다. 감시 디렉터리는 `/var/lib/kubelet/config.yaml` 의 `staticPodPath` 로 확인한다.",
     docs: "https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/"
+  },
+  {
+    id: "cl-certs-expiration",
+    areas: { cka: "cluster" },
+    level: 2,
+    title: "인증서 만료일 확인",
+    prompt: "컨트롤플레인 인증서가 언제 만료되는지 확인하라.",
+    type: "command",
+    answer: "kubeadm certs check-expiration",
+    match: { argv: ["kubeadm", "certs", "check-expiration"] },
+    hint: "kubectl 이 아니라 kubeadm 의 하위 명령이다.",
+    explain:
+      "kubeadm 이 만든 인증서는 기본 1년짜리라, 오래 방치한 클러스터가 갑자기 `Unable to connect to the server: x509` 로 죽는 원인이 된다. 갱신은 `kubeadm certs renew all` 이고, 그 뒤 컨트롤플레인 정적 파드를 다시 띄워야 반영된다. `kubectl` 이 아예 안 되는 상황이므로 노드에 직접 들어가 확인한다는 점이 포인트다.",
+    docs: "https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/"
+  },
+  {
+    id: "cl-clusterrolebinding",
+    areas: { cka: "cluster" },
+    level: 2,
+    title: "클러스터 전체 읽기 권한 주기",
+    prompt: "서비스어카운트 `dev:ci-bot` 에게 클러스터 전체를 읽을 수 있는 기본 롤 `view` 를 연결하라. 이름은 `ci-view`.",
+    type: "command",
+    answer: "kubectl create clusterrolebinding ci-view --clusterrole=view --serviceaccount=dev:ci-bot",
+    match: { argv: ["kubectl", "create", "clusterrolebinding", "ci-view"], flags: { clusterrole: "view", serviceaccount: "dev:ci-bot" } },
+    hint: "클러스터 범위 바인딩에는 네임스페이스를 주지 않는다.",
+    explain:
+      "기본 제공 ClusterRole 네 가지를 알아 두면 문항이 빨라진다 — `view`(읽기, 시크릿 제외), `edit`(쓰기, RBAC 제외), `admin`(네임스페이스 관리자), `cluster-admin`(전권). 같은 ClusterRole 을 RoleBinding 으로 묶으면 그 네임스페이스에서만 적용되고, ClusterRoleBinding 으로 묶으면 클러스터 전체가 된다 — 범위를 정하는 것은 롤이 아니라 **바인딩 쪽**이다.",
+    docs: "https://kubernetes.io/docs/reference/access-authn-authz/rbac/"
+  },
+  {
+    id: "cl-namespace",
+    areas: { cka: "cluster", ckad: "config" },
+    level: 1,
+    title: "네임스페이스 만들기",
+    prompt: "네임스페이스 `staging` 을 만들어라.",
+    type: "command",
+    answer: "kubectl create namespace staging",
+    match: { argv: ["kubectl", "create", "namespaces", "staging"] },
+    hint: "`ns` 로 줄여 써도 된다.",
+    explain:
+      "이후 작업을 그 네임스페이스에서 계속한다면 `kubectl config set-context --current --namespace=staging` 로 기본값을 바꿔 두면 매번 `-n` 을 치지 않아도 된다. 다만 시험에서는 문항마다 네임스페이스가 달라 기본값을 바꿔 두면 오히려 헷갈리므로, 매번 `-n` 을 명시하는 편이 안전하다.",
+    docs: "https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/"
+  },
+  {
+    id: "cl-nodes-json",
+    areas: { cka: "cluster" },
+    level: 2,
+    title: "노드 정보를 파일로 뽑기",
+    prompt: "클러스터 모든 노드의 정보를 JSON 형식으로 `/opt/nodes.json` 에 저장하라.",
+    type: "command",
+    answer: "kubectl get nodes -o json > /opt/nodes.json",
+    match: { argv: ["kubectl", "get", "nodes"], flags: { output: "json" }, redirect: "/opt/nodes.json" },
+    hint: "출력 형식을 바꾸고 리다이렉션으로 저장한다.",
+    explain:
+      "채점은 파일 내용만 본다. `-o json` 과 `-o yaml` 을 문제에서 지정한 대로 정확히 쓰고, 경로 오타가 없는지 `ls -l /opt/nodes.json` 으로 확인한다. 저장 후 `head` 로 첫 줄이 `{` 인지 눈으로 보는 30초가 부분점수를 지킨다.",
+    docs: "https://kubernetes.io/docs/reference/kubectl/quick-reference/"
+  },
+  {
+    id: "cl-static-pod-path",
+    areas: { cka: "cluster", ckad: "observe" },
+    level: 2,
+    title: "정적 파드 디렉터리 찾기",
+    prompt: "이 노드의 kubelet 이 정적 파드를 어느 디렉터리에서 읽는지 확인하라.",
+    type: "command",
+    answer: "grep staticPodPath /var/lib/kubelet/config.yaml",
+    match: [
+      { argv: ["grep", "staticPodPath", "/var/lib/kubelet/config.yaml"] },
+      { argv: ["cat", "/var/lib/kubelet/config.yaml"] }
+    ],
+    hint: "kubelet 설정 파일 안에 경로가 적혀 있다. 추측하지 말고 읽는다.",
+    explain:
+      "kubeadm 클러스터의 기본값은 `/etc/kubernetes/manifests` 지만 문제에서 바꿔 두는 경우가 있어 반드시 확인한다. kubelet 이 `--config` 로 어떤 파일을 보는지는 `systemctl status kubelet` 이나 `/etc/systemd/system/kubelet.service.d/` 의 드롭인에서 확인한다. 이 디렉터리에 YAML 을 놓으면 배포, 파일을 지우면 삭제다.",
+    docs: "https://kubernetes.io/docs/tasks/configure-pod-container/static-pod/"
+  },
+  {
+    id: "cl-csr-approve",
+    areas: { cka: "cluster" },
+    level: 2,
+    title: "인증서 서명 요청 승인",
+    prompt: "새 사용자용으로 제출된 CertificateSigningRequest `dev-user` 를 승인하라.",
+    type: "command",
+    answer: "kubectl certificate approve dev-user",
+    match: { argv: ["kubectl", "certificate", "approve", "dev-user"] },
+    hint: "`create` 나 `patch` 가 아니라 전용 동사가 있다.",
+    explain:
+      "흐름은 ①사용자가 키·CSR 생성 ②CertificateSigningRequest 객체 제출 ③`kubectl certificate approve` ④`kubectl get csr dev-user -o jsonpath='{.status.certificate}' | base64 -d` 로 인증서를 받아 kubeconfig 구성 ⑤Role·RoleBinding 으로 권한 부여. 거절은 `deny` 다. 승인해도 권한은 따로 줘야 한다는 점이 자주 빠진다.",
+    docs: "https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/"
+  },
+  {
+    id: "cl-csr-manifest",
+    areas: { cka: "cluster" },
+    level: 3,
+    title: "인증서 서명 요청 작성",
+    prompt:
+      "사용자 `dev-user` 의 CSR 을 제출하는 매니페스트를 작성하라. base64 로 인코딩한 요청은 `LS0tLS1CRUdJTi...` 로 시작하며, 클라이언트 인증용 서명자를 쓰고 용도는 `client auth` 다.",
+    type: "manifest",
+    starter: "apiVersion: certificates.k8s.io/v1\nkind: CertificateSigningRequest\nmetadata:\n  name: dev-user\nspec:\n  request: LS0tLS1CRUdJTi...\n",
+    checks: [
+      { label: "kind 가 CertificateSigningRequest", path: "kind", equals: "CertificateSigningRequest" },
+      { label: "서명자 kube-apiserver-client", path: "spec.signerName", equals: "kubernetes.io/kube-apiserver-client" },
+      { label: "용도에 client auth", path: "spec.usages", contains: "client auth" },
+      { label: "요청 본문", path: "spec.request", exists: true }
+    ],
+    answer:
+      "apiVersion: certificates.k8s.io/v1\nkind: CertificateSigningRequest\nmetadata:\n  name: dev-user\nspec:\n  request: LS0tLS1CRUdJTi...\n  signerName: kubernetes.io/kube-apiserver-client\n  usages:\n    - client auth\n",
+    hint: "`request` 값은 CSR 파일을 `base64 -w 0` 으로 한 줄로 만들어 넣는다.",
+    explain:
+      "서명자로 용도가 갈린다 — 사용자 인증서는 `kubernetes.io/kube-apiserver-client`, kubelet 서버 인증서는 `kubernetes.io/kubelet-serving`. `base64` 에 `-w 0` 을 빠뜨려 줄바꿈이 섞이면 요청이 거부되는 것이 이 문항의 최다 실수다.",
+    docs: "https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/"
   }
 ]);

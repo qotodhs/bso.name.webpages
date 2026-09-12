@@ -5,6 +5,7 @@
 
   const TASKS = Array.isArray(window.K8S_TASKS) ? window.K8S_TASKS : [];
   const EXAMS = window.K8S_EXAMS || {};
+  const MOCKS = Array.isArray(window.K8S_MOCKS) ? window.K8S_MOCKS : [];
   const LEVELS = window.K8S_LEVELS || {};
   const GRADER = window.K8SGrader;
   const MINUTES_PER_TASK = 7;
@@ -12,7 +13,8 @@
   const STORAGE = {
     solved: "bso-k8s-practice-solved-v1",
     missed: "bso-k8s-practice-missed-v1",
-    recent: "bso-k8s-practice-recent-v1"
+    recent: "bso-k8s-practice-recent-v1",
+    best: "bso-k8s-practice-best-v1"
   };
 
   const $ = (id) => document.getElementById(id);
@@ -23,10 +25,12 @@
     drillSetup: $("drillSetup"), sessionSetup: $("sessionSetup"),
     drillExam: $("drillExam"), drillArea: $("drillArea"), drillType: $("drillType"),
     drillLevel: $("drillLevel"), drillRange: $("drillRange"), startDrill: $("startDrill"),
-    sessionExam: $("sessionExam"), sessionCount: $("sessionCount"), sessionLevel: $("sessionLevel"),
+    sessionExam: $("sessionExam"), sessionSource: $("sessionSource"),
+    sessionCount: $("sessionCount"), sessionLevel: $("sessionLevel"),
     startSession: $("startSession"), weightPreview: $("weightPreview"),
     practiceArea: $("practiceArea"), taskBadges: $("taskBadges"), taskProgress: $("taskProgress"),
-    scoreProgress: $("scoreProgress"), timerDisplay: $("timerDisplay"), progressBar: $("progressBar"),
+    scoreProgress: $("scoreProgress"), taskClock: $("taskClock"),
+    timerDisplay: $("timerDisplay"), progressBar: $("progressBar"),
     taskTitle: $("taskTitle"), taskPrompt: $("taskPrompt"), taskContext: $("taskContext"),
     answerLabel: $("answerLabel"), commandShell: $("commandShell"), commandInput: $("commandInput"),
     manifestInput: $("manifestInput"), editorHint: $("editorHint"),
@@ -34,7 +38,8 @@
     prevTask: $("prevTask"), nextTask: $("nextTask"), finishSession: $("finishSession"),
     hintBox: $("hintBox"), verdict: $("verdict"), reveal: $("reveal"),
     resultArea: $("resultArea"), resultTitle: $("resultTitle"), resultMessage: $("resultMessage"),
-    resultScore: $("resultScore"), areaScores: $("areaScores"), reviewList: $("reviewList"),
+    resultScore: $("resultScore"), timeStats: $("timeStats"), areaScores: $("areaScores"),
+    reviewList: $("reviewList"),
     retryMissed: $("retryMissed"), restartPractice: $("restartPractice")
   };
 
@@ -49,7 +54,11 @@
     shownHint: {},
     shownAnswer: {},
     timerId: null,
-    remaining: 0
+    remaining: 0,
+    setLabel: "",
+    times: {},            // 과제 id -> 그 과제에 쓴 누적 초
+    taskStartedAt: null,
+    clockId: null
   };
 
   // ---------- 저장소 ----------
@@ -60,6 +69,25 @@
     } catch (error) { return []; }
   };
   const writeList = (key, ids) => localStorage.setItem(key, JSON.stringify([...new Set(ids)]));
+
+  const readMap = (key) => {
+    try {
+      const value = JSON.parse(localStorage.getItem(key));
+      return value && typeof value === "object" && !Array.isArray(value) ? value : {};
+    } catch (error) { return {}; }
+  };
+
+  // 통과한 과제만 최고 기록을 남긴다. 틀린 채로 빨리 넘긴 시간은 기록이 아니다.
+  function recordBestTime(taskId, seconds) {
+    if (!(seconds > 0)) return null;
+    const best = readMap(STORAGE.best);
+    const previous = best[taskId];
+    if (previous === undefined || seconds < previous) {
+      best[taskId] = Math.round(seconds);
+      localStorage.setItem(STORAGE.best, JSON.stringify(best));
+    }
+    return previous;
+  }
 
   function recordOutcome(taskId, passed) {
     const solved = new Set(readList(STORAGE.solved));
@@ -105,6 +133,7 @@
     el.drillExam.value = "all";
     el.sessionExam.value = "cka";
     fillAreas();
+    fillSources();
     renderWeights();
 
     const commands = TASKS.filter((t) => t.type === "command").length;
@@ -146,10 +175,46 @@
     return quota;
   }
 
+  // 고른 시험의 고정 세트 목록을 채운다.
+  function fillSources() {
+    const exam = el.sessionExam.value;
+    const sets = MOCKS.filter((mock) => mock.exam === exam);
+    el.sessionSource.innerHTML = '<option value="weighted">배점대로 무작위</option>' +
+      sets.map((mock) => `<option value="${mock.id}">${mock.label} (${mock.tasks.length}문항)</option>`).join("");
+    el.sessionSource.value = "weighted";
+    syncSourceControls();
+  }
+
+  // 고정 세트를 고르면 문항 수·난이도는 세트가 정한다.
+  function syncSourceControls() {
+    const fixed = el.sessionSource.value !== "weighted";
+    el.sessionCount.disabled = fixed;
+    el.sessionLevel.disabled = fixed;
+  }
+
+  const findMock = (id) => MOCKS.find((mock) => mock.id === id);
+
   function renderWeights() {
     const exam = EXAMS[el.sessionExam.value];
     const count = Number(el.sessionCount.value);
     if (!exam) return;
+
+    const mock = findMock(el.sessionSource.value);
+    if (mock) {
+      const rows = mock.tasks.map((id, index) => {
+        const task = window.K8S_TASK_INDEX.get(id);
+        if (!task) return "";
+        const area = exam.areas[task.areas[mock.exam]];
+        return `<div class="weight-row">
+          <span>${index + 1}. ${task.title}</span>
+          <span class="track"><i style="width:${task.level * 33}%"></i></span>
+          <span class="num">${area ? area.short : ""}</span>
+        </div>`;
+      }).join("");
+      el.weightPreview.innerHTML = `<p style="margin:0 0 10px;color:var(--muted);font-size:0.88rem">
+        ${mock.tagline} · ${mock.tasks.length}문항 ${mock.minutes}분 · 합격선 ${exam.pass}%</p>${rows}`;
+      return;
+    }
     const quota = areaQuota(exam.id, count);
     el.weightPreview.innerHTML = Object.entries(exam.areas).map(([key, area]) => {
       const want = quota[key];
@@ -234,6 +299,13 @@
 
   function startSession() {
     const exam = el.sessionExam.value;
+    const mock = findMock(el.sessionSource.value);
+    if (mock) {
+      const picked = mock.tasks.map((id) => window.K8S_TASK_INDEX.get(id)).filter(Boolean);
+      if (!picked.length) { window.alert("세트의 과제를 찾지 못했습니다."); return; }
+      beginSession("session", exam, picked, mock.minutes * 60, mock.label);
+      return;
+    }
     const count = Number(el.sessionCount.value);
     const pool = filterTasks({ exam, area: "all", type: "all", level: el.sessionLevel.value });
     if (pool.length < 3) { window.alert("조건에 맞는 과제가 부족합니다."); return; }
@@ -241,15 +313,18 @@
     beginSession("session", exam, picked, picked.length * MINUTES_PER_TASK * 60);
   }
 
-  function beginSession(mode, exam, tasks, seconds) {
+  function beginSession(mode, exam, tasks, seconds, setLabel) {
     state.mode = mode;
     state.exam = exam;
+    state.setLabel = setLabel || "";
     state.tasks = tasks;
     state.index = 0;
     state.answers = {};
     state.results = {};
     state.shownHint = {};
     state.shownAnswer = {};
+    state.times = {};
+    state.taskStartedAt = null;
     stopTimer();
     el.resultArea.classList.add("hidden");
     el.practiceArea.classList.remove("hidden");
@@ -277,12 +352,54 @@
     if (state.timerId) window.clearInterval(state.timerId);
     state.timerId = null;
   }
+  function stopClock() {
+    if (state.clockId) window.clearInterval(state.clockId);
+    state.clockId = null;
+  }
   function paintTimer() {
     const total = Math.max(0, state.remaining);
     const mm = String(Math.floor(total / 60)).padStart(2, "0");
     const ss = String(total % 60).padStart(2, "0");
     el.timerDisplay.textContent = `${mm}:${ss}`;
     el.timerDisplay.classList.toggle("urgent", total <= 300);
+  }
+
+  // ---------- 문항별 시간 ----------
+  const formatClock = (seconds) => {
+    const total = Math.max(0, Math.round(seconds));
+    return `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
+  };
+
+  function startTaskClock() {
+    state.taskStartedAt = Date.now();
+    paintTaskClock();
+    if (!state.clockId) state.clockId = window.setInterval(paintTaskClock, 1000);
+  }
+
+  // 화면을 떠날 때 그때까지의 시간을 과제에 더한다. 다시 오면 이어서 잰다.
+  function stopTaskClock() {
+    const task = currentTask();
+    if (!task || !state.taskStartedAt) { state.taskStartedAt = null; return; }
+    state.times[task.id] = (state.times[task.id] || 0) + (Date.now() - state.taskStartedAt) / 1000;
+    state.taskStartedAt = null;
+  }
+
+  function elapsedFor(taskId) {
+    const base = state.times[taskId] || 0;
+    const task = currentTask();
+    if (task && task.id === taskId && state.taskStartedAt) {
+      return base + (Date.now() - state.taskStartedAt) / 1000;
+    }
+    return base;
+  }
+
+  function paintTaskClock() {
+    const task = currentTask();
+    if (!task) return;
+    const seconds = elapsedFor(task.id);
+    el.taskClock.textContent = formatClock(seconds);
+    // 명령 한 줄에 2분을 넘기면 문서를 찾아볼 때다
+    el.taskClock.classList.toggle("slow", seconds > (task.type === "command" ? 120 : 300));
   }
 
   // ---------- 과제 화면 ----------
@@ -335,12 +452,26 @@
     el.nextTask.textContent = state.index === state.tasks.length - 1 ? "결과 보기" : "다음";
 
     el.hintBox.classList.toggle("hidden", !state.shownHint[task.id]);
-    if (state.shownHint[task.id]) el.hintBox.innerHTML = md(task.hint || "힌트가 없습니다.");
+    if (state.shownHint[task.id]) renderHint(task);
 
     if (state.mode === "drill" && state.results[task.id]) renderVerdict(state.results[task.id]);
     else el.verdict.classList.add("hidden");
 
     if (state.shownAnswer[task.id]) renderReveal(task); else el.reveal.classList.add("hidden");
+
+    startTaskClock();
+  }
+
+  // 힌트 + 공식 문서에서 그 내용을 찾는 검색어와 링크
+  function renderHint(task) {
+    const doc = window.k8sDocHint ? window.k8sDocHint(task.docs) : null;
+    el.hintBox.innerHTML = `<p class="hint-text">${md(task.hint || "힌트가 없습니다.")}</p>` +
+      (doc ? `<div class="hint-doc">
+        <span class="hint-doc-label">문서에서 찾기</span>
+        <p><code class="inline">${escapeHtml(doc.site)}</code> 검색창에 <span class="kw">${escapeHtml(doc.keyword)}</span></p>
+        <a href="${doc.url}" target="_blank" rel="noopener">${escapeHtml(doc.page)} 문서 열기 ↗</a>
+      </div>` : "");
+    el.hintBox.classList.remove("hidden");
   }
 
   function readAnswer(task) {
@@ -374,7 +505,10 @@
     const answer = state.answers[task.id] || "";
     const result = gradeTask(task, answer);
     state.results[task.id] = result;
+    const seconds = elapsedFor(task.id);
+    result.seconds = seconds;
     if (answer.trim()) recordOutcome(task.id, result.pass);
+    if (result.pass) result.previousBest = recordBestTime(task.id, seconds);
     updateSummary();
     renderVerdict(result);
     if (result.pass) renderReveal(task, true);
@@ -384,9 +518,15 @@
   function renderVerdict(result) {
     const tone = result.pass ? "pass" : (result.score > 0 ? "partial" : "fail");
     const passed = result.checks.filter((c) => c.ok).length;
-    const heading = result.pass
+    const time = result.seconds > 0 ? ` · ${Math.round(result.seconds)}초` : "";
+    const record = result.pass && result.previousBest !== undefined && result.previousBest !== null
+      ? (result.seconds < result.previousBest
+          ? ` (지난 기록 ${result.previousBest}초 — 갱신)`
+          : ` (내 최고 기록 ${result.previousBest}초)`)
+      : "";
+    const heading = (result.pass
       ? "통과 — 조건을 모두 만족합니다"
-      : (result.error ? result.error : `${passed} / ${result.checks.length} 조건 충족`);
+      : (result.error ? result.error : `${passed} / ${result.checks.length} 조건 충족`)) + time + record;
     el.verdict.className = `verdict ${tone}`;
     el.verdict.innerHTML = `<h3>${escapeHtml(heading)}</h3>
       <ul class="check-list">${result.checks.map((check) => `
@@ -413,6 +553,7 @@
 
   function goTo(index) {
     storeAnswer();
+    stopTaskClock();
     if (index >= state.tasks.length) { finish(false); return; }
     state.index = Math.max(0, Math.min(index, state.tasks.length - 1));
     renderTask();
@@ -421,7 +562,9 @@
   // ---------- 결과 ----------
   function finish(timedOut) {
     storeAnswer();
+    stopTaskClock();
     stopTimer();
+    stopClock();
     state.tasks.forEach((task) => {
       if (!state.results[task.id]) {
         const answer = state.answers[task.id] || "";
@@ -430,6 +573,9 @@
         // 손도 안 댄 과제를 '막힌 과제'로 쌓지 않는다.
         if (!isUntouched(task, answer)) recordOutcome(task.id, result.pass);
       }
+      const seconds = state.times[task.id] || 0;
+      state.results[task.id].seconds = state.results[task.id].seconds || seconds;
+      if (state.results[task.id].pass) recordBestTime(task.id, seconds);
     });
     updateSummary();
 
@@ -441,7 +587,9 @@
 
     el.practiceArea.classList.add("hidden");
     el.resultArea.classList.remove("hidden");
-    el.resultTitle.textContent = state.mode === "session" ? "모의 세션 결과" : "드릴 결과";
+    el.resultTitle.textContent = state.mode === "session"
+      ? (state.setLabel || "모의 세션 결과")
+      : "드릴 결과";
     el.resultScore.textContent = `${score}%`;
     el.resultScore.className = `score-ring${passed ? "" : " fail"}`;
     el.resultMessage.textContent = state.mode === "session"
@@ -453,9 +601,38 @@
       updateSummary();
     }
 
+    renderTimeStats();
     renderAreaScores();
     renderReview();
     el.resultArea.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function renderTimeStats() {
+    const entries = state.tasks
+      .map((task) => ({ task, seconds: state.times[task.id] || 0 }))
+      .filter((row) => row.seconds > 1);
+    if (!entries.length) { el.timeStats.innerHTML = ""; return; }
+    const total = entries.reduce((sum, row) => sum + row.seconds, 0);
+    const average = total / entries.length;
+    const slowest = entries.slice().sort((a, b) => b.seconds - a.seconds)[0];
+    const fastest = entries.slice().sort((a, b) => a.seconds - b.seconds)[0];
+    el.timeStats.innerHTML = `
+      <article class="time-stat">
+        <span>총 소요</span><strong>${formatClock(total)}</strong>
+        <small>${entries.length}개 과제 기준</small>
+      </article>
+      <article class="time-stat">
+        <span>과제당 평균</span><strong>${Math.round(average)}초</strong>
+        <small>실제 시험은 문항당 6~7분</small>
+      </article>
+      <article class="time-stat">
+        <span>가장 오래 걸린 과제</span><strong>${Math.round(slowest.seconds)}초</strong>
+        <small>${escapeHtml(slowest.task.title)}</small>
+      </article>
+      <article class="time-stat">
+        <span>가장 빨랐던 과제</span><strong>${Math.round(fastest.seconds)}초</strong>
+        <small>${escapeHtml(fastest.task.title)}</small>
+      </article>`;
   }
 
   function renderAreaScores() {
@@ -481,7 +658,8 @@
       const result = state.results[task.id];
       const mine = (state.answers[task.id] || "").trim() || "(입력 없음)";
       return `<details class="review-item ${result.pass ? "ok" : "no"}">
-        <summary>${index + 1}. ${escapeHtml(task.title)} — ${result.pass ? "통과" : `${Math.round(result.score * 100)}%`}</summary>
+        <summary>${index + 1}. ${escapeHtml(task.title)} — ${result.pass ? "통과" : `${Math.round(result.score * 100)}%`}${
+          state.times[task.id] > 1 ? ` · ${Math.round(state.times[task.id])}초` : ""}</summary>
         <p style="margin:10px 0 0;line-height:1.8">${md(task.prompt)}</p>
         <p style="margin:12px 0 0;font-size:0.8rem;font-weight:700;color:var(--muted)">내 답</p>
         <pre>${escapeHtml(mine)}</pre>
@@ -504,7 +682,8 @@
       });
     });
     el.drillExam.addEventListener("change", fillAreas);
-    el.sessionExam.addEventListener("change", renderWeights);
+    el.sessionExam.addEventListener("change", () => { fillSources(); renderWeights(); });
+    el.sessionSource.addEventListener("change", () => { syncSourceControls(); renderWeights(); });
     el.sessionCount.addEventListener("change", renderWeights);
     el.startDrill.addEventListener("click", startDrill);
     el.startSession.addEventListener("click", startSession);
@@ -519,8 +698,7 @@
       const task = currentTask();
       if (!task) return;
       state.shownHint[task.id] = true;
-      el.hintBox.innerHTML = md(task.hint || "힌트가 없습니다.");
-      el.hintBox.classList.remove("hidden");
+      renderHint(task);
     });
     el.revealButton.addEventListener("click", () => {
       const task = currentTask();
@@ -561,6 +739,7 @@
   }
   fillSetup();
   updateSummary();
+  if (window.renderK8sDocs) window.renderK8sDocs("docsLinks");
   setSetupMode("drill");
   bind();
 })();

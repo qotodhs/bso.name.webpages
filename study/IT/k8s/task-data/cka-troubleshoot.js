@@ -178,5 +178,41 @@ window.addK8sTasks("troubleshoot", [
     explain:
       "고장난 매니페스트는 네 가지 중 하나다 — apiVersion/kind 오타, 단수·복수 필드명(`container`·`images`), 리스트여야 할 곳의 `-` 누락, 들여쓰기. 시험장에서는 `kubectl apply -f x.yaml` 의 오류 메시지가 필드 경로를 그대로 알려주므로 추측하지 말고 그 줄만 고친다. 필드가 헷갈리면 `kubectl explain pod.spec.containers` 가 가장 빠른 사전이다.",
     docs: "https://kubernetes.io/docs/reference/kubectl/#resource-types"
+  },
+  {
+    id: "ts-pending-all",
+    areas: { cka: "troubleshoot", ckad: "observe" },
+    level: 3,
+    title: "클러스터 전체에서 멈춘 파드 찾기",
+    prompt: "모든 네임스페이스에서 Pending 상태인 파드만 골라 나열하라.",
+    type: "command",
+    answer: "kubectl get pods -A --field-selector status.phase=Pending",
+    match: {
+      argv: ["kubectl", "get", "pods"],
+      flags: { "all-namespaces": true, "field-selector": "status.phase=Pending" },
+      labels: { "all-namespaces": "`-A` (모든 네임스페이스)" }
+    },
+    hint: "라벨이 아니라 상태 필드로 거르는 플래그가 따로 있다.",
+    explain:
+      "`-l` 은 라벨, `--field-selector` 는 객체의 필드로 거른다. 상태·노드처럼 라벨이 아닌 값으로 좁힐 때 쓴다(`spec.nodeName=node01`, `status.phase=Running`, `metadata.namespace!=default`). 지원되는 필드는 리소스마다 다르고 임의 필드는 쓸 수 없다는 점이 함정이다.",
+    docs: "https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/"
+  },
+  {
+    id: "ts-node-os-jsonpath",
+    areas: { cka: "troubleshoot" },
+    level: 3,
+    title: "노드 OS 이미지만 뽑아 저장",
+    prompt: "모든 노드의 OS 이미지 이름만 뽑아 `/opt/node-os.txt` 에 저장하라.",
+    type: "command",
+    answer: "kubectl get nodes -o jsonpath='{.items[*].status.nodeInfo.osImage}' > /opt/node-os.txt",
+    match: {
+      argv: ["kubectl", "get", "nodes"],
+      flags: { output: { matches: "jsonpath.*nodeInfo" } },
+      redirect: "/opt/node-os.txt"
+    },
+    hint: "노드의 OS·커널·런타임 정보는 `status.nodeInfo` 아래에 모여 있다.",
+    explain:
+      "경로를 외우지 말고 `kubectl get nodes -o json | head -60` 으로 필드 이름을 눈으로 확인한 뒤 옮겨 적는다. `status.nodeInfo` 에는 `osImage`·`kernelVersion`·`containerRuntimeVersion`·`kubeletVersion` 이 함께 있어 버전 확인 문항에도 그대로 쓰인다.",
+    docs: "https://kubernetes.io/docs/reference/kubectl/jsonpath/"
   }
 ]);

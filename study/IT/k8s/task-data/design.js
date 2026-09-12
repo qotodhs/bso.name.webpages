@@ -113,5 +113,44 @@ window.addK8sTasks("design", [
     explain:
       "라벨은 셀렉터로 고르기 위한 것이고 주석은 고를 수 없는 부가 정보다. 그래서 '이걸로 파드를 선택해야 한다'면 라벨, '설명·연락처·도구가 읽을 메타데이터'면 주석이다. 길이 제한과 문자 제약도 라벨이 훨씬 엄격하다.",
     docs: "https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/"
+  },
+  {
+    id: "ds-command-args",
+    areas: { ckad: "design" },
+    level: 2,
+    title: "컨테이너 실행 명령 바꾸기",
+    prompt:
+      "파드 `runner`(이미지 `busybox:1.36`)가 5초마다 날짜를 찍도록 실행 명령을 지정하라. 셸은 `sh -c` 로 열고 반복문은 인자로 넘긴다.",
+    type: "manifest",
+    starter: "apiVersion: v1\nkind: Pod\nmetadata:\n  name: runner\nspec:\n  containers:\n    - name: runner\n      image: busybox:1.36\n",
+    checks: [
+      { label: "command 는 sh", path: "spec.containers[0].command[0]", equals: "sh" },
+      { label: "command 의 -c", path: "spec.containers[0].command[1]", equals: "-c" },
+      { label: "args 에 반복문", path: "spec.containers[0].args[0]", matches: "sleep 5" },
+      { label: "restartPolicy 는 손대지 않는다", path: "spec.restartPolicy", absent: true }
+    ],
+    answer:
+      "apiVersion: v1\nkind: Pod\nmetadata:\n  name: runner\nspec:\n  containers:\n    - name: runner\n      image: busybox:1.36\n      command: [\"sh\", \"-c\"]\n      args: [\"while true; do date; sleep 5; done\"]\n",
+    hint: "둘 다 리스트다. 셸을 여는 부분과 셸에 넘길 문장을 나눠 담는다.",
+    explain:
+      "`command` 는 도커의 ENTRYPOINT, `args` 는 CMD 를 덮어쓴다. 둘을 나누는 기준은 '이미지의 기본 실행 파일을 바꾸는가(command)' 대 '기본 실행 파일에 넘길 인자만 바꾸는가(args)'다. 명령형으로는 `kubectl run runner --image=busybox:1.36 -- sh -c \"while true; do date; sleep 5; done\"` 처럼 `--` 뒤에 붙이는데, 이 경우 전부 command 로 들어간다.",
+    docs: "https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/"
+  },
+  {
+    id: "ds-run-labels",
+    areas: { ckad: "design", cka: "workloads" },
+    level: 1,
+    title: "라벨을 붙여 파드 만들기",
+    prompt: "`dev` 에 이미지 `nginx:1.25`, 라벨 `tier=frontend` 인 파드 `web` 을 한 줄로 만들어라.",
+    type: "command",
+    answer: "kubectl run web --image=nginx:1.25 --labels=tier=frontend -n dev",
+    match: {
+      argv: ["kubectl", "run", "web"],
+      flags: { image: "nginx:1.25", labels: { matches: "tier=frontend" }, namespace: "dev" }
+    },
+    hint: "라벨을 붙이는 플래그는 조회할 때 쓰는 `-l` 과 이름이 다르다.",
+    explain:
+      "`kubectl run` 에서 라벨을 붙이는 것은 `--labels`(축약 `-l`)이고, 여러 개는 쉼표로 잇는다. 만들고 나서 붙일 때는 `kubectl label pod web tier=frontend`, 바꿀 때는 `--overwrite` 가 필요하다. 서비스의 selector 와 짝이 되는 값이므로 오타 하나로 엔드포인트가 비게 된다.",
+    docs: "https://kubernetes.io/docs/reference/kubectl/quick-reference/"
   }
 ]);

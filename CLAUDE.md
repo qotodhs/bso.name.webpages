@@ -219,11 +219,16 @@ study/IT/k8s/
   index.html        허브 (진도 · 영역 배점)
   hub.js            허브 스크립트
   styles.css        세 화면 공통 스타일
-  tasks.js          로더 + 시험·영역 정의(K8S_EXAMS) + 과제 형식 주석
-  task-data/        과제 데이터 8개 파일 (72과제)
+  tasks.js          로더 + 시험·영역 정의(K8S_EXAMS) + 고정 모의고사 세트(K8S_MOCKS)
+                    + 과제 형식 주석
+  docs.js           공식 문서 고정 링크 + 문서별 검색어(K8S_DOC_HINTS)
+                    + 렌더 함수(세 화면이 함께 쓴다)
+  task-data/        과제 데이터 8개 파일 (105과제)
   vendor/js-yaml.min.js   매니페스트 채점용 (MIT, 번들)
   practice/
     index.html  app.js   드릴(즉시 채점) · 모의 세션(타이머·일괄 채점)
+                         모의 세션은 배점대로 무작위 출제 또는 고정 세트 선택
+                         문항별 소요 시간을 재고 통과 시 최고 기록을 남긴다
     grader.js           kubectl 명령 / YAML 매니페스트 채점기
   notes/
     index.html  app.js  notes.js
@@ -245,6 +250,13 @@ study/IT/k8s/
   `path` 는 `spec.containers[0].image`, `spec.containers[name=logger].image` 형식.
 - 채점 결과는 `{pass, score, checks[]}` 이고 `score` 는 조건 충족 비율이라
   모의 세션의 부분점수로 그대로 쓴다.
+- 고정 모의고사는 `K8S_MOCKS` 에 `{id, exam, label, minutes, tasks:[과제 id]}`
+  로 적는다. 과제를 새로 만들지 않고 있는 것을 골라 순서만 정하는 구조라,
+  세트를 늘리는 비용이 거의 없다. 검증 스크립트가 없는 id 를 잡아 준다.
+- 힌트에는 `docs.js` 의 `K8S_DOC_HINTS[과제의 docs]` 를 함께 띄운다
+  (`kubernetes.io/docs` 검색창에 칠 영문 키워드 + 그 페이지 링크).
+  **새 문서 URL 을 쓰는 과제를 추가하면 여기에 키워드도 등록해야 한다** —
+  빠지면 검증에서 실패한다.
 
 채점기는 `k`→`kubectl`, `po/pod/pods` 같은 축약, `-n`/`--namespace=`/`-nweb`,
 `deploy/web` 분해, `-it` 묶음, 파이프·리다이렉션을 정규화한다.
@@ -259,16 +271,20 @@ study/IT/k8s/
 node scripts/validate_k8s_task_bank.mjs
 ```
 
-검사 내용: 로더 재현 → ID 중복·필수 필드·`areas` 키·`docs` 링크 확인 →
+검사 내용: 로더 재현 → ID 중복·필수 필드·`areas` 키 확인 → `docs` 링크가
+시험 중 열람이 허용되는 도메인(`kubernetes.io`·`helm.sh`)인지 확인 →
 `type: command` 는 `answer` 를 `match` 로 채점, `type: manifest` 는 `answer` 를
 `checks` 로 채점해 **전부 pass 인지** 확인 → 영역마다 과제가 1개 이상인지
-(모의 세션 표본 조건) → `app.js` 가 찾는 엘리먼트 ID 가 HTML 에 있는지 →
+(모의 세션 표본 조건) → `K8S_MOCKS` 의 과제 id 가 실재하고 그 시험에 속하는지 →
+모든 `docs` URL 에 검색 키워드가 등록돼 있는지 →
+`app.js` 가 찾는 엘리먼트 ID 가 HTML 에 있는지 →
 영역별 분포 출력. `failures` 가 비어 있어야 하고 종료 코드가 0 이어야 한다.
 
 ## 남은 일
 
-- 과제 72개(명령 48 · 매니페스트 24)에서 시작했다. 영역별 편차가 있으므로
-  CKA 서비스·네트워킹(7)과 스토리지(6), CKAD 배포(7)를 먼저 늘린다
+- 과제 105개(명령 70 · 매니페스트 35), 고정 모의고사 6세트(각 12문항).
+  영역별로는 CKA 스토리지(11)와 네트워킹(13)이 아직 얇다. 모의 세션은
+  배점 비율대로 뽑으므로 얇은 영역이 반복 출제된다 — 이쪽부터 늘린다
 - 노트 10주제. 과제를 늘리다 노트에 없는 개념이 나오면 절을 먼저 추가한다
 - 실제 클러스터 실습은 이 페이지가 대신하지 못한다. 각 화면에
   `kind` 로 클러스터를 띄우는 안내를 함께 두었다

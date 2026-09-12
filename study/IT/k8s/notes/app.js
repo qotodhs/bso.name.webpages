@@ -93,6 +93,7 @@
       render();
     });
     render();
+    if (window.renderK8sDocs) window.renderK8sDocs("docsLinks");
 
     const topic = params.get("topic");
     if (topic) {
