@@ -26,7 +26,7 @@ function renderWrongNotes() {
   const questionBank = [...(window.BWR_PREDICTED_QUESTIONS || []), ...(window.BWR_PAST_QUESTIONS || [])];
   const items = questionBank.filter((item) => wrongIds.has(item.id) && (wrongSubject === "all" || item.subject === wrongSubject));
   wrongList.replaceChildren();
-  document.getElementById("wrongCount").textContent = wrongIds.size;
+  document.getElementById("wrongCount").textContent = questionBank.filter((item) => wrongIds.has(item.id)).length;
   emptyWrong.hidden = items.length !== 0;
 
   items.forEach((item, index) => {
