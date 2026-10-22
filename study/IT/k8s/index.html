@@ -27,8 +27,9 @@
           플래그 단위로 채점받고, 막힌 개념은 판별 기준 한 줄로 정리된 노트에서 확인합니다.
         </p>
         <div class="hero-actions">
-          <a class="button primary" href="./practice/">연습실 열기</a>
-          <a class="button secondary" href="./notes/">노트 보기</a>
+          <a class="button primary" href="./lab/">실습실 열기</a>
+          <a class="button secondary" href="./practice/">연습실</a>
+          <a class="button secondary" href="./notes/">노트</a>
         </div>
       </div>
 
@@ -43,6 +44,20 @@
 
   <main class="page-shell">
     <section class="track-grid">
+      <a class="track-card" href="./lab/">
+        <p class="section-label">LAB</p>
+        <h3>실습실</h3>
+        <p>
+          브라우저 안에서 도는 모의 클러스터입니다. 터미널에 kubectl 을 직접 치면
+          오브젝트가 실제로 생기고 컨트롤러가 돕니다. 채점은 명령이 아니라
+          <strong>클러스터 상태</strong>를 검사합니다 — 실제 시험과 같은 방식입니다.
+        </p>
+        <div class="tag-row">
+          <span>터미널</span><span>편집기</span><span>랩 4개</span><span>상태 채점</span>
+        </div>
+        <span class="card-path">/study/IT/k8s/lab</span>
+      </a>
+
       <a class="track-card" href="./practice/">
         <p class="section-label">PRACTICE</p>
         <h3>연습실</h3>
@@ -95,7 +110,8 @@
       <ol style="line-height:2;margin:0;padding-left:20px">
         <li><strong>드릴</strong>에서 한 과제씩 즉시 채점받으며 명령 형태를 손에 붙입니다.</li>
         <li>틀린 과제의 개념은 <strong>노트</strong>에서 판별 기준으로 정리합니다.</li>
-        <li>같은 과제를 <strong>실제 클러스터</strong>에 적용해 확인합니다. 이 페이지는 클러스터를 대신하지 못합니다.</li>
+        <li><strong>실습실</strong>에서 모의 클러스터에 직접 쳐 보고, 결과 상태로 채점받습니다.</li>
+        <li>마지막으로 <strong>실제 클러스터</strong>에 같은 작업을 적용합니다. 모의 클러스터가 전부를 대신하지는 못합니다.</li>
         <li>마지막 주에는 <strong>모의 세션</strong>으로 시간 압박과 배점 배분을 익힙니다.</li>
       </ol>
       <pre style="margin:18px 0 0;padding:16px;border-radius:14px;background:var(--navy);color:#e2e8f0;overflow-x:auto">kind create cluster --name cka --image kindest/node:v1.32.0
