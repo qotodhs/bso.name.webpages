@@ -17,7 +17,7 @@
 
 ```text
 study/computer/
-  past-questions.js              실제 기출 1,769문항
+  past-questions.js              실제 기출 1,768문항
   predicted-questions.js         예상문제 24문항
   concepts/
     concept-data.js              개념 지식·기출 매칭 규칙
@@ -117,7 +117,7 @@ window.BWR_EXPLANATION_FILES = [
 
 ## 문항 하나의 해설을 만들 때
 
-1. `past-questions.js`에서 같은 용어와 같은 판별 기준의 문항을 전수 검색한다.
+1. `past-questions.js`에서 같은 용어와 같은 판별 기준의 문항을 전수 검색한다. 기존 상세 해설이 있는 문항은 건너뛰고, 해설이 없는 요청·유관 문항만 추가한다.
 2. 같은 주제가 여러 회차에 나오면 관련 문항을 함께 검토한다.
 3. 정답 인덱스와 네 보기를 원문과 대조한다.
 4. 대응하는 `conceptId`가 있는지 확인한다.
