@@ -1,4 +1,5 @@
 window.addBWRExplanations({
+  "past-20060219-09": {"conceptId":"windows-registry","explanation":"Windows의 하드웨어·소프트웨어 구성 정보를 관리하는 데이터베이스는 ③ Registry이므로 정답입니다. DMA·IRQ 같은 장치 자원에 관한 설정 정보도 포함됩니다. ① FLOPS는 초당 부동소수점 연산 횟수를 나타내는 성능 단위, ② Protocol은 통신 규약, ④ WAIS는 네트워크상의 정보를 찾는 검색 시스템입니다.","criterion":"Windows의 하드웨어·소프트웨어 구성 정보를 저장하는 데이터베이스를 묻는다면 레지스트리입니다.","trap":"DMA·IRQ라는 하드웨어 용어만 보고 CMOS나 장치 관리자로 판단하지 않습니다. 소프트웨어 실행·설정 정보를 함께 관리하는 Windows 데이터베이스라는 단서가 핵심입니다. 레지스트리의 실행 정보는 모든 프로그램의 실행 이력을 기록한다는 뜻은 아닙니다.","reviewedAt":"2026-10-22"},
   "past-20060219-27": {
     "conceptId": "macro-rules",
     "explanation": "매크로 이름에는 공백을 넣을 수 없으므로 ①이 정답입니다. ② 첫 글자는 문자로 시작하며 ③·④ 단축키는 소문자면 Ctrl, 대문자면 Ctrl+Shift와 함께 사용합니다. 단어를 나누려면 공백 대신 밑줄을 사용할 수 있습니다.",

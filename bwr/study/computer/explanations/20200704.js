@@ -49,10 +49,17 @@ window.addBWRExplanations({
     "reviewedAt": "2026-10-25"
   },
   "past-20200704-06": {
-    "conceptId": "explorer-navigation",
-    "explanation": "선택한 항목을 실행하는 키는 Enter이고 Alt+Enter는 속성을 표시하므로 ③이 정답입니다. ① Ctrl+Esc는 시작 메뉴, ② Shift+F10은 바로 가기 메뉴, ④ Windows+E는 탐색기를 엽니다. 실행·속성·메뉴 표시를 구분하세요.",
-    "criterion": "Enter는 실행, Alt+Enter는 속성입니다.",
-    "trap": "Enter가 들어간 키 조합을 모두 실행 명령으로 보지 않습니다.",
-    "reviewedAt": "2026-10-25"
+    "conceptId": "windows-shortcuts",
+    "explanation": "선택 항목 실행과 속성 표시를 구분합니다. ③ Alt+Enter는 선택한 항목의 속성 창을 표시하므로 틀렸고, 열기·실행은 Enter입니다. ① Ctrl+Esc는 시작 메뉴, ② Shift+F10은 선택 항목의 바로 가기 메뉴, ④ Windows+E는 파일 탐색기를 여는 키이므로 맞습니다. Excel에서의 Alt+Enter 줄 바꿈과도 문맥을 구분합니다.",
+    "criterion": "선택 항목 실행·속성·바로 가기 메뉴와 시작 메뉴·창 제어 메뉴를 구분하고, 단축키가 적용되는 화면을 확인합니다.",
+    "trap": "Enter에 Alt를 더하면 탐색기에서는 실행이 아니라 속성 표시입니다. Excel 셀 편집에서 Alt+Enter는 줄 바꿈이며 구형 도스 창에서는 전체 화면 전환이므로 프로그램 문맥을 확인합니다. Alt+Space는 모두 선택이 아니고 Ctrl+Esc는 실행 창 호출이 아닙니다.",
+    "reviewedAt": "2026-10-22"
+  },
+  "past-20200704-34": {
+    "conceptId": "macro-rules",
+    "explanation": "매크로 단축키는 기본 Excel 단축키와 중복 지정할 수 있으므로 ④가 정답입니다. 해당 매크로가 든 통합 문서가 열려 있는 동안 매크로 단축키가 우선합니다. ① 옵션에서 변경 가능, ② 소문자 Ctrl·대문자 Ctrl+Shift, ③ 영문자 지정과 단축키 생략 가능은 맞습니다.",
+    "criterion": "매크로 이름 규칙, 실행 단축키 조합, 설명 주석, 절대·상대 참조 기록을 구분합니다.",
+    "trap": "매크로 지정 단축키의 기본 조합은 Alt가 아닌 Ctrl입니다. Alt+F8은 매크로 목록을 여는 별도 명령입니다. 이름에 허용되는 문자 규칙과 단축키 입력 규칙을 혼동하지 않으며, 절대 참조 기록의 대상은 현재 선택 셀을 따라 이동하지 않습니다.",
+    "reviewedAt": "2026-10-22"
   }
 });
