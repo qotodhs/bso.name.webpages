@@ -84,6 +84,13 @@
     el("cardPosition").textContent = `${position + 1} / ${list.length}`;
     el("cardTerm").textContent = card.term;
     el("cardDefinition").textContent = card.definition;
+    const theory = window.BWR_CONCEPT_THEORY?.[card.id] || [];
+    el("cardTheorySection").hidden = theory.length === 0;
+    el("cardTheory").replaceChildren(...theory.map((text) => {
+      const paragraph = document.createElement("p");
+      paragraph.textContent = text;
+      return paragraph;
+    }));
     el("cardCriterion").textContent = card.criterion;
     el("cardEvidence").textContent = evidenceText(card);
     el("cardMistake").textContent = mistakeText(card);
