@@ -66,3 +66,11 @@
 
 현재 텍스트 상자 회전 지원: https://support.microsoft.com/en-us/office/graphics-visuals/rotate-or-flip-a-text-box-shape-wordart-or-picture
 현재 차트 만들기: https://support.microsoft.com/en-gb/excel/get-started/create-a-chart-from-start-to-finish
+
+## 추가 검토: XP 구성 요소와 저작권 문항 (2026-10-01)
+
+- 제거: past-20131019-20 — XP 전용 Windows 구성 요소 마법사의 항목 이름을 묻는 문항으로 현대 환경에 전이되는 개념이 없음.
+- 유지 및 안내 보강: past-20040215-10 — 기존 채점 ② 유지. 당시 프로그램보호법과 일반 저작권의 기간 혼재 및 현행 70년 기준을 상세 해설에 명시.
+- 유지: past-20090419-07 — 원문에 안내된 ①·④ 복수 정답과 현재 ① 채점 규칙을 해설에 명시.
+
+검토 근거: [구 컴퓨터프로그램보호법 제7조](https://law.go.kr/LSW/lsInfoP.do?lsiSeq=54504), [저작권법 제10조](https://law.go.kr/LSW/lsLinkCommonInfo.do?lsJoLnkSeq=1025058269), [보호기간 안내](https://easylaw.go.kr/CSP/CnpClsMainBtr.laf?ccfNo=2&cciNo=1&cnpClsNo=2&csmSeq=695&popMenu=ov), [PING](https://learn.microsoft.com/en-gb/windows-server/administration/windows-commands/ping).

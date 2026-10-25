@@ -12,5 +12,12 @@ window.addBWRExplanations({
     "criterion": "전송을 제어하는 장치와 임시 저장 공간을 구분합니다.",
     "trap": "전송을 제어하는 장치와 임시 저장 공간을 구분합니다.",
     "reviewedAt": "2026-10-01"
+  },
+  "past-20011007-13": {
+    "conceptId": "ping-diagnostics",
+    "explanation": "② ping이 원격 대상의 연결 응답을 확인합니다. ① finger는 사용자 정보, ③ mail은 전자우편, ④ whois는 도메인 등의 등록 정보를 조회하는 용어입니다. 대상의 응답 확인과 사용자·등록 정보 조회를 구분합니다.",
+    "criterion": "대상 응답 확인, 경로 추적, 내 컴퓨터 설정 조회를 구분합니다.",
+    "trap": "PING 응답이 있어도 웹 서비스가 정상이라는 보장은 없습니다. 응답이 없어도 ICMP 차단일 수 있어 단절로 단정하지 않습니다.",
+    "reviewedAt": "2026-10-01"
   }
 });

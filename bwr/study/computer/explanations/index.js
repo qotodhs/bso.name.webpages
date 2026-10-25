@@ -71,6 +71,9 @@ window.BWR_EXPLANATION_FILES = [
   "20020317.js",
   "20011007.js",
   "20010318.js",
+  "20140628.js",
+  "20041003.js",
+  "20020915.js"
 ];
 
 const explanationIndexScript = document.currentScript;
