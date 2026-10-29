@@ -1,0 +1,29 @@
+.mock-review[hidden], #restoreMock[hidden] { display: none; }
+.mock-review { margin-top: 24px; border: 1px solid var(--line); background: var(--paper); padding: clamp(16px, 3vw, 32px); }
+.mock-review-heading { display: flex; justify-content: space-between; gap: 20px; align-items: end; margin-bottom: 20px; }
+.mock-review-heading h2 { margin: 0 0 8px; font-size: 1.3rem; }
+.mock-review-heading p, .review-source { color: var(--muted); font-size: .85rem; line-height: 1.6; }
+.mock-review-heading label { display: grid; gap: 8px; flex-shrink: 0; font-size: .85rem; font-weight: 700; }
+.mock-review-heading select { padding: 10px; border: 1px solid var(--line); background: white; color: #202c27; font: inherit; }
+.mock-review-card { margin: 12px 0; border: 1px solid var(--line); background: white; }
+.mock-review-card summary { padding: 18px; display: grid; gap: 8px; cursor: pointer; line-height: 1.6; list-style: disclosure-closed inside; }
+.mock-review-card[open] summary { border-bottom: 1px solid var(--line); }
+.review-state { font-size: .8rem; font-weight: 800; color: #8a3428; }
+.is-correct .review-state { color: #24633c; }
+.mock-review-body { padding: 0 18px 18px; overflow-wrap: anywhere; line-height: 1.8; }
+.review-answer-line { padding: 14px; background: #f3f5ef; }
+.review-choices { list-style: none; padding: 0; display: grid; gap: 8px; }
+.review-choices li { padding: 10px 12px; border: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+.review-choices li span { flex: 1 1 240px; }
+.review-choices strong { font-size: .75rem; white-space: nowrap; }
+.review-choices .review-correct { border-color: #6d9b77; background: #edf6eb; color: #205334; }
+.review-choices .review-chosen { border-color: #c88d80; background: #fff0e9; color: #7b3025; }
+#resultContext, #resultStorageStatus { font-size: .85rem; line-height: 1.7; }
+.mock-result button:disabled { opacity: .5; cursor: not-allowed; }
+.mock-review summary:focus-visible, .mock-review select:focus-visible { outline: 3px solid #497052; outline-offset: 4px; }
+@media (max-width: 600px) {
+  .mock-review-heading { align-items: stretch; flex-direction: column; }
+  .mock-review-card summary { padding: 14px; }
+  .mock-review-body { padding: 0 14px 14px; }
+  .mock-result .result-actions > * { width: 100%; }
+}

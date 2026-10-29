@@ -6,6 +6,7 @@
     <meta name="description" content="컴퓨터활용능력 2급 예상문제와 실제 기출문제로 구성한 모의고사" />
     <title>컴활 2급 모의고사 | BWR Study</title>
     <link rel="stylesheet" href="../../styles.css" />
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body class="tool-page mock-page">
     <a class="skip-link" href="#main">본문으로 건너뛰기</a>
@@ -25,6 +26,7 @@
           <label for="mockSource">문제 출처</label>
           <select id="mockSource"><option value="all">예상문제 + 기출문제 · 1,792개</option><option value="past">기출문제 · 1,768개</option><option value="predicted">예상문제 · 24개</option><optgroup id="mockPastSourceGroup" label="기출문제 회차 선택"></optgroup></select>
           <p id="mockSourceSummary">선택한 범위에서 과목별 최대 20문항을 출제합니다.</p>
+          <button class="quiet-action" id="restoreMock" type="button" hidden>최근 모의고사 결과 다시 보기</button>
         </div>
         <div class="mock-format-list">
           <label class="mock-format active"><input type="radio" name="mockMode" value="full" checked /><span><b>실전 모의고사</b><small id="fullFormatDetail">1과목 20 + 2과목 20 · 40분</small></span><strong id="fullFormatCount">40</strong></label>
@@ -45,7 +47,7 @@
           <div class="question-meta-line"><span id="questionSubject"></span><span id="questionSource"></span></div>
           <h2 id="questionTitle"></h2>
           <div class="answers" id="answers"></div>
-          <p class="mock-notice">선택한 답은 시험 종료 전까지 바꿀 수 있습니다. 정답과 해설은 채점 후 오답노트에서 확인하세요.</p>
+          <p class="mock-notice">선택한 답은 시험 종료 전까지 바꿀 수 있습니다. 채점 후 이번 시험의 오답과 선택한 답·정답·해설을 바로 확인할 수 있습니다.</p>
         </article>
 
         <div class="practice-navigation mock-navigation">
@@ -58,16 +60,24 @@
       <section class="practice-result mock-result" id="resultPanel" hidden aria-live="polite">
         <p>MOCK EXAM RESULT</p>
         <div class="result-score" id="resultScore">0 / 40</div>
-        <h2 id="resultTitle">채점 결과</h2>
+        <h2 id="resultTitle" tabindex="-1">채점 결과</h2>
         <p id="resultMessage"></p>
+        <p id="resultContext"></p>
         <div class="subject-result-grid" id="subjectResults"></div>
-        <div class="result-actions"><button class="primary-action" id="restartMock" type="button">새 문제로 다시 풀기</button><a class="quiet-action link-action" href="../wrongnote/">오답·해설 확인</a></div>
+        <p id="resultStorageStatus" role="status"></p>
+        <div class="result-actions"><button class="primary-action" id="retryWrong" type="button">이번 오답만 다시 풀기</button><button class="quiet-action" id="restartMock" type="button">새 문제로 다시 풀기</button><button class="quiet-action" id="changeMock" type="button">시험 설정으로</button><a class="quiet-action link-action" href="../wrongnote/">누적 오답노트</a></div>
+      </section>
+      <section class="mock-review" id="reviewPanel" hidden aria-labelledby="reviewTitle">
+        <div class="mock-review-heading"><div><h2 id="reviewTitle">이번 시험 문제별 결과</h2><p id="reviewSummary" role="status"></p></div><label for="reviewFilter">확인할 문제<select id="reviewFilter"><option value="wrong">오답·미응답</option><option value="unanswered">미응답만</option><option value="all">전체 문제</option></select></label></div>
+        <p id="reviewEmpty" hidden>선택한 조건에 해당하는 문제가 없습니다.</p>
+        <div id="reviewList"></div>
       </section>
     </main>
 
     <footer class="site-footer"><p>예상문제 + 실제 기출 · 선택 범위에 맞춘 문항 수와 시간</p><a href="../">컴활 학습실로 돌아가기</a></footer>
     <script src="../past-questions.js" defer></script>
     <script src="../predicted-questions.js" defer></script>
+    <script src="../explanations/index.js" defer></script>
     <script src="./app.js" defer></script>
   </body>
 </html>

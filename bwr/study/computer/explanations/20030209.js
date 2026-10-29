@@ -1,4 +1,5 @@
 window.addBWRExplanations({
+  "past-20030209-01": {"conceptId":"network-architecture","explanation":"④ 클라이언트/서버를 하드웨어만의 모형으로 설명해 틀렸습니다. ① 기능에 따라 처리를 분담하고 ② 서버가 제공, ③ 클라이언트가 요청한다는 설명은 맞습니다. 한 컴퓨터에서도 여러 역할의 소프트웨어가 동작할 수 있습니다.","criterion":"기능·서비스 역할에 따른 모델입니다.","trap":"역할 분담을 장비의 물리적 모양으로 분류하지 않습니다.","reviewedAt":"2026-10-29"},
   "past-20030209-04": {"conceptId":"windows-registry","explanation":"Windows에서 각종 소프트웨어 설정을 보관하는 곳은 ④ 레지스트리입니다. ① 드라이버는 하드웨어 제어용 소프트웨어이고, ② 레지스터는 CPU 내부의 고속 기억장치입니다. ③ Access는 Windows 설정 저장소가 아닌 데이터베이스 응용 프로그램을 가리키는 보기입니다. 설정을 저장하는 Registry와 연산 중 값을 담는 Register를 혼동하지 않습니다.","criterion":"Windows의 하드웨어·소프트웨어 구성 정보를 저장하는 데이터베이스를 묻는다면 레지스트리입니다.","trap":"DMA·IRQ라는 하드웨어 용어만 보고 CMOS나 장치 관리자로 판단하지 않습니다. 소프트웨어 실행·설정 정보를 함께 관리하는 Windows 데이터베이스라는 단서가 핵심입니다. 레지스트리의 실행 정보는 모든 프로그램의 실행 이력을 기록한다는 뜻은 아닙니다.","reviewedAt":"2026-10-22"},
   "past-20030209-14": {
     "conceptId": "internet-services",
