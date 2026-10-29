@@ -44,6 +44,7 @@
             <h2 class="term" id="cardTerm"></h2><p class="hint" id="cardHint">카드를 눌러 개념과 기출 근거 보기</p>
             <div class="concept-details" id="conceptDetails" hidden>
               <p class="definition" id="cardDefinition"></p>
+              <section id="cardTheorySection" hidden><strong>이론 보충 · 예시와 비교</strong><div id="cardTheory"></div></section>
               <section><strong>판별 기준</strong><p id="cardCriterion"></p></section>
               <section><strong>기출 근거</strong><p id="cardEvidence"></p></section>
               <section><strong>자주 틀리는 이유</strong><p id="cardMistake"></p></section>
@@ -60,11 +61,12 @@
         <a class="concept-practice-link" id="conceptPracticeLink" href="../flashcards/">이 개념의 관련 기출 한 문제씩 풀기 →</a>
       </section>
     </main>
-    <footer class="site-footer"><p>핵심 개념 76개 · 실제 기출 자동 연결 · 상세 해설 확장 구조</p><a href="../">컴활 학습실로 돌아가기</a></footer>
+    <footer class="site-footer"><p>핵심 개념 101개 · 실제 기출 자동 연결 · 상세 해설 확장 구조</p><a href="../">컴활 학습실로 돌아가기</a></footer>
     <script src="../past-questions.js" defer></script>
     <script src="../predicted-questions.js" defer></script>
     <script src="../explanations/index.js" defer></script>
     <script src="./concept-data.js" defer></script>
+    <script src="./theory-data.js" defer></script>
     <script src="./app.js" defer></script>
   </body>
 </html>
