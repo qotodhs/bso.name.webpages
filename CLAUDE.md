@@ -18,8 +18,39 @@ study/HVAC/
       source-incomplete.js  그 문항들의 해설 (회차 파일보다 먼저 로드)
       YYYYMMDD.js      회차별 해설
   theory/              이론 노트
-    theory-data/0{1..4}-*.js   4과목 49챕터
+    theory.js          로더 + 데이터 형식 주석(정본) + THEORY_DATA_VERSION
+    app.js             왼쪽 목차(과목 > 파트 > 챕터) + 챕터 하나씩 보기 + 절 단위 검색
+    theory-data/0{1..4}-*.js   4과목 49챕터 214절
 ```
+
+## 이론 노트 작성 규칙
+
+절은 **핵심 → 자세히** 두 층으로 보인다. 형식은 `theory.js` 상단 주석이 정본이다.
+
+```
+핵심   formulas → key(판별 기준 한 줄) → core(핵심 문장 몇 줄)   외울 것을 먼저
+자세히 body → figures → table → points[{title, items}] → list    왜 그런지·어떻게 쓰는지
+끝     traps(함정) → tip → see(함께 보기 "chapterId#절번호")
+```
+
+- **새 내용을 절 끝에 덧붙이지 않는다.** 판별 기준이면 `key`, 외울 사실이면 `core`,
+  함정·단골 오답이면 `traps`, 부연이면 `points` 의 맞는 소제목 아래에 넣는다.
+  예전에는 문항을 풀 때마다 `list` 끝에 붙여 15개짜리 목록이 생겼고 읽히지 않았다
+- 공식부터 내밀면 비약이 되는 절(개념을 먼저 세워야 하는 절)만 `lead: "body"`
+- 절 제목에 번호를 적지 않는다(렌더러가 붙인다). `list` 는 7개 이하, 넘으면 `points`
+- 챕터 제목은 해설이 "'…' 단원" 으로 인용하므로 바꾸지 않는다
+- 과목이 다른 같은 주제는 옮기지 말고 `see` 로 잇는다. 절 순서를 바꾸면 그 절을 가리키는 `see` 번호도 고친다
+- `app.js`·데이터 형식을 바꾸면 `theory.js` 의 `THEORY_DATA_VERSION` 과 `index.html` 의 `?v=` 를 함께 올린다.
+  화면과 데이터가 다른 판으로 캐시되면 새 필드가 통째로 빠져 보인다
+
+```bash
+node scripts/validate_hvac_theory.mjs                       # 구조·see 대상·단원 인용
+node scripts/validate_hvac_theory.mjs --baseline origin/main # 문장을 옮기기만 했는지(사라진 문장 0)
+```
+
+`--baseline` 은 문장 단위로 대조하므로 bullet 을 판별 기준·핵심·함정으로 쪼개 옮겨도 통과하고,
+한 글자라도 고쳐 쓰면 그 문장이 '사라진 문장' 으로 잡힌다. 내용을 일부러 고친 경우에는 그 목록이
+고친 문장뿐인지 확인한다.
 
 ## 문제 데이터 형식
 
@@ -39,11 +70,22 @@ study/HVAC/
 - `\ohm` 은 KaTeX에 없다. `\Omega` 를 쓴다.
 - `\,^\circ` 는 KaTeX 파싱 오류다(`\,` 에 위첨자가 붙는다). `\,{}^\circ\mathrm{C}` 로 쓴다.
 
+## 해설·이론에 그림 붙이기
+
+선도처럼 말로는 안 되는 것은 SVG 로 그려 `study/HVAC/figures/` 에 둔다.
+풀이 화면과 이론 노트가 같은 파일을 쓴다(두 페이지 모두 `../figures/…` 로 닿는다).
+
+- 해설: `explanations/figures.js` 에 `{ 문항 ID: [{ src, alt, caption }] }` 로 등록하면
+  해설 문단 아래와 결과 리뷰에 붙는다. 같은 계열 문항은 같은 그림을 함께 건다
+- 이론: 절(section)에 `figures: [{ src, alt, caption }]`
+- 사이트가 라이트 테마뿐이라 SVG 는 흰 배경을 깔고 `width`·`height` 를 준다
+- 지금 있는 그림: `ph-condensing-rise.svg`(응축온도 상승 11문항), `ph-evaporating-drop.svg`(증발온도 저하 7문항)
+
 ## 문항 하나를 받으면
 
 1. **관련 문항을 먼저 전수 검색한다.** 같은 내용이 여러 회차에 반복 출제된다(피드백 효과 13건, 속도제어 14건, 전구 직렬 4건). 찾아서 **한꺼번에** 작성한다. 함정이 회차마다 다르므로 복붙하지 말고 각 문항 표현에 맞춰 쓴다.
 2. 그림 문항은 **반드시 원본 이미지를 읽는다.** `Read` 로 열린다. 추론하지 말 것.
-3. 이론에 해당 내용이 있는지 확인하고, 없으면 **이론에 먼저 넣는다.**
+3. 이론에 해당 내용이 있는지 확인하고, 없으면 **이론에 먼저 넣는다.** 넣을 자리는 위 '이론 노트 작성 규칙'대로 고른다.
 
 ## 데이터 결함 — 자주 나오는 네 가지
 
@@ -80,6 +122,7 @@ const fs=require('fs');
 global.window={HVAC_QUESTION_BANK:[],HVAC_EXPLANATIONS:{},HVAC_SOURCE_NOTES:{}};
 window.addHVACExplanations=(r)=>Object.assign(window.HVAC_EXPLANATIONS,r);
 window.addHVACSourceNotes=(r)=>Object.assign(window.HVAC_SOURCE_NOTES,r);
+window.addHVACExplanationFigures=()=>{};
 const idx=fs.readFileSync('explanations/index.js','utf8');
 [...idx.matchAll(/\"([0-9a-z-]+\.js)\"/g)].map(m=>m[1]).forEach(f=>eval(fs.readFileSync('explanations/'+f,'utf8')));
 const exp=window.HVAC_EXPLANATIONS, marks=['①','②','③','④']; let bad=[];
@@ -130,8 +173,9 @@ design 2000 / 나머지 각 1020 문항이다. 심화 문제의 `ncs` 는
 숫자는 모두 `origin/main` 기준이다. 워킹트리에는 다른 세션의
 미커밋 작업이 섞여 있을 수 있으므로 세기 전에 어느 쪽을 보는지 정한다.
 
-- 이론 49챕터 187절 — 4과목 전부 작성 완료. 문항을 풀다 이론에 없는
-  내용을 만나면 계속 절을 늘리고 있다
+- 이론 49챕터 214절 — 4과목 전부 작성 완료. 2026-11-05 에 전 챕터를
+  '핵심 → 자세히' 형식과 과목별 파트(3~4개)로 재배치했다. 문항을 풀다 이론에
+  없는 내용을 만나면 계속 절을 늘리고 있다
 - 해설 **1,596 / 5,060 (31.5 %)**
 - 회차 완료: 2021-08-14(100), 2022-03-05(80), 2022-04-24(80)
 - 나머지는 사용자가 보내는 문항 + 관련 문항 단위로 진행 중

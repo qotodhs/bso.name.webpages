@@ -23,6 +23,12 @@ window.addHVACExplanations = (rows) => {
   Object.assign(window.HVAC_EXPLANATIONS, rows);
 };
 
+// 해설에 곁들이는 그림. { 문항 ID: [{ src, alt, caption }] } — src 는 engicert 페이지 기준 경로.
+window.HVAC_EXPLANATION_FIGURES = {};
+window.addHVACExplanationFigures = (rows) => {
+  Object.assign(window.HVAC_EXPLANATION_FIGURES, rows);
+};
+
 // 원문 그림·표·수식이 유실된 문항에 붙일 안내문.
 window.HVAC_SOURCE_NOTES = {};
 window.addHVACSourceNotes = (rows) => {
@@ -75,6 +81,7 @@ window.addHVACExamQuestions = (exam, rows) => {
       answer,
       explanation: authored || fallback,
       hasAuthoredExplanation: Boolean(authored),
+      explanationFigures: window.HVAC_EXPLANATION_FIGURES[id] || [],
       sourceNote: window.HVAC_SOURCE_NOTES[id] || "",
       images,
       // 보기가 그림인 문항. 없으면 undefined 라 기존 문항은 그대로 텍스트로 렌더링된다.
