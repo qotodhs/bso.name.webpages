@@ -62,6 +62,7 @@
     instantFeedback: $("instantFeedback"),
     feedbackTitle: $("feedbackTitle"),
     feedbackText: $("feedbackText"),
+    feedbackFigures: $("feedbackFigures"),
     theoryLink: $("theoryLink"),
     previousQuestion: $("previousQuestion"),
     nextQuestion: $("nextQuestion"),
@@ -525,6 +526,17 @@
     }
   }
 
+  function explanationFiguresHtml(question) {
+    return (question.explanationFigures ?? []).map((figure) => `
+      <figure>
+        <a href="${escapeHtml(figure.src)}" target="_blank" rel="noopener" title="그림을 새 창에서 크게 보기">
+          <img src="${escapeHtml(figure.src)}" alt="${escapeHtml(figure.alt || "")}" loading="lazy" />
+        </a>
+        ${figure.caption ? `<figcaption>${withInlineMath(figure.caption)}</figcaption>` : ""}
+      </figure>
+    `).join("");
+  }
+
   function withInlineMath(text) {
     return String(text ?? "")
       .split(/\$([^$]+)\$/g)
@@ -551,6 +563,9 @@
       ? `정답입니다. — ${withInlineMath(answerLabel)}`
       : `오답입니다. 정답은 ${withInlineMath(answerLabel)} 입니다.`;
     elements.feedbackText.innerHTML = withInlineMath(question.explanation);
+    const figures = explanationFiguresHtml(question);
+    elements.feedbackFigures.innerHTML = figures;
+    elements.feedbackFigures.classList.toggle("hidden", !figures);
     elements.theoryLink.href = question.theory;
     elements.theoryLink.title = "관련 이론 노트로 이동합니다.";
   }
@@ -715,6 +730,7 @@
           <p><strong>선택:</strong> ${withInlineMath(selectedText)}</p>
           <p><strong>정답:</strong> ${withInlineMath(correctText)}</p>
           <p>${withInlineMath(result.question.explanation)}</p>
+          ${result.question.explanationFigures?.length ? `<div class="explanation-figures">${explanationFiguresHtml(result.question)}</div>` : ""}
           <a class="theory-link" href="${escapeHtml(result.question.theory)}" title="이론 페이지는 아직 준비 중입니다.">관련 이론 보기 ↗</a>
         </div>
       `;
