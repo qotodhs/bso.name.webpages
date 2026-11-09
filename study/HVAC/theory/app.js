@@ -125,6 +125,25 @@
   const countExamQuestions = (subject) =>
     QUESTIONS.filter((item) => item.sourceType === "exam" && item.subject === subject).length;
 
+  // 기출 문항 → 이론 연결(engicert/explanations/theory-links.js)을 거꾸로 센다.
+  // 절 단위("chapterId#절번호")와 챕터 단위(그 챕터 아래 전부)를 따로 둔다.
+  const examCounts = (() => {
+    const bySection = new Map();
+    const byChapter = new Map();
+    QUESTIONS.forEach((question) => {
+      if (question.sourceType !== "exam" || !question.theoryRef) return;
+      const ref = question.theoryRef;
+      bySection.set(ref, (bySection.get(ref) || 0) + 1);
+      const chapterId = ref.split("#")[0];
+      byChapter.set(chapterId, (byChapter.get(chapterId) || 0) + 1);
+    });
+    return { bySection, byChapter };
+  })();
+
+  // 문제은행이 ?theory= 로 받은 절·챕터의 기출만 바로 출제한다
+  const practiceHref = (ref, label) =>
+    `../engicert/?theory=${encodeURIComponent(ref)}&label=${encodeURIComponent(label)}`;
+
   // ── 검색 색인: 절 단위 ─────────────────────────────────────────────────────
   function sectionTexts(section) {
     const parts = [headingOf(section), section.key, section.body, section.tip];
@@ -220,9 +239,16 @@
         ${figure.caption ? `<figcaption>${withInlineMath(figure.caption)}</figcaption>` : ""}
       </figure>
     `).join("");
+    // 상호작용 선도 자리. 내용은 interactive.js 가 채운다(renderChapter 끝의 mountInteractives)
+    const interactive = section.interactive
+      ? `<div class="interactive-box" data-interactive="${escapeHtml(section.interactive)}">
+           <p class="interactive-title">직접 움직여 보기</p>
+         </div>`
+      : "";
     const details = [
       bodyFirst ? "" : body,
       figures,
+      interactive,
       tablesOf(section).map(renderTable).join(""),
       (section.points || []).map((group) => `
         <div class="point-group">
@@ -260,21 +286,44 @@
         ` : ""}
         ${section.tip ? `<p class="tip-box"><strong>짚고 넘어가기</strong>${withInlineMath(section.tip)}</p>` : ""}
         ${renderSee(section.see, chapter)}
+        ${renderSectionPractice(chapter, section, number)}
       </section>
     `;
   }
 
+  function renderSectionPractice(chapter, section, number) {
+    const ref = `${chapter.id}#${number}`;
+    const count = examCounts.bySection.get(ref) || 0;
+    if (!count) return "";
+    return `
+      <div class="section-practice">
+        <a class="button secondary small" href="${escapeHtml(practiceHref(ref, headingOf(section)))}">이 절의 기출 ${count}문항 풀기 ↗</a>
+      </div>
+    `;
+  }
+
   // ── 렌더링: 챕터 ───────────────────────────────────────────────────────────
+  function chapterPracticeHref(chapter) {
+    return examCounts.byChapter.get(chapter.id)
+      ? practiceHref(chapter.id, chapter.title)
+      : `../engicert/?subject=${encodeURIComponent(chapter.subject)}`;
+  }
+
   function renderProblems(chapter) {
     const linked = questionMap.get(chapter.id) || [];
+    const examCount = examCounts.byChapter.get(chapter.id) || 0;
+    const examLine = examCount
+      ? `<p class="problem-empty">이 챕터와 연결된 기출 ${examCount}문항이 있습니다.
+           <a href="${escapeHtml(chapterPracticeHref(chapter))}">기출 ${examCount}문항 풀기 ↗</a></p>`
+      : `<p class="problem-empty">
+           이 챕터와 연결된 기출 문항은 아직 없습니다.
+           문제은행에서 ${escapeHtml(subjectShort(chapter.subject))} 기출 ${countExamQuestions(chapter.subject)}문항을 풀어보세요.
+         </p>`;
     if (!linked.length) {
       return `
-        <details class="fold">
-          <summary>연결된 문제 풀어보기</summary>
-          <p class="problem-empty">
-            이 주제에 직접 연결된 예상문제는 아직 없습니다.
-            문제은행에서 ${escapeHtml(subjectShort(chapter.subject))} 기출 ${countExamQuestions(chapter.subject)}문항을 풀어보세요.
-          </p>
+        <details class="fold"${examCount ? " open" : ""}>
+          <summary>연결된 문제 풀어보기${examCount ? ` · 기출 ${examCount}문항` : ""}</summary>
+          ${examLine}
         </details>
       `;
     }
@@ -288,7 +337,8 @@
       .join("");
     return `
       <details class="fold">
-        <summary>연결된 문제 ${linked.length}개 풀어보기</summary>
+        <summary>연결된 문제 ${linked.length}개 풀어보기${examCount ? ` · 기출 ${examCount}문항` : ""}</summary>
+        ${examLine}
         <div class="problem-list">${items}</div>
       </details>
     `;
@@ -302,6 +352,15 @@
         <strong>${escapeHtml(chapter.title)}</strong>
       </a>
     `;
+  }
+
+  // interactive.js 가 없거나 모르는 종류면 빈 상자를 지운다(화면에 빈칸이 남지 않게)
+  function mountInteractives() {
+    elements.chapterView.querySelectorAll("[data-interactive]").forEach((box) => {
+      const mount = window.HVAC_INTERACTIVE && window.HVAC_INTERACTIVE[box.dataset.interactive];
+      if (typeof mount !== "function") { box.remove(); return; }
+      try { mount(box); } catch (error) { box.remove(); }
+    });
   }
 
   function renderChapter(chapter) {
@@ -350,13 +409,14 @@
           <textarea aria-label="${escapeHtml(chapter.title)} 개인 메모" placeholder="공식, 헷갈리는 부분, 암기 문장을 적어두세요.">${escapeHtml(memos[chapter.id] || "")}</textarea>
           <div class="card-actions">
             <button class="button primary small save-memo" type="button">메모 저장</button>
-            <a class="button secondary small" href="../engicert/?subject=${encodeURIComponent(chapter.subject)}">문제 풀기 ↗</a>
+            <a class="button secondary small" href="${escapeHtml(chapterPracticeHref(chapter))}">문제 풀기 ↗</a>
             <a class="button secondary small" href="../wrongnote/">오답노트 보기</a>
           </div>
           <p class="saved-status" aria-live="polite"></p>
         </details>
       </div>
     `;
+    mountInteractives();
 
     const textarea = elements.chapterView.querySelector("textarea");
     const status = elements.chapterView.querySelector(".saved-status");

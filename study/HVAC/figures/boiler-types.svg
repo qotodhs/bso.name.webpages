@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="1024" viewBox="0 0 660 1024" font-family="'Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif">
+<title>보일러 형식 7종 개략도</title>
+<rect width="660" height="1024" fill="#ffffff"/>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#ea580c"/></marker><marker id="aw" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#2563eb"/></marker></defs>
+<text x="14" y="24" font-size="17" fill="#1e293b" font-weight="700">보일러 형식 — 물을 어디에 담는가</text>
+<rect x="14" y="36" width="16" height="12" rx="2" fill="#bfdbfe" stroke="#2563eb"/>
+<text x="36" y="46" font-size="12" fill="#1e293b">물</text>
+<rect x="64" y="36" width="16" height="12" rx="2" fill="#f1f5f9" stroke="#94a3b8"/>
+<text x="86" y="46" font-size="12" fill="#1e293b">증기 공간</text>
+<rect x="150" y="36" width="16" height="12" rx="2" fill="#fed7aa" stroke="#ea580c"/>
+<text x="172" y="46" font-size="12" fill="#1e293b">연소가스(노통·연관 안 / 수관 밖)</text>
+<text x="646" y="46" font-size="11" fill="#64748b" text-anchor="end">개략도 · 단면은 동체를 끝에서 본 모습</text>
+<rect x="8" y="58" width="320" height="230" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="20" y="80" font-size="15" fill="#1e293b" font-weight="700">입형(버티컬)</text>
+<text x="316" y="80" font-size="11" fill="#64748b" text-anchor="end">원통형</text>
+<rect x="123" y="108" width="90" height="120" rx="10" fill="#bfdbfe" stroke="#334155" stroke-width="3"/>
+<rect x="125" y="110" width="86" height="22" rx="8" fill="#f1f5f9"/>
+<rect x="138" y="178" width="60" height="48" rx="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<rect x="161" y="90" width="14" height="88" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<text x="168" y="214" font-size="11" fill="#ea580c" text-anchor="middle">화실</text>
+<text x="223" y="178" font-size="11" fill="#64748b">← 굵은 연도 하나</text>
+<text x="223" y="124" font-size="11" fill="#64748b">← 증기</text>
+<text x="20" y="258" font-size="12" fill="#1e293b">세워 놓은 동체 · 설치면적 작음</text>
+<text x="20" y="274" font-size="12" fill="#64748b">전열면적이 작아 효율 낮음, 소용량</text>
+<rect x="338" y="58" width="320" height="230" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="350" y="80" font-size="15" fill="#1e293b" font-weight="700">노통</text>
+<text x="646" y="80" font-size="11" fill="#64748b" text-anchor="end">원통형</text>
+<defs><clipPath id="c0"><circle cx="498" cy="163" r="66"/></clipPath></defs>
+<g clip-path="url(#c0)"><rect x="432" y="97" width="132" height="132" fill="#bfdbfe"/><rect x="432" y="97" width="132" height="32" fill="#f1f5f9"/></g>
+<line x1="432" y1="129" x2="564" y2="129" stroke="#2563eb" stroke-dasharray="4 3"/>
+<circle cx="498" cy="163" r="66" fill="none" stroke="#334155" stroke-width="3"/>
+<circle cx="470" cy="177" r="21" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="526" cy="177" r="21" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<text x="570" y="181" font-size="11" fill="#ea580c">노통</text>
+<text x="350" y="258" font-size="12" fill="#1e293b">굵은 노통 1개(코니시)·2개(랭커셔)</text>
+<text x="350" y="274" font-size="12" fill="#64748b">구조 간단·청소 쉬움, 전열면적 작아 증기 발생 느림</text>
+<rect x="8" y="298" width="320" height="230" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="20" y="320" font-size="15" fill="#1e293b" font-weight="700">연관</text>
+<text x="316" y="320" font-size="11" fill="#64748b" text-anchor="end">원통형</text>
+<defs><clipPath id="c1"><circle cx="168" cy="403" r="66"/></clipPath></defs>
+<g clip-path="url(#c1)"><rect x="102" y="337" width="132" height="132" fill="#bfdbfe"/><rect x="102" y="337" width="132" height="32" fill="#f1f5f9"/></g>
+<line x1="102" y1="369" x2="234" y2="369" stroke="#2563eb" stroke-dasharray="4 3"/>
+<circle cx="168" cy="403" r="66" fill="none" stroke="#334155" stroke-width="3"/>
+<circle cx="130.5" cy="381" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="145.5" cy="381" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="160.5" cy="381" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="175.5" cy="381" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="190.5" cy="381" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="205.5" cy="381" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="115.5" cy="396" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="130.5" cy="396" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="145.5" cy="396" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="160.5" cy="396" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="175.5" cy="396" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="190.5" cy="396" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="205.5" cy="396" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="220.5" cy="396" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="115.5" cy="411" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="130.5" cy="411" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="145.5" cy="411" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="160.5" cy="411" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="175.5" cy="411" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="190.5" cy="411" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="205.5" cy="411" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="220.5" cy="411" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="130.5" cy="426" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="145.5" cy="426" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="160.5" cy="426" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="175.5" cy="426" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="190.5" cy="426" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="205.5" cy="426" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="130.5" cy="441" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="145.5" cy="441" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="160.5" cy="441" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="175.5" cy="441" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="190.5" cy="441" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="205.5" cy="441" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="160.5" cy="456" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="175.5" cy="456" r="6" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<text x="240" y="421" font-size="11" fill="#ea580c">연관</text>
+<text x="20" y="498" font-size="12" fill="#1e293b">가는 연관 다수 — 가스가 관 '안'</text>
+<text x="20" y="514" font-size="12" fill="#64748b">전열면적 커 증기 발생 빠름, 관 사이 청소 곤란</text>
+<rect x="338" y="298" width="320" height="230" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="350" y="320" font-size="15" fill="#1e293b" font-weight="700">노통연관</text>
+<text x="646" y="320" font-size="11" fill="#64748b" text-anchor="end">원통형</text>
+<defs><clipPath id="c2"><circle cx="498" cy="403" r="66"/></clipPath></defs>
+<g clip-path="url(#c2)"><rect x="432" y="337" width="132" height="132" fill="#bfdbfe"/><rect x="432" y="337" width="132" height="32" fill="#f1f5f9"/></g>
+<line x1="432" y1="369" x2="564" y2="369" stroke="#2563eb" stroke-dasharray="4 3"/>
+<circle cx="498" cy="403" r="66" fill="none" stroke="#334155" stroke-width="3"/>
+<circle cx="476" cy="427" r="24" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="449" cy="381" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="463" cy="381" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="477" cy="381" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="491" cy="381" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="505" cy="381" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="519" cy="381" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="533" cy="381" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="547" cy="381" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="449" cy="395" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="463" cy="395" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="477" cy="395" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="491" cy="395" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="505" cy="395" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="519" cy="395" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="533" cy="395" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="547" cy="395" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="449" cy="409" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="505" cy="409" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="519" cy="409" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="533" cy="409" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="547" cy="409" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="519" cy="423" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="533" cy="423" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="547" cy="423" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="519" cy="437" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="533" cy="437" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="505" cy="451" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<circle cx="519" cy="451" r="5.5" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<text x="570" y="421" font-size="11" fill="#ea580c">노통 + 연관</text>
+<text x="350" y="498" font-size="12" fill="#1e293b">노통 + 연관 — 보유수량 많아 부하변동에 안정</text>
+<text x="350" y="514" font-size="12" fill="#64748b">예열시간 길다 · 중소규모 건물용 대표 형식</text>
+<rect x="8" y="538" width="320" height="230" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="20" y="560" font-size="15" fill="#1e293b" font-weight="700">수관</text>
+<text x="316" y="560" font-size="11" fill="#64748b" text-anchor="end">관에 물</text>
+<rect x="48" y="578" width="240" height="140" rx="8" fill="#fed7aa" opacity="0.55"/>
+<path d="M96,622 Q195.75,620 217.5,672" fill="none" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M100,622 Q186.5,629 221,672" fill="none" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M104,622 Q177.25,638 224.5,672" fill="none" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M108,622 Q168,647 228,672" fill="none" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M112,622 Q158.75,656 231.5,672" fill="none" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M116,622 Q149.5,665 235,672" fill="none" stroke="#2563eb" stroke-width="2.6"/>
+<path d="M120,622 Q140.25,674 238.5,672" fill="none" stroke="#2563eb" stroke-width="2.6"/>
+<defs><clipPath id="c3"><circle cx="108" cy="602" r="22"/></clipPath></defs>
+<g clip-path="url(#c3)"><rect x="86" y="580" width="44" height="44" fill="#bfdbfe"/><rect x="86" y="580" width="44" height="22" fill="#f1f5f9"/></g>
+<circle cx="108" cy="602" r="22" fill="none" stroke="#334155" stroke-width="3"/>
+<defs><clipPath id="c4"><circle cx="228" cy="688" r="18"/></clipPath></defs>
+<g clip-path="url(#c4)"><rect x="210" y="670" width="36" height="36" fill="#bfdbfe"/></g>
+<circle cx="228" cy="688" r="18" fill="none" stroke="#334155" stroke-width="3"/>
+<text x="80" y="606" font-size="11" fill="#64748b" text-anchor="end">기수드럼</text>
+<text x="252" y="692" font-size="11" fill="#64748b">물드럼</text>
+<text x="68" y="710" font-size="11" fill="#ea580c">연소가스</text>
+<text x="20" y="738" font-size="12" fill="#1e293b">물이 관 '안', 가스가 관 '밖' — 고압·대용량</text>
+<text x="20" y="754" font-size="12" fill="#64748b">보유수량 적어 증기 발생 빠름, 수처리 엄격</text>
+<rect x="338" y="538" width="320" height="230" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="350" y="560" font-size="15" fill="#1e293b" font-weight="700">관류</text>
+<text x="646" y="560" font-size="11" fill="#64748b" text-anchor="end">관에 물</text>
+<rect x="378" y="578" width="240" height="140" rx="8" fill="#fed7aa" opacity="0.55"/>
+<path d="M358,698 L408,698 L588,698 Q602,686 588,672 L408,672 Q394,660 408,646 L588,646 Q602,634 588,620 L408,620 Q394,608 408,594 L634,594" fill="none" stroke="#2563eb" stroke-width="3.5" marker-end="url(#aw)"/>
+<text x="356" y="714" font-size="11" fill="#2563eb">급수</text>
+<text x="634" y="612" font-size="11" fill="#2563eb" text-anchor="end">증기</text>
+<text x="350" y="738" font-size="12" fill="#1e293b">드럼 없이 긴 관 한 줄 — 급수가 지나며 증기가 된다</text>
+<text x="350" y="754" font-size="12" fill="#64748b">소형·고압 · 보유수량 극히 적어 급수 수질관리 매우 중요</text>
+<rect x="8" y="778" width="320" height="230" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="20" y="800" font-size="15" fill="#1e293b" font-weight="700">주철제 섹셔널</text>
+<text x="316" y="800" font-size="11" fill="#64748b" text-anchor="end">쪽을 이어 붙임</text>
+<rect x="57" y="878" width="222" height="44" fill="#fed7aa" opacity="0.55"/>
+<rect x="65" y="826" width="26" height="122" rx="9" fill="#bfdbfe" stroke="#334155" stroke-width="2.5"/>
+<rect x="101" y="826" width="26" height="122" rx="9" fill="#bfdbfe" stroke="#334155" stroke-width="2.5"/>
+<rect x="137" y="826" width="26" height="122" rx="9" fill="#bfdbfe" stroke="#334155" stroke-width="2.5"/>
+<rect x="173" y="826" width="26" height="122" rx="9" fill="#bfdbfe" stroke="#334155" stroke-width="2.5"/>
+<rect x="209" y="826" width="26" height="122" rx="9" fill="#bfdbfe" stroke="#334155" stroke-width="2.5"/>
+<rect x="245" y="826" width="26" height="122" rx="9" fill="#bfdbfe" stroke="#334155" stroke-width="2.5"/>
+<line x1="65" y1="840" x2="271" y2="840" stroke="#334155" stroke-width="2"/>
+<line x1="65" y1="936" x2="271" y2="936" stroke="#334155" stroke-width="2"/>
+<text x="283" y="904" font-size="11" fill="#ea580c">섹션 사이로</text>
+<text x="283" y="918" font-size="11" fill="#ea580c">연소가스</text>
+<text x="20" y="978" font-size="12" fill="#1e293b">주철 섹션을 조립 — 반입·증설 쉬움, 부식에 강함</text>
+<text x="20" y="994" font-size="12" fill="#64748b">강도가 약해 저압 소규모용(고압 부적합)</text>
+<rect x="338" y="778" width="320" height="230" rx="10" fill="#ffffff" stroke="#e2e8f0"/>
+<text x="350" y="800" font-size="15" fill="#1e293b" font-weight="700">가르는 기준</text>
+<text x="352" y="828" font-size="13" fill="#1e293b" font-weight="700">물이 큰 동체에</text>
+<text x="352" y="849" font-size="12" fill="#64748b">  입형 · 노통 · 연관 · 노통연관 (원통형)</text>
+<text x="352" y="870" font-size="12" fill="#64748b">  보유수량 많음 → 부하변동에 안정, 예열 느림</text>
+<text x="352" y="891" font-size="13" fill="#1e293b" font-weight="700">물이 가는 관 안에</text>
+<text x="352" y="912" font-size="12" fill="#64748b">  수관 · 관류</text>
+<text x="352" y="933" font-size="12" fill="#64748b">  보유수량 적음 → 증기 발생 빠름, 고압, 수처리 엄격</text>
+<text x="352" y="954" font-size="13" fill="#1e293b" font-weight="700">가스가 지나는 관이 가늘고 많을수록</text>
+<text x="352" y="975" font-size="12" fill="#64748b">  전열면적↑ 효율↑ — 대신 청소가 어렵다(연관)</text>
+</svg>
