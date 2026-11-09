@@ -4,7 +4,7 @@ window.HVAC_THEORY = [];
 window.HVAC_THEORY_INDEX = new Map();
 
 // 데이터 형식이 바뀌면 올린다. 화면(app.js)과 데이터가 서로 다른 판으로 캐시되면 내용이 빠져 보인다
-const THEORY_DATA_VERSION = "2026-11-08";
+const THEORY_DATA_VERSION = "2026-11-09";
 const theoryLoaderScript = document.currentScript;
 const theoryDataBase = new URL("./theory-data/", theoryLoaderScript.src);
 

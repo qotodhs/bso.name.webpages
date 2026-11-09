@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="760" viewBox="0 0 660 760" font-family="'Pretendard','Apple SD Gothic Neo','Noto Sans KR',sans-serif">
+<rect width="660" height="760" fill="#ffffff"/>
+<defs><marker id="m-16a34a" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#16a34a"/></marker><marker id="m-dc2626" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#dc2626"/></marker><marker id="m-1d4ed8" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#1d4ed8"/></marker><marker id="m-93c5fd" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#93c5fd"/></marker><marker id="m-ea580c" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#ea580c"/></marker><marker id="m-64748b" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#64748b"/></marker></defs>
+<text x="14" y="24" font-size="17" fill="#1e293b" font-weight="700">팽창장치 — 무엇을 감지해 무엇을 일정하게 하나</text>
+<line x1="14" y1="42" x2="34" y2="42" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round"/>
+<text x="40" y="46" font-size="12" fill="#1e293b">고압 액</text>
+<line x1="84" y1="42" x2="104" y2="42" stroke="#93c5fd" stroke-width="5" stroke-linecap="round"/>
+<text x="110" y="46" font-size="12" fill="#1e293b">저압 냉매</text>
+<line x1="168" y1="42" x2="188" y2="42" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" marker-end="url(#m-16a34a)"/>
+<text x="194" y="46" font-size="12" fill="#1e293b">여는 힘</text>
+<line x1="242" y1="42" x2="262" y2="42" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" marker-end="url(#m-dc2626)"/>
+<text x="268" y="46" font-size="12" fill="#1e293b">닫는 힘</text>
+<line x1="316" y1="42" x2="336" y2="42" stroke="#ea580c" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="4 3"/>
+<text x="342" y="46" font-size="12" fill="#1e293b">감지·신호선</text>
+<text x="646" y="46" font-size="11" fill="#64748b" text-anchor="end">개략도</text>
+<rect x="8" y="58" width="320" height="222" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="20" y="80" font-size="15" fill="#1e293b" font-weight="700">온도식 자동(TEV)</text>
+<rect x="234" y="67" width="82" height="20" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+<text x="275" y="81" font-size="11.5" fill="#92400e" text-anchor="middle" font-weight="700">과열도 일정</text>
+<line x1="24" y1="208" x2="72" y2="208" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round"/>
+<text x="24" y="198" font-size="11" fill="#1d4ed8">고압 액</text>
+<rect x="72" y="194" width="36" height="28" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+<path d="M72,210 L86,210 L86,202 M94,202 L94,210 L108,210" fill="none" stroke="#475569" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M86,194 L90,204 L94,194" fill="#94a3b8" stroke="#475569" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="90" y1="194" x2="90" y2="186" stroke="#475569" stroke-width="2" stroke-linecap="round"/>
+<rect x="62" y="166" width="56" height="20" rx="6" fill="#ffffff" stroke="#475569" stroke-width="2"/>
+<path d="M62,176 Q90,181 118,176" fill="none" stroke="#475569" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="108" y1="208" x2="184" y2="208" stroke="#93c5fd" stroke-width="5" stroke-linecap="round"/>
+<rect x="178" y="144" width="122" height="70" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<path d="M184,208 L184,150 L206,150 L206,208 L228,208 L228,150 L250,150 L250,208 L272,208 L272,150 L294,150 L294,208" fill="none" stroke="#93c5fd" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="239" y="232" font-size="11" fill="#64748b" text-anchor="middle">증발기</text>
+<line x1="294" y1="150" x2="294" y2="110" stroke="#93c5fd" stroke-width="5" stroke-linecap="round"/>
+<line x1="294" y1="110" x2="158" y2="110" stroke="#93c5fd" stroke-width="5" stroke-linecap="round"/>
+<line x1="168" y1="110" x2="140" y2="110" stroke="#93c5fd" stroke-width="4" stroke-linecap="round" marker-end="url(#m-93c5fd)"/>
+<text x="136" y="105" font-size="11" fill="#64748b" text-anchor="end">압축기로</text>
+<rect x="208" y="115" width="30" height="10" rx="4" fill="#fed7aa" stroke="#ea580c" stroke-width="1.5"/>
+<text x="223" y="140" font-size="11" fill="#ea580c" text-anchor="middle" font-weight="700">감온통</text>
+<path d="M208,120 L90,120 L90,166" fill="none" stroke="#ea580c" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+<line x1="76" y1="142" x2="76" y2="162" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" marker-end="url(#m-16a34a)"/>
+<text x="70" y="156" font-size="11" fill="#16a34a" text-anchor="end" font-weight="700">열림</text>
+<line x1="130" y1="196" x2="130" y2="174" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" marker-end="url(#m-dc2626)"/>
+<text x="136" y="186" font-size="11" fill="#dc2626" font-weight="700">닫힘</text>
+<text x="20" y="252" font-size="12" fill="#1e293b">감온통 압력(열림) ↔ 증발압력 + 스프링(닫힘)</text>
+<text x="20" y="268" font-size="12" fill="#64748b">건식 증발기 표준 · 감온통은 증발기 출구에</text>
+<rect x="338" y="58" width="320" height="222" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="350" y="80" font-size="15" fill="#1e293b" font-weight="700">정압식 자동(AEV)</text>
+<rect x="553" y="67" width="93" height="20" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+<text x="599.5" y="81" font-size="11.5" fill="#92400e" text-anchor="middle" font-weight="700">증발압력 일정</text>
+<line x1="354" y1="206" x2="440" y2="206" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round"/>
+<text x="354" y="196" font-size="11" fill="#1d4ed8">고압 액</text>
+<rect x="440" y="192" width="36" height="28" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+<path d="M440,208 L454,208 L454,200 M462,200 L462,208 L476,208" fill="none" stroke="#475569" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M454,192 L458,202 L462,192" fill="#94a3b8" stroke="#475569" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="458" y1="192" x2="458" y2="184" stroke="#475569" stroke-width="2" stroke-linecap="round"/>
+<rect x="430" y="164" width="56" height="20" rx="6" fill="#ffffff" stroke="#475569" stroke-width="2"/>
+<path d="M430,174 Q458,179 486,174" fill="none" stroke="#475569" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="476" y1="206" x2="634" y2="206" stroke="#93c5fd" stroke-width="5" stroke-linecap="round"/>
+<line x1="608" y1="206" x2="638" y2="206" stroke="#93c5fd" stroke-width="4" stroke-linecap="round" marker-end="url(#m-93c5fd)"/>
+<text x="642" y="196" font-size="11" fill="#64748b" text-anchor="end">증발기로</text>
+<path d="M458,124 L467,127.33333333333333 L449,134 L467,140.66666666666666 L449,147.33333333333334 L467,154 L449,160.66666666666669 L458,164" fill="none" stroke="#475569" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="444" y="116" width="28" height="8" rx="2" fill="#e2e8f0" stroke="#475569" stroke-width="1.5"/>
+<text x="476" y="124" font-size="11" fill="#64748b">조정 스프링</text>
+<path d="M516,203 L516,176 L486,176" fill="none" stroke="#ea580c" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+<text x="522" y="180" font-size="11" fill="#ea580c" font-weight="700">증발압력</text>
+<line x1="436" y1="130" x2="436" y2="160" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" marker-end="url(#m-16a34a)"/>
+<text x="430" y="148" font-size="11" fill="#16a34a" text-anchor="end" font-weight="700">열림</text>
+<line x1="418" y1="196" x2="418" y2="176" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" marker-end="url(#m-dc2626)"/>
+<text x="412" y="190" font-size="11" fill="#dc2626" text-anchor="end" font-weight="700">닫힘</text>
+<text x="350" y="252" font-size="12" fill="#1e293b">조정 스프링(열림) ↔ 증발압력(닫힘)</text>
+<text x="350" y="268" font-size="12" fill="#64748b">압력이 내려가면 열고 오르면 닫는다 · 부하 변동 작은 소형</text>
+<rect x="8" y="290" width="320" height="222" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="20" y="312" font-size="15" fill="#1e293b" font-weight="700">플로트(부자)식</text>
+<rect x="245" y="299" width="71" height="20" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+<text x="280.5" y="313" font-size="11.5" fill="#92400e" text-anchor="middle" font-weight="700">액면 일정</text>
+<rect x="158" y="348" width="150" height="102" rx="6" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+<rect x="159" y="402" width="148" height="47" rx="5" fill="#bfdbfe"/>
+<line x1="160" y1="402" x2="306" y2="402" stroke="#1d4ed8" stroke-width="1.2" stroke-linecap="round" stroke-dasharray="5 3"/>
+<text x="302" y="397" font-size="11" fill="#1d4ed8" text-anchor="end">액면</text>
+<text x="166" y="442" font-size="11" fill="#64748b">증발기(만액식)</text>
+<circle cx="218" cy="402" r="12" fill="#ffffff" stroke="#475569" stroke-width="2"/>
+<text x="218" y="384" font-size="11" fill="#1e293b" text-anchor="middle" font-weight="700">플로트</text>
+<line x1="24" y1="430" x2="98" y2="430" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round"/>
+<text x="24" y="420" font-size="11" fill="#1d4ed8">고압 액</text>
+<rect x="98" y="416" width="36" height="28" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+<path d="M98,432 L112,432 L112,424 M120,424 L120,432 L134,432" fill="none" stroke="#475569" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M112,416 L116,426 L120,416" fill="#94a3b8" stroke="#475569" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="134" y1="430" x2="158" y2="430" stroke="#93c5fd" stroke-width="5" stroke-linecap="round"/>
+<path d="M206,402 L148,402 L116,416" fill="none" stroke="#475569" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="148" cy="402" r="3" fill="#475569"/>
+<line x1="188" y1="348" x2="188" y2="330" stroke="#93c5fd" stroke-width="5" stroke-linecap="round"/>
+<line x1="188" y1="340" x2="188" y2="326" stroke="#93c5fd" stroke-width="4" stroke-linecap="round" marker-end="url(#m-93c5fd)"/>
+<text x="198" y="338" font-size="11" fill="#64748b">압축기로</text>
+<line x1="238" y1="408" x2="238" y2="430" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" marker-end="url(#m-16a34a)"/>
+<text x="244" y="428" font-size="11" fill="#16a34a" font-weight="700">내려가면 열림</text>
+<text x="20" y="484" font-size="12" fill="#1e293b">액면이 내려가면 플로트가 내려가 밸브를 연다</text>
+<text x="20" y="500" font-size="12" fill="#64748b">만액식 증발기 · 고압측·저압측 플로트</text>
+<rect x="338" y="290" width="320" height="222" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="350" y="312" font-size="15" fill="#1e293b" font-weight="700">모세관</text>
+<rect x="575" y="299" width="71" height="20" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+<text x="610.5" y="313" font-size="11.5" fill="#92400e" text-anchor="middle" font-weight="700">제어 없음</text>
+<line x1="354" y1="398" x2="408" y2="398" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round"/>
+<text x="354" y="388" font-size="11" fill="#1d4ed8">고압 액</text>
+<defs><linearGradient id="capg" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#1d4ed8"/><stop offset="1" stop-color="#93c5fd"/></linearGradient></defs>
+<path d="M408,398 C412,364 434,364 426,398 C420,428 414,428 426,398 C430,364 452,364 444,398 C438,428 432,428 444,398 C448,364 470,364 462,398 C456,428 450,428 462,398 C466,364 488,364 480,398 C474,428 468,428 480,398 C484,364 506,364 498,398 C492,428 486,428 498,398 C502,364 524,364 516,398 C510,428 504,428 516,398 C520,364 542,364 534,398 C528,428 522,428 534,398 C538,364 560,364 552,398 C546,428 540,428 552,398 C556,364 578,364 570,398 C564,428 558,428 570,398" fill="none" stroke="url(#capg)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="570" y1="398" x2="638" y2="398" stroke="#93c5fd" stroke-width="5" stroke-linecap="round"/>
+<line x1="614" y1="398" x2="640" y2="398" stroke="#93c5fd" stroke-width="4" stroke-linecap="round" marker-end="url(#m-93c5fd)"/>
+<text x="642" y="386" font-size="11" fill="#64748b" text-anchor="end">증발기로</text>
+<text x="489" y="444" font-size="11" fill="#64748b" text-anchor="middle">가늘고 길수록 압력강하가 크다</text>
+<text x="350" y="484" font-size="12" fill="#1e293b">가늘고 긴 관의 마찰로만 감압하는 고정 저항</text>
+<text x="350" y="500" font-size="12" fill="#64748b">냉장고·룸에어컨 · 부하 대응 불가, 냉매량 정밀 충전</text>
+<rect x="8" y="522" width="320" height="222" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="20" y="544" font-size="15" fill="#1e293b" font-weight="700">수동식</text>
+<rect x="201" y="531" width="115" height="20" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+<text x="258.5" y="545" font-size="11.5" fill="#92400e" text-anchor="middle" font-weight="700">사람이 개도 고정</text>
+<line x1="24" y1="662" x2="140" y2="662" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round"/>
+<text x="24" y="652" font-size="11" fill="#1d4ed8">고압 액</text>
+<rect x="140" y="648" width="36" height="28" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+<path d="M140,664 L154,664 L154,656 M162,656 L162,664 L176,664" fill="none" stroke="#475569" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M154,648 L158,658 L162,648" fill="#94a3b8" stroke="#475569" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="176" y1="662" x2="304" y2="662" stroke="#93c5fd" stroke-width="5" stroke-linecap="round"/>
+<line x1="278" y1="662" x2="308" y2="662" stroke="#93c5fd" stroke-width="4" stroke-linecap="round" marker-end="url(#m-93c5fd)"/>
+<text x="312" y="652" font-size="11" fill="#64748b" text-anchor="end">증발기로</text>
+<line x1="158" y1="648" x2="158" y2="596" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+<ellipse cx="158" cy="592" rx="34" ry="8" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+<text x="200" y="596" font-size="11" fill="#1e293b" font-weight="700">핸들</text>
+<path d="M112,576 A40,12 0 0 0 204,576" fill="none" stroke="#64748b" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#m-64748b)"/>
+<text x="20" y="716" font-size="12" fill="#1e293b">핸들로 니들의 열림을 정해 두면 그대로 유지</text>
+<text x="20" y="732" font-size="12" fill="#64748b">자동 제어가 없어 시험·보조(바이패스)용</text>
+<rect x="338" y="522" width="320" height="222" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1"/>
+<text x="350" y="544" font-size="15" fill="#1e293b" font-weight="700">전자식</text>
+<rect x="520" y="531" width="126" height="20" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+<text x="583" y="545" font-size="11.5" fill="#92400e" text-anchor="middle" font-weight="700">과열도(센서 제어)</text>
+<line x1="354" y1="672" x2="420" y2="672" stroke="#1d4ed8" stroke-width="5" stroke-linecap="round"/>
+<text x="354" y="662" font-size="11" fill="#1d4ed8">고압 액</text>
+<rect x="420" y="658" width="36" height="28" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+<path d="M420,674 L434,674 L434,666 M442,666 L442,674 L456,674" fill="none" stroke="#475569" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M434,658 L438,668 L442,658" fill="#94a3b8" stroke="#475569" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="438" y1="658" x2="438" y2="650" stroke="#475569" stroke-width="2" stroke-linecap="round"/>
+<rect x="418" y="618" width="40" height="32" rx="4" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
+<text x="438" y="639" font-size="14" fill="#1e293b" text-anchor="middle" font-weight="700">M</text>
+<text x="464" y="626" font-size="11" fill="#64748b">스텝모터</text>
+<line x1="456" y1="672" x2="508" y2="672" stroke="#93c5fd" stroke-width="5" stroke-linecap="round"/>
+<rect x="502" y="628" width="82" height="50" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+<path d="M508,672 L508,634 L531.3333333333334,634 L531.3333333333334,672 L554.6666666666667,672 L554.6666666666666,634 L578,634 L578,672" fill="none" stroke="#93c5fd" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="578" y1="634" x2="578" y2="610" stroke="#93c5fd" stroke-width="5" stroke-linecap="round"/>
+<line x1="578" y1="610" x2="634" y2="610" stroke="#93c5fd" stroke-width="5" stroke-linecap="round"/>
+<line x1="614" y1="610" x2="640" y2="610" stroke="#93c5fd" stroke-width="4" stroke-linecap="round" marker-end="url(#m-93c5fd)"/>
+<text x="644" y="634" font-size="11" fill="#64748b" text-anchor="end">압축기로</text>
+<circle cx="592" cy="610" r="8" fill="#ffffff" stroke="#ea580c" stroke-width="2"/>
+<text x="592" y="614" font-size="10" fill="#ea580c" text-anchor="middle" font-weight="700">T</text>
+<circle cx="614" cy="610" r="8" fill="#ffffff" stroke="#ea580c" stroke-width="2"/>
+<text x="614" y="614" font-size="10" fill="#ea580c" text-anchor="middle" font-weight="700">P</text>
+<rect x="488" y="562" width="72" height="24" rx="4" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5"/>
+<text x="524" y="578" font-size="11" fill="#ea580c" text-anchor="middle" font-weight="700">제어기</text>
+<path d="M592,602 L592,574 L560,574" fill="none" stroke="#ea580c" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+<path d="M614,602 L614,568 L560,568" fill="none" stroke="#ea580c" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+<path d="M488,574 L438,574 L438,618" fill="none" stroke="#ea580c" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+<text x="350" y="716" font-size="12" fill="#1e293b">온도·압력 센서 → 제어기 → 스텝모터로 개도 조절</text>
+<text x="350" y="732" font-size="12" fill="#64748b">정밀 과열도 제어 · 인버터 시스템</text>
+</svg>

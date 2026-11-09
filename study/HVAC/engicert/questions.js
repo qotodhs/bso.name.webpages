@@ -15,6 +15,14 @@ const questionLoaderScript = document.currentScript;
 const questionDataBase = new URL("./question-data/", questionLoaderScript.src);
 const explanationBase = new URL("./explanations/", questionLoaderScript.src);
 const theoryBase = new URL("../theory/", questionLoaderScript.src);
+// HTML 이 questions.js 에 붙인 ?v= 를 데이터·해설 파일에도 그대로 붙인다.
+// 배포할 때 세 index.html 의 ?v= 만 올리면 브라우저가 예전 데이터를 쓰지 않는다.
+const HVAC_DATA_VERSION = new URL(questionLoaderScript.src).searchParams.get("v") || "";
+const hvacVersioned = (filename, base) => {
+  const url = new URL(filename, base);
+  if (HVAC_DATA_VERSION) url.searchParams.set("v", HVAC_DATA_VERSION);
+  return url.href;
+};
 
 // 기출문제 해설 저장소. 해설 파일이 문제 파일보다 먼저 실행되므로
 // addHVACExamQuestions 시점에는 이미 채워져 있다.
@@ -157,7 +165,7 @@ window.addHVACExamQuestions = (exam, rows) => {
 [
   "index.js"
 ].forEach((filename) => {
-  const src = new URL(filename, explanationBase).href;
+  const src = hvacVersioned(filename, explanationBase);
   document.write(`<script src="${src}"><\/script>`);
 });
 
@@ -176,6 +184,6 @@ window.addHVACExamQuestions = (exam, rows) => {
   "06-ncs.js",
   "history/index.js"
 ].forEach((filename) => {
-  const src = new URL(filename, questionDataBase).href;
+  const src = hvacVersioned(filename, questionDataBase);
   document.write(`<script src="${src}"><\/script>`);
 });
