@@ -326,6 +326,45 @@
     });
   }
 
+  // 이론 노트에서 넘어온 경우: ?theory=chapterId#절번호 (절) 또는 ?theory=chapterId (챕터 전체)
+  // 그 절·챕터에 연결된 기출 문항만 최신 회차부터 플래시카드로 바로 연다.
+  function questionsForTheory(ref) {
+    const [chapterId, number] = ref.split("#");
+    return QUESTIONS.filter((question) => {
+      if (question.sourceType !== "exam" || !question.theoryRef) return false;
+      return number ? question.theoryRef === ref : question.theoryRef.split("#")[0] === chapterId;
+    }).sort((a, b) => b.id.localeCompare(a.id));
+  }
+
+  function startTheorySet() {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("theory");
+    if (!ref) return false;
+    const pool = questionsForTheory(ref).map(cloneQuestion);
+    if (!pool.length) {
+      window.alert("이 이론과 연결된 기출문제가 아직 없습니다. 전체 문제에서 골라 풀어 주세요.");
+      return false;
+    }
+    const label = params.get("label") || ref;
+    beginSession({
+      type: "flashcard",
+      questions: pool,
+      subject: null,
+      subjectLabel: `${label} (${pool.length}문항)`,
+      dataset: "exam-all",
+      seconds: 0
+    });
+    return true;
+  }
+
+  // 이론 노트의 '문제 풀기' 처럼 ?subject= 만 넘어오면 그 과목을 골라 둔다
+  function applySubjectParam() {
+    const subject = new URLSearchParams(window.location.search).get("subject");
+    if (subject && [...elements.flashSubject.options].some((option) => option.value === subject)) {
+      elements.flashSubject.value = subject;
+    }
+  }
+
   function startExam() {
     stopTimer();
     const dataset = elements.examDataset.value;
@@ -433,7 +472,7 @@
     elements.progressBar.style.width = `${((state.currentIndex + 1) / state.questions.length) * 100}%`;
     elements.questionSubject.textContent = SUBJECTS[question.subject]?.short ?? question.subject;
     elements.questionTopic.textContent = question.topic;
-    elements.questionText.innerHTML = withInlineMath(question.question);
+    elements.questionText.innerHTML = formatQuestion(question.question);
     elements.sourceNote.textContent = question.sourceNote || "";
     elements.sourceNote.classList.toggle("hidden", !question.sourceNote);
     renderQuestionImages(question);
@@ -542,6 +581,13 @@
       .split(/\$([^$]+)\$/g)
       .map((part, index) => (index % 2 ? renderMath(part, false) : escapeHtml(part)))
       .join("");
+  }
+
+  // 지문의 보기 박스(>)·표(|) 블록까지 그린다. 서식 규칙은 questions.js 의 HVAC_formatQuestion
+  function formatQuestion(text) {
+    return typeof window.HVAC_formatQuestion === "function"
+      ? window.HVAC_formatQuestion(text, withInlineMath)
+      : withInlineMath(text);
   }
 
   function selectAnswer(index) {
@@ -722,7 +768,7 @@
       details.innerHTML = `
         <summary>
           <span class="review-status ${result.correct ? "correct" : "wrong"}">${result.correct ? "정답" : "오답"}</span>
-          <strong>${index + 1}. ${withInlineMath(result.question.question)}</strong>
+          <strong>${index + 1}. ${formatQuestion(result.question.question)}</strong>
           <span>${escapeHtml(SUBJECTS[result.question.subject]?.short ?? "")}</span>
         </summary>
         <div class="review-body">
@@ -731,7 +777,7 @@
           <p><strong>정답:</strong> ${withInlineMath(correctText)}</p>
           <p>${withInlineMath(result.question.explanation)}</p>
           ${result.question.explanationFigures?.length ? `<div class="explanation-figures">${explanationFiguresHtml(result.question)}</div>` : ""}
-          <a class="theory-link" href="${escapeHtml(result.question.theory)}" title="이론 페이지는 아직 준비 중입니다.">관련 이론 보기 ↗</a>
+          <a class="theory-link" href="${escapeHtml(result.question.theory)}" title="관련 이론 노트로 이동합니다.">관련 이론 보기 ↗</a>
         </div>
       `;
       elements.reviewList.appendChild(details);
@@ -795,6 +841,8 @@
     updateExamCountOptions();
     updateSummary();
     bindEvents();
+    applySubjectParam();
+    startTheorySet();
   }
 
   initialize();

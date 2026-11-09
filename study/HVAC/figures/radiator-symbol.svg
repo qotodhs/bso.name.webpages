@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="240" viewBox="0 0 560 240" font-family="'Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif">
+<title>방열기 도시기호의 세 칸</title>
+<defs><marker id="a-475569" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#475569"/></marker></defs>
+<rect width="560" height="240" fill="#ffffff"/>
+<defs><clipPath id="c"><circle cx="130" cy="120" r="90"/></clipPath></defs>
+<g clip-path="url(#c)">
+<rect x="40" y="30" width="180" height="62" fill="#dbeafe"/>
+<rect x="40" y="92" width="180" height="56" fill="#fef3c7"/>
+<rect x="40" y="148" width="180" height="62" fill="#dcfce7"/>
+</g>
+<circle cx="130" cy="120" r="90" fill="none" stroke="#1e293b" stroke-width="2.2"/>
+<line x1="40" y1="92" x2="220" y2="92" stroke="#1e293b" stroke-width="2"/>
+<line x1="40" y1="148" x2="220" y2="148" stroke="#1e293b" stroke-width="2"/>
+<text x="130" y="76" text-anchor="middle" fill="#1e293b" font-size="26" font-weight="700">20</text>
+<text x="130" y="129" text-anchor="middle" fill="#1e293b" font-size="24" font-weight="700">5-650</text>
+<text x="130" y="184" text-anchor="middle" fill="#1e293b" font-size="24" font-weight="700">32×25</text>
+
+<line x1="232" y1="68" x2="290" y2="68" stroke="#475569" stroke-width="1.2" marker-start="url(#a-475569)"/>
+<text x="298" y="64" fill="#1d4ed8" font-size="15" font-weight="700">① 쪽(섹션)수</text>
+<text x="298" y="84" fill="#475569" font-size="13">20쪽</text>
+
+<line x1="232" y1="120" x2="290" y2="120" stroke="#475569" stroke-width="1.2" marker-start="url(#a-475569)"/>
+<text x="298" y="116" fill="#b45309" font-size="15" font-weight="700">② 종별 − 높이</text>
+<text x="298" y="136" fill="#475569" font-size="13">5세주형, 높이 650 mm (폭이 아니다)</text>
+
+<line x1="232" y1="176" x2="290" y2="176" stroke="#475569" stroke-width="1.2" marker-start="url(#a-475569)"/>
+<text x="298" y="172" fill="#15803d" font-size="15" font-weight="700">③ 유입 × 유출 관경</text>
+<text x="298" y="192" fill="#475569" font-size="13">유입 32A, 유출 25A (앞이 유입)</text>
+</svg>

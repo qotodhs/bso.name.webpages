@@ -94,6 +94,8 @@ for (const c of chapters) {
     if (s.key && typeof s.key !== "string") fail(where, "key 는 문자열");
     if (s.core && !Array.isArray(s.core)) fail(where, "core 는 배열");
     if (s.lead && s.lead !== "body") fail(where, `lead 는 "body" 만: ${s.lead}`);
+    // interactive.js 의 HVAC_INTERACTIVE 에 있는 종류만
+    if (s.interactive && !["psychro", "pv", "ph"].includes(s.interactive)) fail(where, `모르는 interactive: ${s.interactive}`);
     (s.see || []).forEach((ref) => {
       const [cid, sec] = String(ref).split("#");
       const target = byId.get(cid);
@@ -125,6 +127,24 @@ for (const file of citeSources) {
     const known = titles.has(m[1]) || [...headings].some((h) => h === m[1] || h.startsWith(`${m[1]}(`) || h.startsWith(`${m[1]} —`));
     if (!known) warnings.push(`${path.basename(file)}: 절 인용 확인 필요 '${m[1]}' 절`);
   }
+}
+
+// 2-1. 문항별 '관련 이론 보기'(explanations/theory-links.js) 대상이 실재하는가
+const linkRows = {};
+vm.runInNewContext(fs.readFileSync(path.join(explDir, "theory-links.js"), "utf8"),
+  { window: { addHVACTheoryLinks: (rows) => Object.assign(linkRows, rows) } }, { filename: "theory-links.js" });
+const linkIds = new Set();
+const questionDir = path.join(hvac, "engicert", "question-data", "history");
+fs.readdirSync(questionDir).filter((f) => /^\d{8}\.js$/.test(f)).forEach((f) => {
+  vm.runInNewContext(fs.readFileSync(path.join(questionDir, f), "utf8"),
+    { window: { addHVACExamQuestions: (exam, rows) => rows.forEach((r) => linkIds.add(r[0])) } }, { filename: f });
+});
+for (const [id, ref] of Object.entries(linkRows)) {
+  if (!linkIds.has(id)) fail("theory-links.js", `없는 문항: ${id}`);
+  const [cid, sec] = String(ref).split("#");
+  const target = byId.get(cid);
+  if (!target) fail("theory-links.js", `${id} → 없는 챕터: ${ref}`);
+  else if (sec && !(Number(sec) >= 1 && Number(sec) <= target.sections.length)) fail("theory-links.js", `${id} → 없는 절: ${ref}`);
 }
 
 // 3. 스냅숏
@@ -166,7 +186,7 @@ if (baseline) {
 const migrated = chapters.filter((c) => c.part).map((c) => c.id);
 const restructured = chapters.filter((c) => c.sections.every((s) => !/^\s*\d+\.\s/.test(s.heading || ""))).map((c) => c.id);
 const sectionCount = chapters.reduce((n, c) => n + c.sections.length, 0);
-console.log(`챕터 ${chapters.length} · 절 ${sectionCount} · 파트 지정 ${migrated.length} · 개편 완료 ${restructured.length} · 인용 ${citeCount}`);
+console.log(`챕터 ${chapters.length} · 절 ${sectionCount} · 파트 지정 ${migrated.length} · 개편 완료 ${restructured.length} · 인용 ${citeCount} · 문항 이론 링크 ${Object.keys(linkRows).length}`);
 if (restructured.length) console.log(`  개편 완료: ${restructured.join(", ")}`);
 SUBJECTS.forEach((s) => {
   const list = chapters.filter((c) => c.subject === s);

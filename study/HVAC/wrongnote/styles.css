@@ -219,3 +219,30 @@ footer { padding: 0 24px 34px; color: var(--muted); font-size: 0.82rem; }
   .wrong-card { padding: 20px; border-radius: 22px; }
   .card-head { flex-direction: column; }
 }
+
+/* 지문 안의 보기 박스(>)·표(|) — questions.js 의 HVAC_formatQuestion 이 그린다 */
+.question-line { display: block; }
+.question-box {
+  margin: 14px 0 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #f8fafc;
+  font-size: 0.92rem;
+  font-weight: 500;
+  line-height: 1.7;
+}
+.question-box p { margin: 0 0 8px; }
+.question-box p:last-child { margin-bottom: 0; }
+.question-box p.sub { margin-top: -4px; padding-left: 1.6em; }
+.question-table-wrap { margin: 14px 0 4px; overflow-x: auto; }
+.question-table {
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.5;
+  background: #ffffff;
+}
+.question-table th,
+.question-table td { padding: 8px 12px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+.question-table th { background: #f1f5f9; font-weight: 700; }

@@ -126,7 +126,7 @@
             <span class="badge">${escapeHtml(SUBJECTS[question.subject]?.short || question.subject)}</span>
             <span class="badge neutral">${escapeHtml(question.topic)}</span>
           </div>
-          <h2>${withInlineMath(question.question)}</h2>
+          <h2>${typeof window.HVAC_formatQuestion === "function" ? window.HVAC_formatQuestion(question.question, withInlineMath) : withInlineMath(question.question)}</h2>
         </div>
         <button class="button secondary small master-button" type="button">정복 처리</button>
       </div>

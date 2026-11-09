@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="400" viewBox="0 0 660 400" font-family="'Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif">
+<title>덕트 확대부에서 전압·정압·동압의 변화</title>
+<defs>
+<marker id="a-1e293b" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#1e293b"/></marker>
+<marker id="a-b45309" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#b45309"/></marker>
+<marker id="a-2563eb" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#2563eb"/></marker>
+</defs>
+<rect width="660" height="400" fill="#ffffff"/>
+
+<!-- 구간 구분 -->
+<rect x="250" y="34" width="80" height="314" fill="#f1f5f9"/>
+<text x="150" y="24" text-anchor="middle" fill="#475569" font-size="13">좁은 구간 (풍속 큼)</text>
+<text x="290" y="24" text-anchor="middle" fill="#475569" font-size="13">확대부</text>
+<text x="440" y="24" text-anchor="middle" fill="#475569" font-size="13">넓은 구간 (풍속 작음)</text>
+
+<!-- 압력 축 -->
+<line x1="40" y1="220" x2="560" y2="220" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="566" y="224" fill="#64748b" font-size="12">대기압 (0)</text>
+<line x1="40" y1="220" x2="40" y2="40" stroke="#1e293b" stroke-width="1.4" marker-end="url(#a-1e293b)"/>
+<text x="48" y="48" fill="#1e293b" font-size="13">압력</text>
+
+<!-- 동압 영역 (전압과 정압 사이) -->
+<polygon points="40,70 250,80 330,95 560,102 560,122 330,115 250,150 40,140" fill="#fef3c7"/>
+
+<!-- 전압 -->
+<polyline points="40,70 250,80 330,95 560,102" fill="none" stroke="#dc2626" stroke-width="2.6"/>
+<text x="566" y="104" fill="#dc2626" font-size="14" font-weight="700">전압 P<tspan font-size="10" dy="4">t</tspan></text>
+
+<!-- 정압 -->
+<polyline points="40,140 250,150 330,115 560,122" fill="none" stroke="#2563eb" stroke-width="2.6"/>
+<text x="566" y="128" fill="#2563eb" font-size="14" font-weight="700">정압 P<tspan font-size="10" dy="4">s</tspan></text>
+
+<!-- 동압 치수선 -->
+<line x1="140" y1="77" x2="140" y2="143" stroke="#b45309" stroke-width="1.4" marker-start="url(#a-b45309)" marker-end="url(#a-b45309)"/>
+<text x="148" y="110" fill="#b45309" font-size="14" font-weight="700">동압 P<tspan font-size="10" dy="4">v</tspan></text>
+<text x="148" y="130" fill="#b45309" font-size="12">크다</text>
+<line x1="450" y1="101" x2="450" y2="117" stroke="#b45309" stroke-width="1.4" marker-start="url(#a-b45309)" marker-end="url(#a-b45309)"/>
+<text x="458" y="114" fill="#b45309" font-size="12">작다</text>
+
+<!-- 주석 -->
+<text x="290" y="64" text-anchor="middle" fill="#dc2626" font-size="12">전압 ↓ (확대 손실)</text>
+<text x="290" y="174" text-anchor="middle" fill="#2563eb" font-size="12">정압 ↑ (정압 재취득)</text>
+<text x="380" y="160" fill="#64748b" font-size="12">두 선 사이의 폭 = 동압</text>
+<text x="380" y="178" fill="#64748b" font-size="12">전압 = 정압 + 동압</text>
+
+<!-- 덕트 -->
+<polygon points="40,262 250,262 330,242 560,242 560,338 330,338 250,318 40,318" fill="#e2e8f0" stroke="#334155" stroke-width="1.6"/>
+<line x1="70" y1="290" x2="210" y2="290" stroke="#2563eb" stroke-width="2.4" marker-end="url(#a-2563eb)"/>
+<line x1="390" y1="290" x2="460" y2="290" stroke="#2563eb" stroke-width="2.4" marker-end="url(#a-2563eb)"/>
+<text x="140" y="310" text-anchor="middle" fill="#1e293b" font-size="12">풍속 v₁ 큼</text>
+<text x="440" y="316" text-anchor="middle" fill="#1e293b" font-size="12">풍속 v₂ 작음 (A₁v₁ = A₂v₂)</text>
+<text x="300" y="374" text-anchor="middle" fill="#475569" font-size="12">단면적이 커지면 풍속이 줄고, 줄어든 동압의 일부가 정압으로 바뀐다. 나머지는 손실이다</text>
+</svg>

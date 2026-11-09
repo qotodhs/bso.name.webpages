@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="370" viewBox="0 0 300 370" font-family="'Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif">
+<title>2단압축 1단팽창 냉동장치의 중간냉각기</title>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1e293b"/></marker></defs>
+<rect width="300" height="370" fill="#ffffff"/>
+<g stroke="#1e293b" stroke-width="2" fill="none">
+  <!-- 중간냉각기 몸통 -->
+  <rect x="82" y="106" width="94" height="170"/>
+  <!-- 액면 -->
+  <g stroke="#64748b" stroke-width="1" stroke-dasharray="3 3">
+    <line x1="83" y1="216" x2="175" y2="216"/><line x1="83" y1="226" x2="175" y2="226"/>
+    <line x1="83" y1="236" x2="175" y2="236"/><line x1="83" y1="246" x2="175" y2="246"/>
+    <line x1="83" y1="256" x2="175" y2="256"/><line x1="83" y1="266" x2="175" y2="266"/>
+  </g>
+  <!-- c: 고압 액 유입 -->
+  <line x1="130" y1="30" x2="130" y2="70" marker-end="url(#ar)"/>
+  <line x1="130" y1="70" x2="130" y2="128"/>
+  <!-- 분기 → b → 몸통 -->
+  <line x1="130" y1="74" x2="182" y2="74" marker-end="url(#ar)"/>
+  <polyline points="180,74 236,74 236,130"/>
+  <circle cx="236" cy="142" r="11"/>
+  <line x1="228" y1="134" x2="244" y2="150"/><line x1="244" y1="134" x2="228" y2="150"/>
+  <polyline points="236,153 236,208 212,208"/>
+  <line x1="214" y1="208" x2="178" y2="208" marker-end="url(#ar)"/>
+  <!-- 코일 -->
+  <polyline points="130,128 142,136 118,146 142,156 118,166 142,176 118,186 142,196 118,206 142,216 118,226 142,236 130,242"/>
+  <line x1="130" y1="242" x2="130" y2="290"/>
+  <!-- e: 주 팽창밸브 -->
+  <circle cx="130" cy="301" r="11"/>
+  <line x1="122" y1="293" x2="138" y2="309"/><line x1="138" y1="293" x2="122" y2="309"/>
+  <line x1="130" y1="312" x2="130" y2="352" marker-end="url(#ar)"/>
+  <!-- d: 증기 유출 -->
+  <polyline points="104,106 104,84 70,84"/>
+  <line x1="72" y1="84" x2="34" y2="84" marker-end="url(#ar)"/>
+  <!-- a: 저단 토출가스 유입 -->
+  <line x1="20" y1="186" x2="80" y2="186" marker-end="url(#ar)"/>
+</g>
+<g fill="#1e293b" font-size="22" font-weight="700">
+  <text x="122" y="24">c</text>
+  <text x="252" y="150">b</text>
+  <text x="38" y="112">d</text>
+  <text x="28" y="214">a</text>
+  <text x="146" y="324">e</text>
+</g>
+</svg>

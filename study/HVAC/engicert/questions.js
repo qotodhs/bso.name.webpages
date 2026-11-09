@@ -29,6 +29,57 @@ window.addHVACExplanationFigures = (rows) => {
   Object.assign(window.HVAC_EXPLANATION_FIGURES, rows);
 };
 
+// 문항별 '관련 이론 보기' 대상. { 문항 ID: "chapterId#절번호" } — 이론 노트의 see 와 같은 형식.
+// 등록하지 않은 문항은 그 과목의 첫 챕터로 간다.
+window.HVAC_THEORY_LINKS = {};
+window.addHVACTheoryLinks = (rows) => {
+  Object.assign(window.HVAC_THEORY_LINKS, rows);
+};
+
+// 지문 서식. 지문은 한 줄이 기본이고, 줄바꿈(\n) 뒤에 블록을 이어 붙일 수 있다.
+//   "> " 로 시작하는 줄 — 보기 박스(<보기>, ㉠~㉣ 진술 등). ">   (가) …" 처럼 > 뒤를 두 칸 이상
+//                         들여 쓰면 들여 쓴 하위 항목이 된다
+//   "|" 로 시작하는 줄   — 표. 첫 줄이 머리글이고, 둘째 줄이 |---|---| 면 구분선으로 보고 건너뛴다
+// 원문이 표·보기 상자를 이미지로만 갖고 있던 문항을 텍스트로 옮길 때 쓴다.
+// inline 은 각 페이지의 수식 렌더러(withInlineMath)라 칸 안에서도 $...$ 가 그대로 렌더링된다.
+window.HVAC_formatQuestion = (text, inline) => {
+  const lines = String(text ?? "").split("\n");
+  if (lines.length === 1) return inline(lines[0]);
+  const cells = (row) => row.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map((cell) => cell.trim());
+  const isRule = (row) => /^\|?[\s:|-]+\|?$/.test(row.trim()) && row.includes("-");
+  const out = [];
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    if (line.startsWith(">")) {
+      const items = [];
+      while (i < lines.length && lines[i].startsWith(">")) {
+        const body = lines[i].slice(1).replace(/^ /, "");
+        const sub = /^\s{2,}/.test(body);
+        items.push(`<p${sub ? ' class="sub"' : ""}>${inline(body.trim())}</p>`);
+        i += 1;
+      }
+      out.push(`<div class="question-box">${items.join("")}</div>`);
+    } else if (line.startsWith("|")) {
+      const rows = [];
+      while (i < lines.length && lines[i].startsWith("|")) {
+        rows.push(lines[i]);
+        i += 1;
+      }
+      const [head, ...rest] = rows.filter((row, index) => !(index === 1 && isRule(row)));
+      out.push(`
+        <div class="question-table-wrap"><table class="question-table">
+          <thead><tr>${cells(head).map((cell) => `<th>${inline(cell)}</th>`).join("")}</tr></thead>
+          <tbody>${rest.map((row) => `<tr>${cells(row).map((cell) => `<td>${inline(cell)}</td>`).join("")}</tr>`).join("")}</tbody>
+        </table></div>`);
+    } else {
+      if (line.trim()) out.push(`<span class="question-line">${inline(line)}</span>`);
+      i += 1;
+    }
+  }
+  return out.join("");
+};
+
 // 원문 그림·표·수식이 유실된 문항에 붙일 안내문.
 window.HVAC_SOURCE_NOTES = {};
 window.addHVACSourceNotes = (rows) => {
@@ -64,6 +115,11 @@ window.addHVACExamQuestions = (exam, rows) => {
     const theoryUrl = new URL(theoryBase);
     theoryUrl.searchParams.set("subject", subject);
     theoryUrl.searchParams.set("topic", subjectLabel);
+    const theoryLink = window.HVAC_THEORY_LINKS[id];
+    if (theoryLink) {
+      const [chapterId, number] = theoryLink.split("#");
+      theoryUrl.hash = number ? `${chapterId}__${number}` : chapterId;
+    }
 
     const authored = window.HVAC_EXPLANATIONS[id];
     const answerText = String(choices[answer] || "").trim();
@@ -90,6 +146,8 @@ window.addHVACExamQuestions = (exam, rows) => {
       exam: exam.id,
       examLabel: exam.label,
       sourceSubject: subjectLabel,
+      // 이론 노트가 절마다 '이 절의 기출 풀기' 를 만들 때 쓰는 역방향 키("chapterId#절번호")
+      theoryRef: theoryLink || null,
       theory: theoryUrl.href
     });
   });

@@ -16,11 +16,12 @@ study/HVAC/
       index.js         작성한 회차 파일 목록. 새 파일은 여기 등록
       source-notes.js  원문 자료가 유실된 문항 안내문
       source-incomplete.js  그 문항들의 해설 (회차 파일보다 먼저 로드)
+      theory-links.js  문항별 '관련 이론 보기' 대상 { 문항 ID: "chapterId#절번호" }
       YYYYMMDD.js      회차별 해설
   theory/              이론 노트
     theory.js          로더 + 데이터 형식 주석(정본) + THEORY_DATA_VERSION
     app.js             왼쪽 목차(과목 > 파트 > 챕터) + 챕터 하나씩 보기 + 절 단위 검색
-    theory-data/0{1..4}-*.js   4과목 49챕터 214절
+    theory-data/0{1..4}-*.js   4과목 49챕터 219절
 ```
 
 ## 이론 노트 작성 규칙
@@ -56,7 +57,15 @@ node scripts/validate_hvac_theory.mjs --baseline origin/main # 문장을 옮기�
 
 `[id, subject, subjectLabel, question, choices[4], answerIndex, images[], choiceImages[4]?]`
 
-`choiceImages` 는 **보기가 그림인 문항에만** 붙이는 선택 항목이다. 없으면 지금까지처럼 `choices` 문구를 렌더링하므로 기존 행은 그대로 둬도 된다. 붙일 때도 `choices` 에는 그림을 말로 옮긴 문구를 남긴다 — `img` 의 `alt` 와 정답 피드백·결과 리뷰에서 그 문구를 쓴다. 보기가 그림뿐인 문항이 아직 330건 남아 있다(8건 처리 완료). 보기가 수식이나 도시기호처럼 **말이나 LaTeX 로 옮길 수 있는 것**이면 이미지를 붙이지 말고 그렇게 처리하는 편이 낫다.
+`choiceImages` 는 **보기가 그림인 문항에만** 붙이는 선택 항목이다. 없으면 지금까지처럼 `choices` 문구를 렌더링하므로 기존 행은 그대로 둬도 된다. 붙일 때도 `choices` 에는 그림을 말로 옮긴 문구를 남긴다 — `img` 의 `alt` 와 정답 피드백·결과 리뷰에서 그 문구를 쓴다. 보기가 그림뿐인 문항이 아직 328건 남아 있다(choiceImages 9건 처리 완료). 보기가 수식이나 도시기호처럼 **말이나 LaTeX 로 옮길 수 있는 것**이면 이미지를 붙이지 말고 그렇게 처리하는 편이 낫다.
+
+지문(`question`)이 이미지로만 갖고 있던 **보기 박스나 표**는 텍스트로 옮길 수 있다. 지문 첫 줄 뒤에
+`\n` 으로 줄을 이어 `> ` 로 시작하는 줄은 보기 박스(`>   (가) …` 처럼 두 칸 이상 들여 쓰면 하위 항목),
+`|` 로 시작하는 줄은 표(첫 줄 머리글, 둘째 줄 `|---|` 구분선)로 그린다. 칸 안의 `$...$` 도 렌더링된다.
+규칙은 `questions.js` 의 `HVAC_formatQuestion` 이 정본이고 문제은행·결과 리뷰·오답노트가 함께 쓴다.
+예: `HVAC-20220424-010`(㉠~㉣ 절차서 보기 박스, 보기는 `㉠`~`㉣`), `HVAC-20200926-023`(표 두 개 —
+`|` 줄이 이어지면 한 표로 합쳐지므로 표 사이에 빈 줄을 둔다). 원본에 선도·회로도가 함께 있으면
+표만 텍스트로 옮기고 이미지는 그림 부분만 크롭해 남긴다.
 
 `answerIndex` 는 **0부터** 센다. `answer: 2` 는 ③이다. 이걸 "2번"으로 읽어 정답을 잘못 판단한 적이 있다.
 
@@ -79,13 +88,38 @@ node scripts/validate_hvac_theory.mjs --baseline origin/main # 문장을 옮기�
   해설 문단 아래와 결과 리뷰에 붙는다. 같은 계열 문항은 같은 그림을 함께 건다
 - 이론: 절(section)에 `figures: [{ src, alt, caption }]`
 - 사이트가 라이트 테마뿐이라 SVG 는 흰 배경을 깔고 `width`·`height` 를 준다
-- 지금 있는 그림: `ph-condensing-rise.svg`(응축온도 상승 11문항), `ph-evaporating-drop.svg`(증발온도 저하 7문항)
+- 지금 있는 그림: `ph-condensing-rise.svg`(응축온도 상승 11문항), `ph-evaporating-drop.svg`(증발온도 저하 7문항),
+  `duct-pressure-expansion.svg`(덕트 확대부 전압·정압·동압, 이론 energy-duct#1 + 1문항),
+  `radiator-symbol.svg`(방열기 도시기호, 이론 maint-drawing#5),
+  `boiler-types.svg`(보일러 형식 7종 개략 단면, 이론 energy-boiler#1 + 1문항),
+  `diode-or-and.svg`(다이오드 OR·AND 회로, 이론 safety-logic#1)
+- 지문 그림이 처음부터 빠진 문항은 kinz.kr 의 회차 페이지(`/exam/…`)에서 원래 그림을 '보기만' 하고,
+  같은 배치로 SVG 를 다시 그려 `question-images/history/YYYYMMDD/qNNN-1.svg` 에 둔다(파일을 가져오지 않는다).
+  지금까지 20220424-022(중간냉각기), 20120304-079·20200822-063(다이오드 OR)
+- 사진·도해를 웹에서 가져오는 것은 자유 라이선스(Wikimedia Commons 등)만 가능한데, 찾아보면
+  대개 19세기 기관차·선박용이라 시험의 형식과 맞지 않는다. 그럴 때는 개략도를 직접 그린다
+- 선도 7장은 `node scripts/build_hvac_charts.js` 가 계산해서 그린다(손으로 고치지 말고 스크립트를 고쳐 다시 생성):
+  `psychro-chart-reading.svg`(energy-psychrometrics#1), `psychro-processes.svg`(#2),
+  `ph-diagram-reading.svg`(design-refrig-cycle#2), `pv-processes.svg`(design-thermo-1#4),
+  `ts-processes.svg`(design-thermo-2#3), `otto-diesel-pv.svg`(design-power-cycle#2), `rankine-ts.svg`(design-power-cycle#4).
+  습공기선도는 실제 식으로, p-h·T-s 돔은 모양만 맞춘 개략도다. 출판된 선도는 저작권이 있어 가져오지 않는다
+- 상호작용 선도: 절에 `interactive: "psychro" | "pv" | "ph"` 를 적으면 그림 아래에 '직접 움직여 보기' 가 붙는다
+  (`theory/interactive.js`, 지금 energy-psychrometrics#1·design-thermo-1#4·design-refrig-cycle#5).
+  `ph` 는 R-134a 포화표(CoolProp, ASHRAE 기준)를 보간하고 과열증기만 정압비열 일정 근사다. 종류를 늘리면
+  `HVAC_INTERACTIVE` 에 mount 함수를 더하고 검사기의 허용 목록도 함께 고친다
 
 ## 문항 하나를 받으면
 
 1. **관련 문항을 먼저 전수 검색한다.** 같은 내용이 여러 회차에 반복 출제된다(피드백 효과 13건, 속도제어 14건, 전구 직렬 4건). 찾아서 **한꺼번에** 작성한다. 함정이 회차마다 다르므로 복붙하지 말고 각 문항 표현에 맞춰 쓴다.
 2. 그림 문항은 **반드시 원본 이미지를 읽는다.** `Read` 로 열린다. 추론하지 말 것.
 3. 이론에 해당 내용이 있는지 확인하고, 없으면 **이론에 먼저 넣는다.** 넣을 자리는 위 '이론 노트 작성 규칙'대로 고른다.
+4. 그 절을 `explanations/theory-links.js` 에 계열 문항 전부와 함께 등록한다. 등록하지 않은 문항의
+   '관련 이론 보기' 는 과목의 첫 챕터로 가 버린다. 해설이 있는 문항은 2026-11-08 에 전부 등록했고
+   (2,503건). 맞는 절이 없던 문항은 절을 새로 만들어 모두 절 단위로 걸었다(2,506건).
+   절을 중간에 끼워 넣으면 그 챕터의 뒷번호 링크가 한 칸씩 밀리므로 함께 고친다.
+   같은 연결을 거꾸로도 쓴다 — 이론 노트가 절마다 '이 절의 기출 N문항 풀기' 를 그리고,
+   문제은행은 `?theory=chapterId#절번호`(또는 `?theory=chapterId` 로 챕터 전체)를 받아 그 문항만 연다. 대상 챕터·절이 실재하는지는
+   `validate_hvac_theory.mjs` 가 확인하므로, 절 순서를 바꾸면 이 파일의 번호도 함께 고친다
 
 ## 데이터 결함 — 자주 나오는 네 가지
 
@@ -123,6 +157,7 @@ global.window={HVAC_QUESTION_BANK:[],HVAC_EXPLANATIONS:{},HVAC_SOURCE_NOTES:{}};
 window.addHVACExplanations=(r)=>Object.assign(window.HVAC_EXPLANATIONS,r);
 window.addHVACSourceNotes=(r)=>Object.assign(window.HVAC_SOURCE_NOTES,r);
 window.addHVACExplanationFigures=()=>{};
+window.addHVACTheoryLinks=()=>{};
 const idx=fs.readFileSync('explanations/index.js','utf8');
 [...idx.matchAll(/\"([0-9a-z-]+\.js)\"/g)].map(m=>m[1]).forEach(f=>eval(fs.readFileSync('explanations/'+f,'utf8')));
 const exp=window.HVAC_EXPLANATIONS, marks=['①','②','③','④']; let bad=[];
@@ -173,7 +208,7 @@ design 2000 / 나머지 각 1020 문항이다. 심화 문제의 `ncs` 는
 숫자는 모두 `origin/main` 기준이다. 워킹트리에는 다른 세션의
 미커밋 작업이 섞여 있을 수 있으므로 세기 전에 어느 쪽을 보는지 정한다.
 
-- 이론 49챕터 214절 — 4과목 전부 작성 완료. 2026-11-05 에 전 챕터를
+- 이론 49챕터 219절 — 4과목 전부 작성 완료. 2026-11-05 에 전 챕터를
   '핵심 → 자세히' 형식과 과목별 파트(3~4개)로 재배치했다. 문항을 풀다 이론에
   없는 내용을 만나면 계속 절을 늘리고 있다
 - 해설 **1,596 / 5,060 (31.5 %)**
@@ -194,10 +229,10 @@ design 2000 / 나머지 각 1020 문항이다. 심화 문제의 `ncs` 는
   (20090726-060·052·038·026)가 있었다. 계산으로 검산이
   되는 문항이면 그쪽이 더 확실하다. 고칠 때는 `answerIndex` 와 함께
   **지문의 안내문도 지우고**, 해설에 무엇으로 확인했는지 적는다.
-- **보기가 이미지뿐인 문항 330건.** `choiceImages` 로 처리하되,
+- **보기가 이미지뿐인 문항 328건.** `choiceImages` 로 처리하되,
   수식·도시기호처럼 텍스트로 옮길 수 있으면 그쪽이 낫다.
 - **첨자 유실 문제 120건·보기 116건.**
-- **정답(●)이 찍힌 이미지.** 지금까지 69장을 처리했다. 도해가 없으면
+- **정답(●)이 찍힌 이미지.** 지금까지 74장을 처리했다(2022-04-24 회차는 전부 정리). 도해가 없으면
   삭제, 도해가 있으면 보기 행만 크롭한다. 아직 상당수 남아 있고,
   회차 작업을 할 때마다 그 문항의 이미지를 함께 확인하는 편이 빠르다.
 - **참조 없는 이미지 37장.** 빈 이미지 25장과 보기만 잘라낸 조각들이다.
@@ -252,6 +287,32 @@ git archive $(git write-tree) study/HVAC | tar -x -C /tmp/idx
 작업을 시작하기 전에 대상 문항의 해설·이미지가 이미 처리되었는지
 확인한다. 다른 세션이 먼저 끝내 둔 것을 다시 작업한 적이 있고,
 사용자가 보낸 문항이 이미 완료된 회차의 것이었던 적도 있다.
+
+## 실기 필답형 — `study/HVAC/practical`
+
+필기 문제은행과 별개 화면이다. 사용자가 과년도 문제를 텍스트로 적어 보내면
+데이터로 옮기고 모범답안·채점 포인트·해설을 붙인다.
+
+```
+practical/
+  practical.js                 로더 + 데이터 형식 주석(정본). 새 시행일 파일은 files 에 등록
+  practical-data/YYYYMMDD.js   시행일 하나 = 파일 하나. 문항 ID 는 P-YYYYMMDD-NN
+  question-images/원본/YYYYMMDD/  사용자가 넣는 원본 스캔
+  index.html app.js styles.css  목록 · 답안 입력 · 모범답안 비교 · 자기채점
+```
+
+- 그림·선도가 필요한 문항은 **이미지를 받기 전에 풀지 않는다.** `needs` 에
+  필요한 자료를 적어 두면 화면에 '자료 대기'로 뜨고, 사용자에게도 그 목록으로 요청한다
+- 모범답안은 `steps`(식 → 대입 → 결과) + `answer` + `check`(자동 확인값)
+  + `grading`(채점 포인트). **채점 포인트 합 = 배점**이어야 한다
+- 해설은 필기와 같은 규칙(렌더링 기준 200~300자, 함정 명시, 판별 기준 앞세우기)
+- 계산은 Node 로 독립 검산한다. 선도에서 읽는 값은 선도 판독값임을 해설에 밝힌다
+- 사용자 지문에 제목이 없으므로 `title` 은 내용으로 붙인다
+
+```bash
+node scripts/validate_hvac_practical.mjs   # 구조·배점 합·그림·이론 링크·HTML id
+```
+KaTeX 가 node 에 없어 수식 컴파일은 브라우저에서 `katex.renderToString(…, {throwOnError:true})` 로 돈다.
 
 ---
 

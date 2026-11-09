@@ -4,7 +4,7 @@ window.HVAC_THEORY = [];
 window.HVAC_THEORY_INDEX = new Map();
 
 // 데이터 형식이 바뀌면 올린다. 화면(app.js)과 데이터가 서로 다른 판으로 캐시되면 내용이 빠져 보인다
-const THEORY_DATA_VERSION = "2026-11-05";
+const THEORY_DATA_VERSION = "2026-11-08";
 const theoryLoaderScript = document.currentScript;
 const theoryDataBase = new URL("./theory-data/", theoryLoaderScript.src);
 
@@ -16,7 +16,7 @@ const theoryDataBase = new URL("./theory-data/", theoryLoaderScript.src);
 //  - topics : 문제은행 question.topic 과 매칭할 키워드 배열
 //             "배관재료" 처럼 대분류만 적으면 "배관재료 · KS기호" 같은 세부 주제도 함께 잡힙니다.
 //
-// sections: [{ heading, formulas, key, core, lead, body, figures, table, points, list, traps, tip, see }]
+// sections: [{ heading, formulas, key, core, lead, body, figures, interactive, table, points, list, traps, tip, see }]
 //  화면은 '핵심 → 자세히' 두 층이다.
 //   핵심  : formulas → key → core          외울 것(공식과 핵심 문장)을 먼저 모은다
 //   자세히: body → figures → table → points → list   왜 그런지, 어떻게 쓰는지
@@ -32,6 +32,7 @@ const theoryDataBase = new URL("./theory-data/", theoryLoaderScript.src);
 //  - traps   : 함정·단골 오답. 문항을 풀다 찾은 함정은 여기에 넣는다
 //  - tip     : 짚고 넘어가기 한 문장(절을 닫는 요약)
 //  - see     : ["chapterId", "chapterId#절번호"] 다른 챕터·과목의 관련 절
+//  - interactive : "psychro" | "pv" | "ph" — 그림 아래에 '직접 움직여 보기' 선도를 붙인다(interactive.js)
 //  key·core 가 없는 옛 형식 절은 설명 → 공식 → 세부 순서로 그린다.
 //  새 내용을 끝에 덧붙이지 말고 key·points·traps 중 제자리에 넣는다.
 window.addHVACTheory = (subject, chapters) => {

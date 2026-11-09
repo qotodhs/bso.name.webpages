@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="공조냉동기계기사 실기 필답형 과년도 문제를 직접 풀고 모범답안·채점 포인트로 자기채점하는 연습실" />
+  <title>공조냉동기계기사 실기 필답형 | bso.name</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+    integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+"
+    crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <nav class="topbar" aria-label="페이지 상단">
+      <a class="brand" href="../">bso.name/study/HVAC/practical</a>
+      <span class="status-pill">실기 · 필답형</span>
+    </nav>
+
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">HVAC ENGINEER · PRACTICAL</p>
+        <h1>실기 필답형<br />연습실</h1>
+        <p class="hero-copy">
+          과년도 문제를 시험지처럼 직접 풀어 보고, 모범답안의 채점 포인트로
+          스스로 점수를 매깁니다. 쓴 답안과 점수는 이 브라우저에 남습니다.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" id="resumeLink" href="#workspace">이어서 풀기</a>
+          <a class="button secondary" href="../engicert/">필기 문제은행</a>
+          <a class="button secondary" href="../theory/">이론 노트</a>
+        </div>
+      </div>
+
+      <aside class="hero-card" aria-label="학습 현황">
+        <p class="mini-label">학습 현황</p>
+        <dl class="stat-list">
+          <div><dt>수록 문항</dt><dd id="statProblems">0</dd></div>
+          <div><dt>모범답안 완료</dt><dd id="statReady">0</dd></div>
+          <div><dt>내 자기채점</dt><dd id="statScore">기록 없음</dd></div>
+        </dl>
+        <p class="hero-note">필답형은 서술·계산형이라 자동채점 대신 채점 포인트로 부분점수를 매깁니다. 계산 결과는 허용오차 안에서 자동 확인합니다.</p>
+      </aside>
+    </div>
+  </header>
+
+  <main class="page-shell" id="workspace">
+    <div class="workspace">
+      <aside class="exam-nav" aria-label="문항 목록">
+        <details id="navDisclosure" open>
+          <summary>
+            <span>문항 목록</span>
+            <span class="nav-current" id="navCurrent"></span>
+          </summary>
+          <div class="legend" aria-hidden="true">
+            <span><i class="dot todo"></i>미풀이</span>
+            <span><i class="dot draft"></i>작성 중</span>
+            <span><i class="dot graded"></i>채점 완료</span>
+            <span><i class="dot waiting"></i>자료 대기</span>
+          </div>
+          <div id="examList"></div>
+        </details>
+      </aside>
+
+      <article class="problem-card" id="problemCard" aria-live="polite"></article>
+    </div>
+  </main>
+
+  <footer><p>Personal HVAC study tool · bso.name/study/HVAC/practical</p></footer>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+    integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg"
+    crossorigin="anonymous"
+  ></script>
+  <script src="./practical.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

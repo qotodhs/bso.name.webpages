@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="380" viewBox="0 0 700 380" font-family="'Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif">
+<title>오토·디젤 사이클의 P-V 선도</title>
+<defs><marker id="m-ink" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#1e293b"/></marker><marker id="m-mute" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#64748b"/></marker><marker id="m-grid" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#cbd5e1"/></marker><marker id="m-light" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#e2e8f0"/></marker><marker id="m-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#dc2626"/></marker><marker id="m-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#2563eb"/></marker><marker id="m-teal" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#0f766e"/></marker><marker id="m-amber" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#b45309"/></marker><marker id="m-violet" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#7c3aed"/></marker><marker id="m-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 z" fill="#15803d"/></marker></defs>
+<rect width="700" height="380" fill="#ffffff"/>
+<text x="180" y="28" font-size="15" fill="#1e293b" text-anchor="middle" font-weight="800">오토 사이클 (가솔린)</text>
+<line x1="40" y1="320" x2="326" y2="320" stroke="#1e293b" stroke-width="1.3" marker-end="url(#m-ink)"/>
+<line x1="40" y1="320" x2="40" y2="52" stroke="#1e293b" stroke-width="1.3" marker-end="url(#m-ink)"/>
+<text x="322" y="340" font-size="13" fill="#1e293b" text-anchor="end" font-weight="600">V</text>
+<text x="46" y="50" font-size="13" fill="#1e293b" text-anchor="start" font-weight="600">P</text>
+<polyline points="288.9,303 284.2,302.6 279.6,302.2 274.9,301.7 270.2,301.2 265.6,300.7 260.9,300.2 256.2,299.6 251.6,299.1 246.9,298.4 242.2,297.8 237.6,297.1 232.9,296.4 228.2,295.6 223.6,294.8 218.9,294 214.2,293 209.6,292.1 204.9,291 200.2,289.9 195.6,288.8 190.9,287.5 186.2,286.1 181.6,284.7 176.9,283.1 172.2,281.4 167.6,279.6 162.9,277.6 158.2,275.4 153.6,273 148.9,270.3 144.2,267.4 139.6,264.2 134.9,260.6 130.2,256.6 125.6,252 120.9,246.9 116.2,241 111.6,234.3 106.9,226.4 102.2,217.2" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linejoin="round" />
+<line x1="200.2" y1="289.9" x2="195.6" y2="288.8" stroke="#2563eb" stroke-width="2" marker-end="url(#m-blue)"/>
+<polyline points="102.2,217.2 102.2,93.9" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linejoin="round" />
+<line x1="102.2" y1="167.9" x2="102.2" y2="155.6" stroke="#dc2626" stroke-width="2" marker-end="url(#m-red)"/>
+<polyline points="102.2,93.9 106.9,114.2 111.6,131.5 116.2,146.3 120.9,159.3 125.6,170.6 130.2,180.5 134.9,189.4 139.6,197.3 144.2,204.4 148.9,210.8 153.6,216.6 158.2,221.8 162.9,226.7 167.6,231.1 172.2,235.1 176.9,238.9 181.6,242.3 186.2,245.5 190.9,248.5 195.6,251.3 200.2,253.9 204.9,256.3 209.6,258.6 214.2,260.7 218.9,262.7 223.6,264.6 228.2,266.4 232.9,268.1 237.6,269.6 242.2,271.2 246.9,272.6 251.6,273.9 256.2,275.2 260.9,276.5 265.6,277.6 270.2,278.7 274.9,279.8 279.6,280.8 284.2,281.8 288.9,282.7" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linejoin="round" />
+<line x1="190.9" y1="248.5" x2="195.6" y2="251.3" stroke="#2563eb" stroke-width="2" marker-end="url(#m-blue)"/>
+<polyline points="288.9,282.7 288.9,303" fill="none" stroke="#0f766e" stroke-width="2.6" stroke-linejoin="round" />
+<line x1="288.9" y1="290.8" x2="288.9" y2="292.9" stroke="#0f766e" stroke-width="2" marker-end="url(#m-teal)"/>
+<circle cx="288.9" cy="303" r="4" fill="#1e293b"/>
+<text x="296.9" y="319" font-size="14" fill="#1e293b" text-anchor="start" font-weight="800">1</text>
+<circle cx="102.2" cy="217.2" r="4" fill="#1e293b"/>
+<text x="86.2" y="223.2" font-size="14" fill="#1e293b" text-anchor="start" font-weight="800">2</text>
+<circle cx="102.2" cy="93.9" r="4" fill="#1e293b"/>
+<text x="110.2" y="87.9" font-size="14" fill="#1e293b" text-anchor="start" font-weight="800">3</text>
+<circle cx="288.9" cy="282.7" r="4" fill="#1e293b"/>
+<text x="296.9" y="278.7" font-size="14" fill="#1e293b" text-anchor="start" font-weight="800">4</text>
+<text x="183.1" y="305.2" font-size="12" fill="#2563eb" text-anchor="middle" font-weight="700">단열압축</text>
+<text x="189.3" y="237.6" font-size="12" fill="#2563eb" text-anchor="start" font-weight="700">단열팽창</text>
+<text x="280.9" y="296.9" font-size="12" fill="#0f766e" text-anchor="end" font-weight="700">정적방열</text>
+<text x="110.2" y="155.6" font-size="12" fill="#dc2626" text-anchor="start" font-weight="700">정적가열</text>
+<text x="530" y="28" font-size="15" fill="#1e293b" text-anchor="middle" font-weight="800">디젤 사이클</text>
+<line x1="390" y1="320" x2="676" y2="320" stroke="#1e293b" stroke-width="1.3" marker-end="url(#m-ink)"/>
+<line x1="390" y1="320" x2="390" y2="52" stroke="#1e293b" stroke-width="1.3" marker-end="url(#m-ink)"/>
+<text x="672" y="340" font-size="13" fill="#1e293b" text-anchor="end" font-weight="600">V</text>
+<text x="396" y="50" font-size="13" fill="#1e293b" text-anchor="start" font-weight="600">P</text>
+<polyline points="638.9,303 633.7,302.6 628.5,302.1 623.3,301.6 618.1,301 613,300.4 607.8,299.8 602.6,299.2 597.4,298.5 592.2,297.8 587,297 581.9,296.2 576.7,295.4 571.5,294.4 566.3,293.5 561.1,292.4 555.9,291.3 550.7,290.1 545.6,288.8 540.4,287.4 535.2,285.8 530,284.2 524.8,282.4 519.6,280.4 514.4,278.2 509.3,275.9 504.1,273.2 498.9,270.3 493.7,267.1 488.5,263.4 483.3,259.3 478.1,254.6 473,249.3 467.8,243.1 462.6,235.9 457.4,227.4 452.2,217.2 447,204.9 441.9,189.7 436.7,170.6 431.5,145.8" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linejoin="round" />
+<line x1="540.4" y1="287.4" x2="535.2" y2="285.8" stroke="#2563eb" stroke-width="2" marker-end="url(#m-blue)"/>
+<polyline points="431.5,145.8 493.7,145.8" fill="none" stroke="#dc2626" stroke-width="2.6" stroke-linejoin="round" />
+<line x1="456.4" y1="145.8" x2="462.6" y2="145.8" stroke="#dc2626" stroke-width="2" marker-end="url(#m-red)"/>
+<polyline points="493.7,145.8 497.3,153.5 501,160.5 504.6,167 508.2,173.1 511.9,178.8 515.5,184.1 519.1,189 522.7,193.7 526.4,198 530,202.1 533.6,206 537.3,209.6 540.9,213 544.5,216.3 548.1,219.4 551.8,222.3 555.4,225.1 559,227.7 562.7,230.2 566.3,232.6 569.9,234.9 573.6,237.1 577.2,239.2 580.8,241.2 584.4,243.1 588.1,244.9 591.7,246.7 595.3,248.3 599,250 602.6,251.5 606.2,253 609.9,254.4 613.5,255.8 617.1,257.1 620.7,258.4 624.4,259.7 628,260.9 631.6,262 635.3,263.1 638.9,264.2" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linejoin="round" />
+<line x1="562.7" y1="230.2" x2="566.3" y2="232.6" stroke="#2563eb" stroke-width="2" marker-end="url(#m-blue)"/>
+<polyline points="638.9,264.2 638.9,303" fill="none" stroke="#0f766e" stroke-width="2.6" stroke-linejoin="round" />
+<line x1="638.9" y1="279.7" x2="638.9" y2="283.6" stroke="#0f766e" stroke-width="2" marker-end="url(#m-teal)"/>
+<circle cx="638.9" cy="303" r="4" fill="#1e293b"/>
+<text x="646.9" y="319" font-size="14" fill="#1e293b" text-anchor="start" font-weight="800">1</text>
+<circle cx="431.5" cy="145.8" r="4" fill="#1e293b"/>
+<text x="415.5" y="151.8" font-size="14" fill="#1e293b" text-anchor="start" font-weight="800">2</text>
+<circle cx="493.7" cy="145.8" r="4" fill="#1e293b"/>
+<text x="501.7" y="139.8" font-size="14" fill="#1e293b" text-anchor="start" font-weight="800">3</text>
+<circle cx="638.9" cy="264.2" r="4" fill="#1e293b"/>
+<text x="646.9" y="260.2" font-size="14" fill="#1e293b" text-anchor="start" font-weight="800">4</text>
+<text x="533.1" y="305.2" font-size="12" fill="#2563eb" text-anchor="middle" font-weight="700">단열압축</text>
+<text x="539.3" y="201.6" font-size="12" fill="#2563eb" text-anchor="start" font-weight="700">단열팽창</text>
+<text x="630.9" y="287.6" font-size="12" fill="#0f766e" text-anchor="end" font-weight="700">정적방열</text>
+<text x="462.6" y="131.8" font-size="12" fill="#dc2626" text-anchor="middle" font-weight="700">정압가열</text>
+<text x="350" y="356" font-size="12" fill="#64748b" text-anchor="middle" font-weight="400">다른 것은 가열 과정 하나 — 오토는 수직선(정적), 디젤은 수평선(정압). 곡선은 단열, 오른쪽 수직선은 정적방열</text>
+<text x="350" y="374" font-size="11" fill="#64748b" text-anchor="middle" font-weight="400">모양이 잘 보이도록 압축비를 줄여 그린 개략도</text>
+</svg>

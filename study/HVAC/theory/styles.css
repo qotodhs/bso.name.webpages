@@ -206,7 +206,7 @@ input:focus, select:focus, textarea:focus { outline: 3px solid rgba(8,145,178,0.
   line-height: 1.8;
 }
 
-.theory-body { display: grid; gap: 26px; margin-top: 24px; }
+.theory-body { display: grid; grid-template-columns: minmax(0, 1fr); gap: 26px; margin-top: 24px; }
 .theory-section > h3 {
   margin: 0 0 12px;
   font-size: 1.06rem;
@@ -396,6 +396,8 @@ input:focus, select:focus, textarea:focus { outline: 3px solid rgba(8,145,178,0.
 }
 .see-also a span { margin-right: 6px; color: var(--cyan-dark); font-weight: 800; }
 .see-also a:hover { border-color: var(--cyan); background: var(--cyan-soft); }
+.section-practice { display: flex; justify-content: flex-end; margin-top: 14px; }
+.problem-empty a { font-weight: 700; color: var(--cyan-dark); white-space: nowrap; }
 
 .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 28px; }
 .pager-link { display: grid; gap: 4px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 16px; background: white; }
@@ -452,3 +454,22 @@ footer { padding: 0 24px 34px; color: var(--muted); font-size: 0.82rem; }
   .theory-table th, .theory-table td { padding: 9px 11px; }
   .key-box, .trap-box { padding: 12px 14px; }
 }
+
+/* 상호작용 선도 — interactive.js */
+.interactive-box { margin: 18px 0; padding: 14px 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: #f8fafc; }
+.interactive-title { margin: 0 0 6px; font-size: 0.86rem; font-weight: 800; color: var(--cyan-dark); }
+.ix-hint, .ix-note { margin: 6px 0; font-size: 0.84rem; line-height: 1.6; color: var(--muted); }
+.ix-svg { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); background: #ffffff; }
+.ix-drag { touch-action: none; cursor: crosshair; }
+.ix-controls { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin: 10px 0 6px; font-size: 0.88rem; }
+.ix-controls input[type="number"] { width: 5.2em; padding: 4px 6px; }
+.ix-range { display: flex; align-items: center; gap: 8px; flex: 1 1 220px; }
+.ix-range input[type="range"] { flex: 1; min-width: 100px; }
+.ix-range output { min-width: 3em; font-weight: 700; font-variant-numeric: tabular-nums; }
+.ix-readout { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; margin: 8px 0 4px; }
+.ix-readout div { padding: 6px 10px; border-radius: 8px; background: #ffffff; border: 1px solid var(--line); }
+.ix-readout dt { font-size: 0.74rem; color: var(--muted); }
+.ix-readout dd { margin: 2px 0 0; font-weight: 800; font-variant-numeric: tabular-nums; }
+.ix-delta { display: block; font-size: 0.74rem; font-weight: 600; color: var(--muted); }
+.ix-delta.up { color: #b45309; }
+.ix-delta.down { color: #2563eb; }
